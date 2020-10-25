@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import { StyleSheet, Text, View, Image,TouchableOpacity, TextInput } from 'react-native';
 
-export default class Profile extends React.Component{
+export default class LoginScreen extends React.Component{
   render(){
     return(
       <View style={styles.container}>
-        <Text>Bienvenu sur le profil</Text>
+        <Text>Connectez-vous</Text>
       </View>
     );
   }
