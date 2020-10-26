@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import MapView from 'react-native-maps';
+import {Icon} from 'react-native-elements'
+import { LinearGradient } from 'expo-linear-gradient';
 
 //Faker to display fake stores
 import faker from '../faker/ShopData';
@@ -13,7 +15,7 @@ export default class ShopMap extends React.Component{
   constructor(props){
     super(props)
     this.state ={
-      fakShopList:faker,
+      fakeShopList:faker,
       region:{
         latitude:42.35,
         longitude:1.431,
@@ -79,9 +81,31 @@ export default class ShopMap extends React.Component{
   renderUserPosition(){
     return(
       <MapView.Marker
-      coordinate={this.state.userPosition}>
+        coordinate={this.state.userPosition}>
       </MapView.Marker>
     )
+  }
+
+  renderShops(shopList){
+    const markers = []
+    for(let i = 0; i < shopList.length; i++){
+      let location={latitude: parseFloat(shopList[i].coords.latitude), longitude:parseFloat(shopList[i].coords.longitude)};
+      markers.push(
+        <MapView.Marker
+          key={i}
+          coordinate={location}>
+          <View>
+            <LinearGradient style={styles.circularLinearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
+            <Icon
+            name='shop'
+            type='entypo'
+            size={20} color="#fff"/>
+            </LinearGradient>
+          </View>
+        </MapView.Marker>
+      );
+    }
+    return(markers);
   }
 
   render(){
@@ -92,6 +116,7 @@ export default class ShopMap extends React.Component{
             region={this.state.region}
             initialRegion={this.state.region}>
             {this.renderUserPosition()}
+            {this.renderShops(this.state.fakeShopList)}
         </MapView>
       </View>
     );
@@ -105,4 +130,10 @@ const styles =  StyleSheet.create({
   mapView: {
     flex: 1
   },
+  circularLinearGradient:{
+    width:30,
+    height:30,
+    borderRadius:30,
+    justifyContent:'center', alignItems:'center'
+  }
 })
