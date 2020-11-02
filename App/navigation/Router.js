@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, View, Text,ActivityIndicator} from 'react-native';
-
+import ConfigStore from '../storeRedux/ConfigStore';
 
 export default class Router extends React.Component{
 
   constructor(props){
     super(props);
     this.state={
-      token: ''
+      token: ConfigStore.getState().toggleAuthentication.token
     }
     this._chooseRoute();
   }

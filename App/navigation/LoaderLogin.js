@@ -3,6 +3,11 @@ import { StyleSheet, Text, View, Image,TouchableOpacity, TextInput } from 'react
 import Login from '../authenticationFlow/Login';
 import CreateAccount from '../authenticationFlow/CreateAccount';
 import ForgetPassword from '../authenticationFlow/ForgetPassword';
+import {connect} from 'react-redux';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import ConfigStore from '../storeRedux/ConfigStore';
+
 
 
 export default class LoaderLogin extends React.Component{
@@ -10,7 +15,7 @@ export default class LoaderLogin extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      token:'',
+      token:ConfigStore.getState().toggleAuthentication.token,
       passwordForgotten:false,
       createAccount:0
     }
@@ -44,19 +49,35 @@ export default class LoaderLogin extends React.Component{
   }
 
   render(){
+
+    const store = ConfigStore.getStore();
+    const persistor = ConfigStore.getPersistor();
+
     if((this.state.token===null || this.state.token==='') && this.state.passwordForgotten === false && this.state.createAccount ===0){
       return(
-        <Login updateParentState={this.updateState.bind(this)}/>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <Login updateParentState={this.updateState.bind(this)}/>
+          </PersistGate>
+        </Provider>
       );
     }
     else if((this.state.token===null || this.state.token==='') && this.state.passwordForgotten === true && this.state.createAccount ===0){
       return(
-        <ForgetPassword updateParentState={this.updateState.bind(this)}/>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <ForgetPassword updateParentState={this.updateState.bind(this)}/>
+          </PersistGate>
+        </Provider>
       );
     }
     else if((this.state.token===null || this.state.token==='') && this.state.passwordForgotten === false && this.state.createAccount ===1){
       return(
-        <CreateAccount updateParentState={this.updateState.bind(this)}/>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <CreateAccount updateParentState={this.updateState.bind(this)}/>
+          </PersistGate>
+        </Provider>
       );
     }
     else if((this.state.token!==null && this.state.token!=='') && this.state.passwordForgotten === false && this.state.createAccount ===0){
