@@ -3,10 +3,10 @@ import {StyleSheet, View, Text} from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import AppContainer from './TabScreen';
 import Router from './Router';
-import LoginScreen from './LoginScreen';
+import LoaderLogin from './LoaderLogin';
 
 const SwitchNavigator = createSwitchNavigator({
-  LoginScreen:LoginScreen,
+  LoaderLogin:LoaderLogin,
   Router:Router,
   AppContainer:AppContainer
 },

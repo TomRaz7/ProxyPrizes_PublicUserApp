@@ -15,7 +15,7 @@ export default class Router extends React.Component{
 
   _chooseRoute = () => {
     if(this.state.token === null || this.state.token ===''){
-      this.props.navigation.navigate("LoginScreen");
+      this.props.navigation.navigate("LoaderLogin");
     }
     else{
       this.props.navigation.navigate("AppContainer");
