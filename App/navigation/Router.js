@@ -7,7 +7,7 @@ export default class Router extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      token: 'azerty123'
+      token: ''
     }
     this._chooseRoute();
   }
