@@ -27,7 +27,7 @@ export default class Login extends React.Component{
 
   _createAccount(){
     this.state.createAccount = 1;
-    console.log(this.state.createAccount);
+    //console.log(this.state.createAccount);
     this.updateParentState(this.state.createAccount);
   }
 
