@@ -99,14 +99,14 @@ export default class ShopMap extends React.Component{
           coordinate={location}>
           <View>
             <LinearGradient style={styles.circularLinearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
-            <Icon
-            name='shop'
-            type='entypo'
-            size={20} color="#fff"/>
+              <Icon
+              name='shop'
+              type='entypo'
+              size={20} color="#fff"/>
             </LinearGradient>
           </View>
           <MapView.Callout>
-            <ShopCallout/>
+            <ShopCallout name={shopList[i].name} phone={shopList[i].phone} address={shopList[i].address} opening_hours={shopList[i].opening_hours}/>
           </MapView.Callout>
         </MapView.Marker>
       );
