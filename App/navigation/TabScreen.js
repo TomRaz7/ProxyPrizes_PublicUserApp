@@ -11,6 +11,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import PostScrollList from '../components/PostScrollList';
 import Profile from '../components/Profile';
 import ShopMap from '../components/ShopMap';
+import SingleShop from '../components/SingleShop';
 
 
 //Settle Stack Navigator
@@ -29,6 +30,9 @@ const profileStackNavigator = createStackNavigator({
 const shopMapStackNavigator = createStackNavigator({
   ShopMap:{
     screen:ShopMap
+  },
+  SingleShop:{
+    screen:SingleShop
   }
 });
 

@@ -89,6 +89,10 @@ export default class ShopMap extends React.Component{
     )
   }
 
+  _displayShop(shop){
+    this.props.navigation.navigate("SingleShop",{shop:shop});
+  }
+
   renderShops(shopList){
     const markers = []
     for(let i = 0; i < shopList.length; i++){
@@ -96,7 +100,8 @@ export default class ShopMap extends React.Component{
       markers.push(
         <MapView.Marker
           key={i}
-          coordinate={location}>
+          coordinate={location}
+          onCalloutPress={() => this._displayShop(shopList[i])}>
           <View>
             <LinearGradient style={styles.circularLinearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
               <Icon
