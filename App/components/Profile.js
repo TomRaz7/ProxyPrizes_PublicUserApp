@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text,TouchableOpacity,Image, FlatList} from 'react-native';
+import {View, StyleSheet, Text,TouchableOpacity, Image, FlatList} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
+import MesData from '../faker/ProfileData.js';
 import {connect} from 'react-redux';
 
 class Profile extends React.Component{
