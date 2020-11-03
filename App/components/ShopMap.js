@@ -10,6 +10,9 @@ import faker from '../faker/ShopData';
 //Service to geolocate
 import {getLocation} from '../service/CurrentLocationService';
 
+//Own components import
+import ShopCallout from './ShopCallout';
+
 export default class ShopMap extends React.Component{
 
   constructor(props){
@@ -102,6 +105,9 @@ export default class ShopMap extends React.Component{
             size={20} color="#fff"/>
             </LinearGradient>
           </View>
+          <MapView.Callout>
+            <ShopCallout/>
+          </MapView.Callout>
         </MapView.Marker>
       );
     }
