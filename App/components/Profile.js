@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text,TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text,TouchableOpacity,Image, FlatList} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
 
@@ -40,7 +40,7 @@ class Profile extends React.Component{
                 <Image
                   style={{width:125, height:125,borderRadius:400/2}}
                   //source = {require('/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg')}/>
-                    source={require('/Users/mfoulouyvesmarcel/Desktop/Official ProxyPrize/ProxyPrizes_PublicUserApp/App/assets/Asong.jpg')}
+                    source={require('/Users/mfoulouyvesmarcel/Desktop/Official ProxyPrize/ProxyPrizes_PublicUserApp/App/assets/Asong.jpg')}/>
               </View>
             </View>
             //bouton de Listing
@@ -108,7 +108,7 @@ class Profile extends React.Component{
           // Indicateur des favorits
           <View>
               <Text
-              style={{fontSize:20,fontWeight:'bold',marginLeft:20,marginTop:20}}>My Favorites</Text>
+              style={{fontSize:20,fontWeight:'bold',marginLeft:20,marginTop:20}}>My Favodrites</Text>
           </View>
 
           // scroll des favorits
