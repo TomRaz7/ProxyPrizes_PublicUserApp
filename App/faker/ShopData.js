@@ -23,4 +23,12 @@ export default faker = [
       longitude:0.691
     },
   },
+  {
+    id:3,
+    name:'Casino',
+    coords:{
+      latitude:48.8273889,
+      longitude:2.7050953
+    },
+  },
 ]
