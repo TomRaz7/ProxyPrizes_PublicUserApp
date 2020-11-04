@@ -9,6 +9,7 @@ export default faker = [
       latitude:41.61,
       longitude:0.62
     },
+    subscribed:false
   },
   {
     id:1,
@@ -20,6 +21,7 @@ export default faker = [
       latitude:41.50,
       longitude:0.50
     },
+    subscribed:false
   },
   {
     id:2,
@@ -31,6 +33,7 @@ export default faker = [
       latitude:41.62,
       longitude:0.691
     },
+    subscribed:false
   },
   {
     id:3,
@@ -42,5 +45,6 @@ export default faker = [
       latitude:48.8273889,
       longitude:2.7050953
     },
+    subscribed:false
   },
 ]

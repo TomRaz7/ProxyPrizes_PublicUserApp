@@ -3,16 +3,22 @@ import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {Icon, Card, Button} from 'react-native-elements';
 import {LinearGradient} from 'expo-linear-gradient';
 import faker from '../faker/PostData';
+import ConfigStore from '../storeRedux/ConfigStore';
+import {connect} from 'react-redux';
 
-export default class SingleShop extends React.Component{
+class SingleShop extends React.Component{
 
   constructor(props){
     super(props);
     this.state={
       shop:this.props.navigation.getParam("shop"),
       relatedPosts:[],
+      subscribedShops:ConfigStore.getState().toggleSubscription.subscribedShops,
+      isSubscribed:null
     }
     this._initPostList(faker);
+    this._checkSubscription(this.state.shop.id,this.state.subscribedShops);
+    console.log(this.state.isSubscribed);
   }
 
   _initPostList(fakerList){
@@ -23,8 +29,28 @@ export default class SingleShop extends React.Component{
     }
   }
 
+  _checkSubscription(shopId, list){
+    if(list.lenght === 0){
+      this.state.isSubscribed = false;
+    }
+    else{
+      const index = list.findIndex(item => item.id === shopId);
+      if(index !== -1){
+        this.state.isSubscribed = true;
+      }
+      else {
+        this.state.isSubscribed = false;
+      }
+    }
+  }
+
   _logArrayLenght(array){
       console.log(array.length);
+  }
+
+  _subscribe(shop){
+    const action = {type:'TOOGLE_SUBSCRIBE', value:shop};
+    this.props.dispatch(action);
   }
 
   render(){
@@ -39,7 +65,7 @@ export default class SingleShop extends React.Component{
           </LinearGradient>
           <Text style={styles.title}>{this.state.shop.name}</Text>
           <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
-            <TouchableOpacity style={styles.touchableOpacity}>
+            <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
               <Text style={styles.linearGradientText}>Subscribe</Text>
             </TouchableOpacity>
           </LinearGradient>
@@ -122,3 +148,9 @@ const styles = StyleSheet.create({
     justifyContent:'center', alignItems:'center'
   }
 });
+
+const mapStateToProps = (state) => {
+  return state
+}
+
+export default connect(mapStateToProps)(SingleShop);
