@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text,TouchableOpacity, Image, FlatList} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
 import MesData from '../faker/ProfileData.js';
+import SubscribeProfileTemplate from './SubscribeProfileTemplate';
 import {connect} from 'react-redux';
 
 class Profile extends React.Component{
@@ -103,7 +104,7 @@ class Profile extends React.Component{
           style={{marginTop:15, height:90}}
           data={MesData}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({item}) => <ScrollTemplate prop={item}/>}
+          renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
           />
 
           // Indicateur des favorits
@@ -120,7 +121,7 @@ class Profile extends React.Component{
             pagingEnabled={true}
             data={MesData}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({item}) => <ScrollTemplate prop={item}/>}
+            renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
             />
         </View>
     );
