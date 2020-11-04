@@ -19,7 +19,7 @@ export default class SubscribeProfileTemplate extends React.Component{
       }}>
         <Image
          style={{width:90, height:90,borderRadius:5}}
-         source = {require('/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg')}/>
+         source = {require('/Users/mfoulouyvesmarcel/Desktop/Official ProxyPrize/ProxyPrizes_PublicUserApp/App/assets/Asong.jpg')}/>
          <Text
          style={{fontWeight:'bold',fontSize:14}}>{subscriptionProps.id}</Text>
       </TouchableOpacity>
