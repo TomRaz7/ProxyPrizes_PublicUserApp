@@ -6,7 +6,7 @@ import {Text,View,Image,TextInput,ScrollView,TouchableOpacity} from 'react-nativ
 export default class SubscribeProfileTemplate extends React.Component{
 
   render(){
-    console.log(this.props)
+    //console.log(this.props)
     const subscriptionProps = this.props.prop
     return(
       <TouchableOpacity
