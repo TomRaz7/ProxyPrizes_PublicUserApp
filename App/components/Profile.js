@@ -38,8 +38,9 @@ class Profile extends React.Component{
                   style={{marginLeft:10}}>
                 <Image
                   style={{width:125, height:125,borderRadius:400/2}}
-                  //source = {require('/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg')}/>
-                    source={require('/Users/mfoulouyvesmarcel/Desktop/Official ProxyPrize/ProxyPrizes_PublicUserApp/App/assets/Asong.jpg')}/>
+                  //source = {require('/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg')}
+                  />
+
               </View>
             </View>
 
