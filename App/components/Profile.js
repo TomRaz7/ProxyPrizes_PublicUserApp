@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text,TouchableOpacity, Image, FlatList} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
 import MesData from '../faker/ProfileData.js';
 import SubscribeProfileTemplate from './SubscribeProfileTemplate';
@@ -18,10 +18,10 @@ class Profile extends React.Component{
       <View style={styles.container}>
         <Text>Bienvenu sur le profil</Text>
         <TouchableOpacity onPress = {() => this._logOut()}>
-          //<Text>Log out</Text> + je garde tout ton code je ne touche a rin du tout+
+          <Text>Log out</Text>
         </TouchableOpacity>
 
-        //code Yves Marcel
+      
         <View
             style={{
               backgroundColor:'#4169e1',
@@ -45,7 +45,7 @@ class Profile extends React.Component{
                     source={require('/Users/mfoulouyvesmarcel/Desktop/Official ProxyPrize/ProxyPrizes_PublicUserApp/App/assets/Asong.jpg')}/>
               </View>
             </View>
-            //bouton de Listing
+
             <View
            style={{
              alignItems:'center',
@@ -61,7 +61,7 @@ class Profile extends React.Component{
               style={{color:'white'}}>List Your Product</Text>
            </View>
 
-         //le trait horizontal
+
            <View
             style={{
               borderBottomColor: '#4169e1',
@@ -82,7 +82,7 @@ class Profile extends React.Component{
                   style={{fontSize:14}}>You can have all your list five best likes you make</Text>
           </View>
 
-          //second trait Horizonatl
+
           <View
            style={{
              borderBottomColor: '#4169e1',
@@ -90,13 +90,13 @@ class Profile extends React.Component{
              marginTop:7
            }}  />
 
-           //indicateur de Subscription
+
            <View>
               <Text
               style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>My Subscription</Text>
           </View>
 
-          //scroll de suscription horizontal
+
           <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -107,13 +107,13 @@ class Profile extends React.Component{
           renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
           />
 
-          // Indicateur des favorits
+
           <View>
               <Text
               style={{fontSize:20,fontWeight:'bold',marginLeft:20,marginTop:20}}>My Favodrites</Text>
           </View>
 
-          // scroll des favorits
+
 
           <FlatList
             horizontal

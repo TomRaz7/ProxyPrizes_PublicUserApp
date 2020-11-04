@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet,Text} from 'react-native';
 import MapView from 'react-native-maps';
 import {Icon} from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient';
