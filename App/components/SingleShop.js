@@ -51,47 +51,91 @@ class SingleShop extends React.Component{
   _subscribe(shop){
     const action = {type:'TOOGLE_SUBSCRIBE', value:shop};
     this.props.dispatch(action);
+    this.forceUpdate();
+    this._checkSubscription(this.state.shop.id,this.state.subscribedShops);
   }
 
   render(){
-    return(
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
-            <Icon
-            name='shop'
-            type='entypo'
-            size={25} color="#4A86E8"/>
-          </LinearGradient>
-          <Text style={styles.title}>{this.state.shop.name}</Text>
-          <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
-            <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
-              <Text style={styles.linearGradientText}>Subscribe</Text>
-            </TouchableOpacity>
-          </LinearGradient>
+    if(this.state.isSubscribed === null || this.state.isSubscribed === false){
+      return(
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
+              <Icon
+              name='shop'
+              type='entypo'
+              size={25} color="#4A86E8"/>
+            </LinearGradient>
+            <Text style={styles.title}>{this.state.shop.name}</Text>
+            <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
+              <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
+                <Text style={styles.subscribeText}>Subscribe</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+          <View style={styles.flatListContainer}>
+            <FlatList
+              data={this.state.relatedPosts}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
+                return(
+                  <View style={styles.post}>
+                    <Card>
+                      <Card.Title>{item.title}</Card.Title>
+                      <Card.Divider/>
+                      <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
+                      <Text style={{marginBottom: 10}}>
+                          {item.description}
+                      </Text>
+                    </Card>
+                  </View>
+                );
+              }}}
+            />
+          </View>
         </View>
-        <View style={styles.flatListContainer}>
-          <FlatList
-            data={this.state.relatedPosts}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
-              return(
-                <View style={styles.post}>
-                  <Card>
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Divider/>
-                    <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
-                    <Text style={{marginBottom: 10}}>
-                        {item.description}
-                    </Text>
-                  </Card>
-                </View>
-              );
-            }}}
-          />
+      );
+    }
+    else {
+      return(
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
+              <Icon
+              name='shop'
+              type='entypo'
+              size={25} color="#4A86E8"/>
+            </LinearGradient>
+            <Text style={styles.title}>{this.state.shop.name}</Text>
+            <LinearGradient style={styles.linearGradient} colors={['#F5F7FA','#B8C6DB']} start={[0, 1]} end={[1, 0]}>
+              <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
+                <Text style={styles.unsubscribeText}>Unsubscribe</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+          <View style={styles.flatListContainer}>
+            <FlatList
+              data={this.state.relatedPosts}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
+                return(
+                  <View style={styles.post}>
+                    <Card>
+                      <Card.Title>{item.title}</Card.Title>
+                      <Card.Divider/>
+                      <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
+                      <Text style={{marginBottom: 10}}>
+                          {item.description}
+                      </Text>
+                    </Card>
+                  </View>
+                );
+              }}}
+            />
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -101,7 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A86E8',
   },
   headerContainer:{
-    flex:1,
+    flex:0.75,
     flexDirection:'row',
     margin:10,
     justifyContent:'space-around',
@@ -130,7 +174,7 @@ const styles = StyleSheet.create({
     width:100,
     height:40
   },
-  linearGradientText:{
+  subscribeText:{
     fontWeight:'bold',
     color:'#fff'
   },
@@ -146,6 +190,10 @@ const styles = StyleSheet.create({
     height:40,
     borderRadius:30,
     justifyContent:'center', alignItems:'center'
+  },
+  unsubscribeText:{
+    fontWeight:'bold',
+    color:'grey'
   }
 });
 

@@ -3,6 +3,7 @@ import {View, StyleSheet,Text} from 'react-native';
 import MapView from 'react-native-maps';
 import {Icon} from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 //Faker to display fake stores
 import faker from '../faker/ShopData';
@@ -119,6 +120,19 @@ export default class ShopMap extends React.Component{
     return(markers);
   }
 
+
+  getCoordsFromName(loc){
+    this.updateRegion({
+      latitude: loc.lat,
+      longitude: loc.lng,
+    });
+    this.setState({
+      search:false
+    })
+  }
+
+
+
   render(){
     return(
       <View style={styles.container}>
@@ -129,6 +143,31 @@ export default class ShopMap extends React.Component{
             {this.renderUserPosition()}
             {this.renderShops(this.state.fakeShopList)}
         </MapView>
+        <View style={{position:'absolute',top:'2%',width:'80%',right:'10%'}}>
+            <GooglePlacesAutocomplete
+               placeholder='Recherchez une ville'
+               minLength={1}
+               autoFocus={false}
+               returnKeyType={'search'}
+               listViewDisplayed={false}
+               fetchDetails={true}
+               onPress={(data, details = null) => this.getCoordsFromName(details.geometry.location)}
+               query={{key: 'AIzaSyBlW2YVxHbJe6cDUe2nXmP6yP13zgftC9U ', language: 'fr'}}
+               nearbyPlacesAPI='GooglePlacesSearch'
+               debounce={200}
+               styles={{textInputContainer: {
+                width: '100%',
+                backgroundColor:'white',
+                borderRadius: 30,
+                borderTopWidth: 0,
+                borderBottomWidth:0
+              },
+              listView: {
+                  backgroundColor:'white',
+                  borderRadius:30,
+                }
+          }}/>
+        </View>
       </View>
     );
   }
