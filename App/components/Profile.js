@@ -4,6 +4,7 @@ import ConfigStore from '../storeRedux/ConfigStore';
 import MesData from '../faker/ProfileData.js';
 import SubscribeProfileTemplate from './SubscribeProfileTemplate';
 import {connect} from 'react-redux';
+import {LinearGradient} from 'expo-linear-gradient';
 
 class Profile extends React.Component{
 
@@ -23,15 +24,20 @@ class Profile extends React.Component{
             style={{
               backgroundColor:'#4169e1',
               width:'100%',
-              height:'25%'
+              height:'25%',
             }}>
 
             <View
-                  style={{marginTop:5, marginLeft:'20%'}}>
+                  style={{marginTop:5,  alignItems:'center', justifyContent:'space-around'}}>
                   <Text
-                    style={{fontSize:30,fontWeight:'bold'}}> ProxyPrize </Text>
+                    style={{fontSize:30,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
                   <Text
-                    style={{fontSize:20,fontWeight:'bold'}}> The Shop of the Future </Text>
+                    style={{fontSize:20,fontWeight:'bold',color:'#fff'}}> The Shop of the Future </Text>
+                  <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
+                    <TouchableOpacity onPress = {() => this._logOut()}>
+                      <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>Log out</Text>
+                    </TouchableOpacity>
+                  </LinearGradient>
               </View>
 
               <View
@@ -52,7 +58,7 @@ class Profile extends React.Component{
              marginTop:20,
              backgroundColor:'#4169e1',
              borderRadius:10,
-             marginLeft:'40%'
+             alignItems:'center'
            }}>
               <Text
               onPress={()=>navigate('Post')}
@@ -133,6 +139,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     //alignItems: 'center',
     //justifyContent: 'center',
+  },
+  linearGradient:{
+    padding: 5,
+    alignItems: 'center',
+    borderRadius: 24,
+    overflow: 'hidden',
+    width:100,
+    height:40
   },
 });
 

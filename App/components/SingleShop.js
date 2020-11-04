@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {Icon, Card, Button} from 'react-native-elements';
-import {LinearGradient} from 'expo-linear-gradient'
+import {LinearGradient} from 'expo-linear-gradient';
 import faker from '../faker/PostData';
 
 export default class SingleShop extends React.Component{
@@ -13,8 +13,6 @@ export default class SingleShop extends React.Component{
       relatedPosts:[],
     }
     this._initPostList(faker);
-    console.log(this.state.shop.id);
-    this._logArrayLenght(this.state.relatedPosts);
   }
 
   _initPostList(fakerList){
@@ -33,11 +31,11 @@ export default class SingleShop extends React.Component{
     return(
       <View style={styles.container}>
         <View style={styles.headerContainer}>
-          <LinearGradient style={styles.circularLinearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
+          <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
             <Icon
             name='shop'
             type='entypo'
-            size={25} color="#fff"/>
+            size={25} color="#4A86E8"/>
           </LinearGradient>
           <Text style={styles.title}>{this.state.shop.name}</Text>
           <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
@@ -60,10 +58,6 @@ export default class SingleShop extends React.Component{
                     <Text style={{marginBottom: 10}}>
                         {item.description}
                     </Text>
-                    <Button
-                      icon={<Icon name='code' color='#ffffff' />}
-                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                      title='VIEW NOW' />
                   </Card>
                 </View>
               );
@@ -78,7 +72,7 @@ export default class SingleShop extends React.Component{
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    backgroundColor: '#fff',
+    backgroundColor: '#4A86E8',
   },
   headerContainer:{
     flex:1,
@@ -86,19 +80,21 @@ const styles = StyleSheet.create({
     margin:10,
     justifyContent:'space-around',
     alignItems:'center',
+    backgroundColor: '#4A86E8',
   },
   flatListContainer:{
     flex:8,
-    
     justifyContent:'center',
     alignItems:'center',
-    margin:2
+    margin:2,
+    backgroundColor:'#F3F3F3'
   },
   post:{
     margin:10
   },
   title:{
     fontSize:25,
+    color:'#fff'
   },
   linearGradient:{
     padding: 10,
