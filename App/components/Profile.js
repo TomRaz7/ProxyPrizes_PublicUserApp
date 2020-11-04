@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image, FlatList} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image, FlatList,ScrollView} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
 import MesData from '../faker/ProfileData.js';
 import SubscribeProfileTemplate from './SubscribeProfileTemplate';
@@ -15,17 +15,14 @@ class Profile extends React.Component{
 
   render(){
     return(
-      <View style={styles.container}>
-        <Text>Bienvenu sur le profil</Text>
-        <TouchableOpacity onPress = {() => this._logOut()}>
-          <Text>Log out</Text>
-        </TouchableOpacity>
+      <ScrollView style={styles.container}>
 
-      
+
+
         <View
             style={{
               backgroundColor:'#4169e1',
-              whidth:'100%',
+              width:'100%',
               height:'25%'
             }}>
 
@@ -69,7 +66,7 @@ class Profile extends React.Component{
               marginTop:7
             }}  />
 
-            //mes Text
+
             <View
               style={{
                   marginTop:10,
@@ -93,7 +90,7 @@ class Profile extends React.Component{
 
            <View>
               <Text
-              style={{fontSize:20,fontWeight:'bold',marginLeft:10}}>My Subscription</Text>
+              style={{fontSize:20,fontWeight:'bold'}}>My Subscription</Text>
           </View>
 
 
@@ -101,7 +98,7 @@ class Profile extends React.Component{
           horizontal
           showsHorizontalScrollIndicator={false}
           pagingEnabled={true}
-          style={{marginTop:15, height:90}}
+          style={{marginTop:15, height:110}}
           data={MesData}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
@@ -110,7 +107,7 @@ class Profile extends React.Component{
 
           <View>
               <Text
-              style={{fontSize:20,fontWeight:'bold',marginLeft:20,marginTop:20}}>My Favodrites</Text>
+              style={{fontSize:20,fontWeight:'bold',marginTop:20}}>My Favorites</Text>
           </View>
 
 
@@ -119,11 +116,12 @@ class Profile extends React.Component{
             horizontal
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
+            style={{marginTop:15, height:105}}
             data={MesData}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
             />
-        </View>
+        </ScrollView>
     );
   }
 }
@@ -132,8 +130,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
   },
 });
 
