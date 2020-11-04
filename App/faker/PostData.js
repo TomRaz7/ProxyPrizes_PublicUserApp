@@ -1,7 +1,7 @@
 export default  data = [
   {
     id:0,
-    relatedShopId:0,
+    relatedShopId:3,
     relatedUserId:2,
     title:'Beautiful hoody',
     description:'This wonderfull Hoody is what you need to face winter ! ',
@@ -9,7 +9,7 @@ export default  data = [
   },
   {
     id:1,
-    relatedShopId:1,
+    relatedShopId:3,
     relatedUserId:3,
     title:'Nice jewel',
     description:'A nice jewel ! ',
@@ -25,7 +25,7 @@ export default  data = [
   },
   {
     id:3,
-    relatedShopId:2,
+    relatedShopId:3,
     relatedUserId:2,
     title:'Cooking will never be the same',
     description:'The perfect knives set for your kitchen ! ',

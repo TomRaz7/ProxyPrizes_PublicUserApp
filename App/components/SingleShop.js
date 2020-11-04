@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
-import {Icon, Card} from 'react-native-elements';
+import {Icon, Card, Button} from 'react-native-elements';
 import {LinearGradient} from 'expo-linear-gradient'
 import faker from '../faker/PostData';
 
@@ -11,7 +11,6 @@ export default class SingleShop extends React.Component{
     this.state={
       shop:this.props.navigation.getParam("shop"),
       relatedPosts:[],
-      test:['1','2','3']
     }
     this._initPostList(faker);
     console.log(this.state.shop.id);
@@ -53,13 +52,25 @@ export default class SingleShop extends React.Component{
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
               return(
-                <Text>{item.title}</Text>
+                <View style={styles.post}>
+                  <Card>
+                    <Card.Title>{item.title}</Card.Title>
+                    <Card.Divider/>
+                    <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
+                    <Text style={{marginBottom: 10}}>
+                        {item.description}
+                    </Text>
+                    <Button
+                      icon={<Icon name='code' color='#ffffff' />}
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='VIEW NOW' />
+                  </Card>
+                </View>
               );
             }}}
           />
         </View>
       </View>
-
     );
   }
 }
@@ -78,9 +89,12 @@ const styles = StyleSheet.create({
   },
   flatListContainer:{
     flex:8,
-    backgroundColor:'grey',
+    
     justifyContent:'center',
     alignItems:'center',
+    margin:2
+  },
+  post:{
     margin:10
   },
   title:{
