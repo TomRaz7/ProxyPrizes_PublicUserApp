@@ -3,6 +3,17 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
 import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+import Translation from '../language/Translation';
+
+
+const fr = Translation.fr;
+const en = Translation.en;
+const es = Translation.es;
+
+i18n.translations = {fr, en, es};
+i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
 
 class Login extends React.Component{
 
@@ -70,14 +81,14 @@ class Login extends React.Component{
         <TextInput placeholder="Enter your password"  onChangeText={(text) => this.setState({userPassword:text})} secureTextEntry={true}/>
         <LinearGradient style={styles.linearGradient} colors={['#00c9b7','#1DEC2F']} start={[0, 1]} end={[1, 0]}>
           <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._connect(this.state.userMail, this.state.userPassword)}>
-            <Text>Connect</Text>
+            <Text>{i18n.t('login')}</Text>
           </TouchableOpacity>
         </LinearGradient>
         <TouchableOpacity onPress={() => this._passwordForgotten()}>
-          <Text>Password forgotten ?</Text>
+          <Text>{i18n.t('password_forgotten')}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this._createAccount()}>
-          <Text>Create a new account</Text>
+          <Text>{i18n.t('register')}</Text>
         </TouchableOpacity>
       </View>
     );
