@@ -5,6 +5,17 @@ import {LinearGradient} from 'expo-linear-gradient';
 import faker from '../faker/PostData';
 import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+import Translation from '../language/Translation';
+
+
+const fr = Translation.fr;
+const en = Translation.en;
+const es = Translation.es;
+
+i18n.translations = {fr, en, es};
+i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
 
 class SingleShop extends React.Component{
 
@@ -69,7 +80,7 @@ class SingleShop extends React.Component{
             <Text style={styles.title}>{this.state.shop.name}</Text>
             <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
               <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
-                <Text style={styles.subscribeText}>Subscribe</Text>
+                <Text style={styles.subscribeText}>{i18n.t('subscribe')}</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>
@@ -109,7 +120,7 @@ class SingleShop extends React.Component{
             <Text style={styles.title}>{this.state.shop.name}</Text>
             <LinearGradient style={styles.linearGradient} colors={['#F5F7FA','#B8C6DB']} start={[0, 1]} end={[1, 0]}>
               <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
-                <Text style={styles.unsubscribeText}>Unsubscribe</Text>
+                <Text style={styles.unsubscribeText}>{i18n.t('unsubscribe')}</Text>
               </TouchableOpacity>
             </LinearGradient>
           </View>

@@ -6,6 +6,17 @@ import SubscribeProfileTemplate from './SubscribeProfileTemplate';
 import {connect} from 'react-redux';
 import {LinearGradient} from 'expo-linear-gradient';
 import { NavigationEvents } from 'react-navigation';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+import Translation from '../language/Translation';
+
+
+const fr = Translation.fr;
+const en = Translation.en;
+const es = Translation.es;
+
+i18n.translations = {fr, en, es};
+i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
 
 class Profile extends React.Component{
 
@@ -52,10 +63,9 @@ class Profile extends React.Component{
           <View style={{backgroundColor:'#4169e1', width:'100%', height:'25%'}}>
             <View style={{marginTop:5,  alignItems:'center', justifyContent:'space-around'}}>
               <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
-              <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}> The Shop of the Future </Text>
               <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
                 <TouchableOpacity onPress = {() => this._logOut()}>
-                  <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>Log out</Text>
+                  <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>{i18n.t('logout')}</Text>
                 </TouchableOpacity>
               </LinearGradient>
             </View>
@@ -72,13 +82,11 @@ class Profile extends React.Component{
 
          <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
           <View style={{marginTop:10,alignItems:'center'}}>
-                <Text style={{fontWeight:'bold',fontSize:18}}>Your Profile ProxyPrize</Text>
-                <Text style={{fontSize:16}}>You can have your list Subscription</Text>
-                <Text style={{fontSize:14}}>You can have all your list five best likes you make</Text>
+                <Text style={{fontWeight:'bold',fontSize:18}}>{i18n.t('profile')}</Text>
           </View>
           <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold'}}>Shop Subscriptions</Text>
+              <Text style={{fontSize:20,fontWeight:'bold'}}>{i18n.t('shop_subscription')}</Text>
             </View>
             <FlatList
             horizontal
@@ -90,7 +98,7 @@ class Profile extends React.Component{
             renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
             />
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>Favorites Posts</Text>
+              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('favorite_post')}</Text>
             </View>
             <FlatList
               horizontal
@@ -110,10 +118,9 @@ class Profile extends React.Component{
           <View style={{backgroundColor:'#4169e1', width:'100%', height:'25%'}}>
             <View style={{marginTop:5,  alignItems:'center', justifyContent:'space-around'}}>
               <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
-              <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}> The Shop of the Future </Text>
               <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
                 <TouchableOpacity onPress = {() => this._logOut()}>
-                  <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>Log out</Text>
+                  <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>{i18n.t('logout')}</Text>
                 </TouchableOpacity>
               </LinearGradient>
             </View>
@@ -130,17 +137,15 @@ class Profile extends React.Component{
 
          <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
           <View style={{marginTop:10,alignItems:'center'}}>
-                <Text style={{fontWeight:'bold',fontSize:18}}>Your Profile ProxyPrize</Text>
-                <Text style={{fontSize:16}}>You can have your list Subscription</Text>
-                <Text style={{fontSize:14}}>You can have all your list five best likes you make</Text>
+                <Text style={{fontWeight:'bold',fontSize:18}}>{i18n.t('profile')}</Text>
           </View>
           <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold'}}>Shop Subscriptions</Text>
+              <Text style={{fontSize:20,fontWeight:'bold'}}>{i18n.t('shop_subscription')}</Text>
             </View>
-            <Text>You have not subscribed to any shop yet</Text>
+            <Text>{i18n.t('noShopSubscribed')}</Text>
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>Favorites Posts</Text>
+              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('favorite_post')}</Text>
             </View>
             <FlatList
               horizontal

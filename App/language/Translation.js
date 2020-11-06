@@ -5,6 +5,10 @@ const fr = {
   register:'Créer un compte',
   subscribe:'S\'abonner',
   unsubscribe: 'Se désabonner',
+  shop_subscription:'Vos magasins',
+  noShopSubscribed: 'Vous n\'êtes abonné à aucun magasin pour le moment',
+  favorite_post:'Les posts que vous avez enregistrés',
+  profile:'Bienvenu sur votre profil'
 };
 
 const en = {
@@ -14,6 +18,10 @@ const en = {
   register:'Register',
   subscribe:'Subscribe',
   unsubscribe:'Unsubscribe',
+  shop_subscription:'Your shops',
+  noShopSubscribed: 'You have not subscribed to any shop yet',
+  favorite_post:'Your favorites posts',
+  profile:'Welcome to your profile'
 };
 
 const es = {
@@ -23,6 +31,10 @@ const es = {
   register:'Registrarse',
   subscribe:'Subscribir',
   unsubscribe:'Cancelar',
+  shop_subscription:'Sus tiendas',
+  noShopSubscribed: 'No le ha suscrito a ninguna tienda en este momento',
+  favorite_post:'Sus publicaciones favoritas',
+  profile:'Bienvenido a su perfil'
 };
 
 
