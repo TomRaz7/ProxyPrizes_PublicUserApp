@@ -30,6 +30,7 @@ class Profile extends React.Component{
     this.setState({
       subscribedShopsList:ConfigStore.getState().toggleSubscription.subscribedShops
     });
+    console.log(this.state.subscribedShopsList[0]);
   }
 
   _logOut(){
@@ -77,19 +78,19 @@ class Profile extends React.Component{
           </View>
           <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold'}}>My Subscription</Text>
+              <Text style={{fontSize:20,fontWeight:'bold'}}>Shop Subscriptions</Text>
             </View>
             <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
             style={{marginTop:15, height:110}}
-            data={MesData}
+            data={this.state.subscribedShopsList}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
             />
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>My Favorites</Text>
+              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>Favorites Posts</Text>
             </View>
             <FlatList
               horizontal
@@ -135,11 +136,11 @@ class Profile extends React.Component{
           </View>
           <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold'}}>My Subscription</Text>
+              <Text style={{fontSize:20,fontWeight:'bold'}}>Shop Subscriptions</Text>
             </View>
             <Text>You have not subscribed to any shop yet</Text>
             <View>
-              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>My Favorites</Text>
+              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>Favorites Posts</Text>
             </View>
             <FlatList
               horizontal

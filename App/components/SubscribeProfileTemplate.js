@@ -22,7 +22,7 @@ export default class SubscribeProfileTemplate extends React.Component{
          //source = {require('/Users/mfoulouyvesmarcel/Desktop/Official ProxyPrize/ProxyPrizes_PublicUserApp/App/assets/Asong.jpg')}
          />
          <Text
-         style={{fontWeight:'bold',fontSize:14}}>{subscriptionProps.id}</Text>
+         style={{fontWeight:'bold',fontSize:14}}>{subscriptionProps.name}</Text>
       </TouchableOpacity>
     )
   }
