@@ -3,12 +3,27 @@ import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList } from 'react-na
 import { Icon } from "react-native-elements";
 import faker from '../faker/PostScrollListData';
 
+import i18n from 'i18n-js';
+import Translation from '../language/Translation';
+
+
+const fr = Translation.fr;
+const en = Translation.en;
+const es = Translation.es;
+
+i18n.translations = {fr, en, es};
+i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+
 export default class PostScrollList extends React.Component{
   constructor(props){
     super(props);
     this.state={
       data:faker
     };
+  }
+
+  _displayPostForm(){
+    this.props.navigation.navigate("CreatePost");
   }
 
   render(){
@@ -68,7 +83,7 @@ export default class PostScrollList extends React.Component{
                             type="entypo"
                             style={styles.icon}
                           />
-                          <Text style={styles.socialBarLabel}>Comment</Text>
+                          <Text style={styles.socialBarLabel}>{i18n.t('comment')}</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -80,6 +95,7 @@ export default class PostScrollList extends React.Component{
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.touchableOpacityStyle}
+            onPress={() => this._displayPostForm()}
           >
             <Icon
               name="circle-with-plus"

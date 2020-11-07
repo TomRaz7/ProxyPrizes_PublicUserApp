@@ -12,12 +12,16 @@ import PostScrollList from '../components/PostScrollList';
 import Profile from '../components/Profile';
 import ShopMap from '../components/ShopMap';
 import SingleShop from '../components/SingleShop';
+import CreatePost from '../components/CreatePost';
 
 
 //Settle Stack Navigator
 const postStackNavigator = createStackNavigator({
   PostScrollList:{
     screen:PostScrollList,
+  },
+  CreatePost:{
+    screen:CreatePost,
   }
 });
 
