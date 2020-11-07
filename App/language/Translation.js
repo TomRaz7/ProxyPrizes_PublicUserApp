@@ -10,8 +10,14 @@ const fr = {
   favorite_post:'Les posts que vous avez enregistrés',
   profile:'Bienvenu sur votre profil',
   comment:'Commenter',
-  form:{
-
+  postForm:{
+    create_post:'Créez votre post',
+    product_title:'Titre du produit',
+    product_title_input:'Entrez le titre du produit',
+    upload_button:'Ajoutez une photo',
+    product_description:'Description du produit',
+    product_description_input:'Décrivez le produit',
+    confirm:'Confirmer'
   }
 };
 
@@ -27,6 +33,15 @@ const en = {
   favorite_post:'Your favorites posts',
   profile:'Welcome to your profile',
   comment:'Comment',
+  postForm:{
+    create_post:'Create your post',
+    product_title:'Product title',
+    product_title_input:'Enter product title',
+    upload_button:'Add a picture',
+    product_description:'Product description',
+    product_description_input:'Describe your product',
+    confirm:'Confirm'
+  }
 };
 
 const es = {
@@ -41,6 +56,15 @@ const es = {
   favorite_post:'Sus publicaciones favoritas',
   profile:'Bienvenido a su perfil',
   comment:'Comentar',
+  postForm:{
+    create_post:'Crear su post',
+    product_title:'Titulo del producto',
+    product_title_input:'Ingrese el título del producto',
+    upload_button:'Agregar una foto',
+    product_description:'Descripción del producto',
+    product_description_input:'Describe el producto',
+    confirm:'Confirmar'
+  }
 };
 
 
