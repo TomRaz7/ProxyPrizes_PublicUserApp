@@ -83,8 +83,8 @@ class Login extends React.Component{
           />
         </View>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.textInput} placeholder='Enter your email' onChangeText={(text) => this.setState({userMail:text})} keyBoardType='email-address' underlineColorAndroid="#4A86E8"/>
-          <TextInput style={styles.textInput} placeholder="Enter your password"  onChangeText={(text) => this.setState({userPassword:text})} secureTextEntry={true} underlineColorAndroid="#4A86E8"/>
+          <TextInput style={styles.textInput} placeholder={i18n.t('log_mail')} onChangeText={(text) => this.setState({userMail:text})} keyBoardType='email-address' underlineColorAndroid="#4A86E8"/>
+          <TextInput style={styles.textInput} placeholder={i18n.t('log_passwd')}  onChangeText={(text) => this.setState({userPassword:text})} secureTextEntry={true} underlineColorAndroid="#4A86E8"/>
         </View>
         <LinearGradient style={styles.linearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
           <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._connect(this.state.userMail, this.state.userPassword)}>
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     justifyContent:'space-around',
     height:80,
     width:200,
-
   },
   textInput:{
     height:40,
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
     width:200,
   },
   optionsContainer:{
-    height:40,
+    height:45,
     justifyContent:'space-around',
     alignItems:'center',
     margin:20

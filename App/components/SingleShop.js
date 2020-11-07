@@ -94,7 +94,7 @@ class SingleShop extends React.Component{
                     <Card>
                       <Card.Title>{item.title}</Card.Title>
                       <Card.Divider/>
-                      <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
+                      <Card.Image source={{ uri: "https://picsum.photos/800/400" }}/>
                       <Text style={{marginBottom: 10}}>
                           {item.description}
                       </Text>

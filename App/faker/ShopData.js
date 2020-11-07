@@ -4,6 +4,7 @@ export default faker = [
     name:'Bonpreu',
     phone:'01.64.65.89.65',
     address:'6 cours des marguerites',
+    image: "https://picsum.photos/800/400",
     opening_hours:'9AM - 12AM / 14PM - 21PM',
     coords:{
       latitude:41.61,
@@ -16,6 +17,7 @@ export default faker = [
     name:'Carrefour',
     phone:'07.54.75.87.15',
     address:'3 rue des champs',
+    image: "https://picsum.photos/800/300",
     opening_hours:'8AM - 12AM / 14PM - 20PM',
     coords:{
       latitude:41.50,
@@ -28,6 +30,7 @@ export default faker = [
     name:'Suma',
     phone:'01.64.66.26.85',
     address:'4 avenue du pré Simon',
+    image: "https://picsum.photos/800/600",
     opening_hours:'9AM - 11AM / 15PM - 21PM',
     coords:{
       latitude:41.62,
@@ -40,6 +43,7 @@ export default faker = [
     name:'Casino',
     phone:'04.74.25.98.56',
     address:'45 bis rue Henry Hervé',
+    image: "https://picsum.photos/800/450",
     opening_hours:'9AM - 12AM / 15PM - 22PM',
     coords:{
       latitude:48.8273889,

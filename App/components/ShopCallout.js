@@ -49,7 +49,7 @@ export default class ShopCallout extends React.Component{
           <View style={styles.imageContainer}>
             <View style={styles.image}>
               <Image
-                source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+                source={{uri: this.props.image }}
                 style={{height:120, width:120}}
               />
             </View>

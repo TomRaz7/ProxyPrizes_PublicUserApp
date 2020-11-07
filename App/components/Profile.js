@@ -60,12 +60,12 @@ class Profile extends React.Component{
     if(this.state.subscribedShopsList.length !== 0){
       return(
         <ScrollView style={styles.container}>
-          <View style={{backgroundColor:'#4169e1', width:'100%', height:'15%'}}>
+          <View style={{backgroundColor:'#4A86E8', width:'100%', height:'15%'}}>
             <View style={{marginTop:5,  alignItems:'center', justifyContent:'space-around'}}>
-              <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
+              <Text style={{fontSize:25,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
               <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
-                <TouchableOpacity onPress = {() => this._logOut()}>
-                  <Text style={{fontSize:20,fontWeight:'bold',color:'#fff'}}>{i18n.t('logout')}</Text>
+                <TouchableOpacity style={{justifyContent:'center'}} onPress = {() => this._logOut()}>
+                  <Text style={{fontSize:15,fontWeight:'bold',color:'#fff'}}>{i18n.t('logout')}</Text>
                 </TouchableOpacity>
               </LinearGradient>
             </View>
@@ -76,16 +76,14 @@ class Profile extends React.Component{
                 />
             </View>
           </View>
-         <View style={{alignItems:'center', marginHorizontal:70, paddingVertical:10, marginTop:20, backgroundColor:'#4169e1', borderRadius:10, alignItems:'center'}}>
-            <Text onPress={()=>navigate('Post')} style={{color:'white'}}>List Your Product</Text>
-         </View>
 
-         <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
+
+
           <View style={{marginTop:10,alignItems:'center'}}>
                 <Text style={{fontWeight:'bold',fontSize:18}}>{i18n.t('profile')}</Text>
           </View>
           <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
-            <View>
+            <View style={{marginTop:20}}>
               <Text style={{fontSize:20,fontWeight:'bold'}}>{i18n.t('shop_subscription')}</Text>
             </View>
             <FlatList
@@ -95,7 +93,7 @@ class Profile extends React.Component{
             style={{marginTop:15, height:110}}
             data={this.state.subscribedShopsList}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
+            renderItem={({item}) => <View style={styles.flatlist}><SubscribeProfileTemplate prop={item}/></View>}
             />
             <View>
               <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('favorite_post')}</Text>
@@ -107,7 +105,7 @@ class Profile extends React.Component{
               style={{marginTop:15, height:105}}
               data={MesData}
               keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
+              renderItem={({item}) => <View style={styles.flatlist}><SubscribeProfileTemplate prop={item}/></View>}
               />
               <View>
                 <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('discount')}</Text>
@@ -119,7 +117,7 @@ class Profile extends React.Component{
                 style={{marginTop:15, height:105}}
                 data={MesData}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
+                renderItem={({item}) => <View style={styles.flatlist}><SubscribeProfileTemplate prop={item}/></View>}
                 />
         </ScrollView>
       );
@@ -143,9 +141,6 @@ class Profile extends React.Component{
                 />
             </View>
           </View>
-         <View style={{alignItems:'center', marginHorizontal:70, paddingVertical:10, marginTop:20, backgroundColor:'#4169e1', borderRadius:10, alignItems:'center'}}>
-            <Text onPress={()=>navigate('Post')} style={{color:'white'}}>List Your Product</Text>
-         </View>
 
          <View style={{borderBottomColor: '#4169e1', borderBottomWidth: 1, marginTop:7}}/>
           <View style={{marginTop:10,alignItems:'center'}}>
@@ -195,13 +190,18 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
   },
   linearGradient:{
+    margin:5,
     padding: 5,
     alignItems: 'center',
     borderRadius: 24,
     overflow: 'hidden',
-    width:100,
-    height:40
+    width:120,
+    height:40,
+    justifyContent:'center'
   },
+  flatlist:{
+    marginRight:5
+  }
 });
 
 

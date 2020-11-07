@@ -5,6 +5,7 @@ export default Data = [
    titre:'Marchandise',
    images:'/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg',
    description:'Ici je fais la description des produits qui pourront etre dans notre projet',
+   image: "https://picsum.photos/800/500",
   },
   {
    id:'Mfoulou',
@@ -12,6 +13,7 @@ export default Data = [
    titre:'Marchandise',
    images:'/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg',
    description:'Ici je fais la description des produits qui pourront etre dans notre projet',
+   image: "https://picsum.photos/800/500",
  },
  {
   id:'Jpoint',
@@ -19,6 +21,7 @@ export default Data = [
   titre:'Marchandise',
   images:'/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg',
   description:'Ici je fais la description des produits qui pourront etre dans notre projet',
+  image: "https://picsum.photos/800/500",
   },
   {
    id:'Fidel',
@@ -26,6 +29,7 @@ export default Data = [
    titre:'Marchandise',
    images:'/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg',
    description:'Ici je fais la description des produits qui pourront etre dans notre projet',
+   image: "https://picsum.photos/800/500",
    },
    {
     id:'Roland',
@@ -33,5 +37,6 @@ export default Data = [
     titre:'Marchandise',
     images:'/Users/mfoulouyvesmarcel/Desktop/Testons/AwesomeProject/src/images/Asong.jpg',
     description:'Ici je fais la description des produits qui pourront etre dans notre projet',
+    image: "https://picsum.photos/800/500",
     },
 ]
