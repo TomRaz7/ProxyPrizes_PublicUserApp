@@ -60,7 +60,7 @@ class Profile extends React.Component{
     if(this.state.subscribedShopsList.length !== 0){
       return(
         <ScrollView style={styles.container}>
-          <View style={{backgroundColor:'#4169e1', width:'100%', height:'25%'}}>
+          <View style={{backgroundColor:'#4169e1', width:'100%', height:'15%'}}>
             <View style={{marginTop:5,  alignItems:'center', justifyContent:'space-around'}}>
               <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
               <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
@@ -109,13 +109,25 @@ class Profile extends React.Component{
               keyExtractor={(item) => item.id.toString()}
               renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
               />
+              <View>
+                <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('discount')}</Text>
+              </View>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled={true}
+                style={{marginTop:15, height:105}}
+                data={MesData}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
+                />
         </ScrollView>
       );
     }
     else{
       return(
         <ScrollView style={styles.container}>
-          <View style={{backgroundColor:'#4169e1', width:'100%', height:'25%'}}>
+          <View style={{backgroundColor:'#4169e1', width:'100%', height:'15%'}}>
             <View style={{marginTop:5,  alignItems:'center', justifyContent:'space-around'}}>
               <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}> ProxyPrize </Text>
               <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
@@ -146,6 +158,18 @@ class Profile extends React.Component{
             <Text>{i18n.t('noShopSubscribed')}</Text>
             <View>
               <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('favorite_post')}</Text>
+            </View>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled={true}
+              style={{marginTop:15, height:105}}
+              data={MesData}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
+              />
+            <View>
+              <Text style={{fontSize:20,fontWeight:'bold',marginTop:20}}>{i18n.t('discount')}</Text>
             </View>
             <FlatList
               horizontal

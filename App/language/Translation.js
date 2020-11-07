@@ -18,7 +18,8 @@ const fr = {
     product_description:'Description du produit',
     product_description_input:'Décrivez le produit',
     confirm:'Confirmer'
-  }
+  },
+  discount:'Vos réductions'
 };
 
 const en = {
@@ -41,7 +42,8 @@ const en = {
     product_description:'Product description',
     product_description_input:'Describe your product',
     confirm:'Confirm'
-  }
+  },
+  discount:'Your discounts'
 };
 
 const es = {
@@ -64,7 +66,8 @@ const es = {
     product_description:'Descripción del producto',
     product_description_input:'Describe el producto',
     confirm:'Confirmar'
-  }
+  },
+  discount:'Sus descuentos'
 };
 
 
