@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -76,20 +76,29 @@ class Login extends React.Component{
   render(){
     return(
       <View style={styles.container}>
-        <Text>Connection screen</Text>
-        <TextInput placeholder='Enter your email' onChangeText={(text) => this.setState({userMail:text})} keyBoardType='email-address'/>
-        <TextInput placeholder="Enter your password"  onChangeText={(text) => this.setState({userPassword:text})} secureTextEntry={true}/>
-        <LinearGradient style={styles.linearGradient} colors={['#00c9b7','#1DEC2F']} start={[0, 1]} end={[1, 0]}>
+        <View style={styles.imageContainer}>
+          <Image resizeMode="contain"
+            style={styles.logo}
+            source={require('../assets/logo.png')}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput style={styles.textInput} placeholder='Enter your email' onChangeText={(text) => this.setState({userMail:text})} keyBoardType='email-address' underlineColorAndroid="#4A86E8"/>
+          <TextInput style={styles.textInput} placeholder="Enter your password"  onChangeText={(text) => this.setState({userPassword:text})} secureTextEntry={true} underlineColorAndroid="#4A86E8"/>
+        </View>
+        <LinearGradient style={styles.linearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
           <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._connect(this.state.userMail, this.state.userPassword)}>
-            <Text>{i18n.t('login')}</Text>
+            <Text style={styles.connect}>{i18n.t('login')}</Text>
           </TouchableOpacity>
         </LinearGradient>
-        <TouchableOpacity onPress={() => this._passwordForgotten()}>
-          <Text>{i18n.t('password_forgotten')}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this._createAccount()}>
-          <Text>{i18n.t('register')}</Text>
-        </TouchableOpacity>
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity onPress={() => this._passwordForgotten()}>
+            <Text style={styles.option}>{i18n.t('password_forgotten')}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this._createAccount()}>
+            <Text style={styles.option}>{i18n.t('register')}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -101,6 +110,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  imageContainer:{
+    margin:10
+  },
+  logo:{
+    width:150, height: 150
+  },
+  connect:{
+    textAlign:'center',
+    color:"#fff",
+    fontSize:15
+  },
+  inputContainer:{
+    margin:10,
+    justifyContent:'space-around',
+    height:80,
+    width:200,
+
+  },
+  textInput:{
+    height:40,
+    paddingLeft:6
   },
   touchableOpacity:{
     alignItems: 'center',
@@ -115,6 +146,16 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width:200,
   },
+  optionsContainer:{
+    height:40,
+    justifyContent:'space-around',
+    alignItems:'center',
+    margin:20
+  },
+  option:{
+    fontWeight:'bold',
+    color:'lightgrey'
+  }
 });
 
 const mapStateToProps = (state) => {

@@ -8,7 +8,7 @@ export default class AppHeader extends React.Component{
     return(
       <View style={styles.headerContainer}>
         <Image resizeMode="contain"
-          style={{width:40, height: 40}}
+          style={styles.logo}
           source={require('../assets/logo.png')}
         />
         <View style={styles.titleContainer}>

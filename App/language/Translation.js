@@ -1,5 +1,5 @@
 const fr = {
-  login:'Se conneccter',
+  login:'Se connecter',
   logout:'Se déconnecter',
   password_forgotten:'Mot de Passe oublié ?',
   register:'Créer un compte',
