@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet,View} from 'react-native';
+import {StyleSheet,View,Text,Image,TouchableOpacity,Alert} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 //import navigation lib
@@ -13,30 +13,46 @@ import Profile from '../components/Profile';
 import ShopMap from '../components/ShopMap';
 import SingleShop from '../components/SingleShop';
 import CreatePost from '../components/CreatePost';
+import AppHeader from '../components/AppHeader';
 
 
 //Settle Stack Navigator
 const postStackNavigator = createStackNavigator({
   PostScrollList:{
     screen:PostScrollList,
+    navigationOptions:{
+      headerTitle:<AppHeader/>
+    }
   },
   CreatePost:{
     screen:CreatePost,
+    navigationOptions:{
+      headerTitle:<AppHeader/>
+    }
   }
 });
 
 const profileStackNavigator = createStackNavigator({
   Profile:{
-    screen:Profile
+    screen:Profile,
+    navigationOptions:{
+      headerTitle:<AppHeader/>
+    }
   }
 });
 
 const shopMapStackNavigator = createStackNavigator({
   ShopMap:{
-    screen:ShopMap
+    screen:ShopMap,
+    navigationOptions:{
+      headerTitle:<AppHeader/>
+    }
   },
   SingleShop:{
-    screen:SingleShop
+    screen:SingleShop,
+    navigationOptions:{
+      headerTitle:<AppHeader/>
+    }
   }
 });
 
@@ -101,7 +117,6 @@ const appNavigator = createMaterialTopTabNavigator({
     pressColor:'#FFFFFF'
   }
 });
-
 
 //Settle app container
 
