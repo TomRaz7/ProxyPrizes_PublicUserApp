@@ -2,6 +2,17 @@ import React from 'react';
 import {StyleSheet,View,Text,Image,TouchableOpacity,Alert, Modal, TouchableHighlight} from 'react-native';
 import {Icon} from 'react-native-elements';
 
+import i18n from 'i18n-js';
+import Translation from '../language/Translation';
+
+
+const fr = Translation.fr;
+const en = Translation.en;
+const es = Translation.es;
+
+i18n.translations = {fr, en, es};
+i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+
 export default class AppHeader extends React.Component{
 
   constructor(props){
@@ -42,15 +53,35 @@ export default class AppHeader extends React.Component{
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Text style={styles.modalText}>Hello World!</Text>
-
+                  <Text style={styles.modalText}>{i18n.t('language')}</Text>
+                  <View style={styles.languageSelectorContainer}>
+                    <Text>{i18n.t('fr')}</Text>
+                    <Image resizeMode="contain"
+                      style={styles.flag}
+                      source={require('../assets/france.png')}
+                    />
+                  </View>
+                  <View style={styles.languageSelectorContainer}>
+                    <Text>{i18n.t('es')}</Text>
+                    <Image resizeMode="contain"
+                      style={styles.flag}
+                      source={require('../assets/spain.png')}
+                    />
+                  </View>
+                  <View style={styles.languageSelectorContainer}>
+                    <Text>{i18n.t('en')}</Text>
+                    <Image resizeMode="contain"
+                      style={styles.flag}
+                      source={require('../assets/en.png')}
+                    />
+                  </View>
                   <TouchableHighlight
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3", margin:20 }}
                     onPress={() => {
                       this.setModalVisible(false);
                     }}
                   >
-                    <Text style={styles.textStyle}>Hide Modal</Text>
+                    <Text style={styles.textStyle}>{i18n.t('postForm.confirm')}</Text>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -112,5 +143,15 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  flag:{
+    height:30,
+    width:30
+  },
+  languageSelectorContainer:{
+    flexDirection:'row',
+    justifyContent:'space-around',
+    alignItems:'center',
+    width:100,
   }
 })

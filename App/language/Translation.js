@@ -27,7 +27,11 @@ const fr = {
     confirm:'Confirmer'
   },
   discount:'Vos réductions',
-  cancel_btn:'Annuler'
+  cancel_btn:'Annuler',
+  language:'Choisir une langue',
+  fr:'Français',
+  es:'Espagnol',
+  en:'Anglais'
 };
 
 const en = {
@@ -59,7 +63,11 @@ const en = {
     confirm:'Confirm'
   },
   discount:'Your discounts',
-  cancel_btn:'Cancel'
+  cancel_btn:'Cancel',
+  language:'Select a language',
+  fr:'French',
+  es:'Spanish',
+  en:'English'
 };
 
 const es = {
@@ -91,7 +99,11 @@ const es = {
     confirm:'Confirmar'
   },
   discount:'Sus descuentos',
-  cancel_btn:'Cancelar'
+  cancel_btn:'Cancelar',
+  language:'Elige un idioma',
+  fr:'Frances',
+  es:'Espanol',
+  en:'Ingles'
 };
 
 
