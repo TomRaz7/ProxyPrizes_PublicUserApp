@@ -1,4 +1,5 @@
 *.env
+EndpointConfig.js
 
 node_modules/**/*
 .expo/*

@@ -3,6 +3,9 @@ import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList } from 'react-na
 import { Icon } from "react-native-elements";
 import faker from '../faker/PostScrollListData';
 
+//Endpoint Config
+import EndpointConfig from '../server/EndpointConfig';
+
 import i18n from 'i18n-js';
 import Translation from '../language/Translation';
 
@@ -18,8 +21,40 @@ export default class PostScrollList extends React.Component{
   constructor(props){
     super(props);
     this.state={
+      posts:[],
+      dataRetrieved:false,
       data:faker
     };
+  }
+
+
+//This function aims to retrieve this user's information that need to be displayed
+  fetchPostsPublishers(array){
+    fetch(EndpointConfig.fetchPostsPublishers,{
+      method:'POST',
+      body:JSON.stringify(array),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log("resultats dans la fontion");
+      console.log(responseJson);
+    });
+  }
+
+  componentDidMount(){
+    fetch(EndpointConfig.fetchAllPosts)
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log(responseJson);
+      for (var i = 0; i < responseJson.length; i++) {
+          this.state.posts.push(responseJson[i]);
+      }
+      this.fetchPostsPublishers(this.state.posts);
+    });
   }
 
   _displayPostForm(){
