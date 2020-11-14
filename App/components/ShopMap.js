@@ -22,6 +22,8 @@ export default class ShopMap extends React.Component{
   constructor(props){
     super(props)
     this.state ={
+      shopList:[],
+      dataShopsRetrieved:false,
       fakeShopList:faker,
       region:{
         latitude:42.35,
@@ -39,12 +41,18 @@ export default class ShopMap extends React.Component{
   }
 
   componentDidMount(){
-
-    // fetch(EndpointConfig.fetchShops)
-    // .then(response => response.json)
-    // .then(responseJson => {
-    //   console.log(responseJson);
-    // })
+    fetch(EndpointConfig.fetchShops)
+    .then(response => response.json())
+    .then(responseJson => {
+      for(let i = 0; i<responseJson.length; i++){
+        this.state.shopList.push(responseJson[i]);
+      }
+      if(this.state.shopList.length !== 0){
+        this.setState({
+          dataShopsRetrieved:true
+        })
+      }
+    });
 
     getLocation().then(data =>{
       this.updateRegion({
@@ -105,29 +113,32 @@ export default class ShopMap extends React.Component{
   }
 
   renderShops(shopList){
-    const markers = []
-    for(let i = 0; i < shopList.length; i++){
-      let location={latitude: parseFloat(shopList[i].coords.latitude), longitude:parseFloat(shopList[i].coords.longitude)};
-      markers.push(
-        <MapView.Marker
-          key={i}
-          coordinate={location}
-          onCalloutPress={() => this._displayShop(shopList[i])}>
-          <View>
-            <LinearGradient style={styles.circularLinearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
-              <Icon
-              name='shop'
-              type='entypo'
-              size={20} color="#fff"/>
-            </LinearGradient>
-          </View>
-          <MapView.Callout>
-            <ShopCallout name={shopList[i].name} phone={shopList[i].phone} address={shopList[i].address} opening_hours={shopList[i].opening_hours} image={shopList[i].image}/>
-          </MapView.Callout>
-        </MapView.Marker>
-      );
+    if(this.state.dataShopsRetrieved === true){
+      const markers = []
+      for(let i = 0; i < shopList.length; i++){
+        //let location={latitude: parseFloat(shopList[i].coords.latitude), longitude:parseFloat(shopList[i].coords.longitude)};
+        let location={latitude: parseFloat(shopList[i].latitude), longitude:parseFloat(shopList[i].longitude)};
+        markers.push(
+          <MapView.Marker
+            key={i}
+            coordinate={location}
+            onCalloutPress={() => this._displayShop(shopList[i])}>
+            <View>
+              <LinearGradient style={styles.circularLinearGradient} colors={['#4A86E8','#4A86E8']} start={[0, 1]} end={[1, 0]}>
+                <Icon
+                name='shop'
+                type='entypo'
+                size={20} color="#fff"/>
+              </LinearGradient>
+            </View>
+            <MapView.Callout>
+              <ShopCallout name={shopList[i].name} phone={shopList[i].phone} address={shopList[i].address} opening_hours={shopList[i].opening_hours} image={shopList[i].image}/>
+            </MapView.Callout>
+          </MapView.Marker>
+        );
+      }
+      return(markers);
     }
-    return(markers);
   }
 
 
@@ -151,7 +162,7 @@ export default class ShopMap extends React.Component{
             region={this.state.region}
             initialRegion={this.state.region}>
             {this.renderUserPosition()}
-            {this.renderShops(this.state.fakeShopList)}
+            {this.renderShops(this.state.shopList)}
         </MapView>
         <View style={{position:'absolute',top:'2%',width:'80%',right:'10%'}}>
             <GooglePlacesAutocomplete

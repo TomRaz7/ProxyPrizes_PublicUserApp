@@ -35,7 +35,7 @@ server.get('/renderShops',function(req,res){
       console.log(error);
     }
     else{
-      console.log(rows);
+      console.log(rows.length);
       res.send(rows);
     }
   })
