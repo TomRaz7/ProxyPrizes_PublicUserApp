@@ -28,3 +28,15 @@ connection.connect(function(error){
     console.log(`Connected to database : ${process.env.DB_NAME}`);
   }
 });
+
+server.get('/renderShops',function(req,res){
+  connection.query('SELECT * FROM shop',function(error, rows, fields){
+    if(error){
+      console.log(error);
+    }
+    else{
+      console.log(rows);
+      res.send(rows);
+    }
+  })
+});

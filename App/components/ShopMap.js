@@ -11,6 +11,9 @@ import faker from '../faker/ShopData';
 //Service to geolocate
 import {getLocation} from '../service/CurrentLocationService';
 
+//Endpoint Config
+import EndpointConfig from '../server/EndpointConfig';
+
 //Own components import
 import ShopCallout from './ShopCallout';
 
@@ -36,6 +39,13 @@ export default class ShopMap extends React.Component{
   }
 
   componentDidMount(){
+
+    // fetch(EndpointConfig.fetchShops)
+    // .then(response => response.json)
+    // .then(responseJson => {
+    //   console.log(responseJson);
+    // })
+
     getLocation().then(data =>{
       this.updateRegion({
         latitude:data.latitude,
