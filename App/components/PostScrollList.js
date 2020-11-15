@@ -1,144 +1,152 @@
-import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList } from 'react-native';
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
 import { Icon } from "react-native-elements";
-import faker from '../faker/PostScrollListData';
+import faker from "../faker/PostScrollListData";
 
 //Endpoint Config
-import EndpointConfig from '../server/EndpointConfig';
+import EndpointConfig from "../server/EndpointConfig";
 
-import i18n from 'i18n-js';
-import Translation from '../language/Translation';
-
+import i18n from "i18n-js";
+import Translation from "../language/Translation";
 
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
 
-i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.translations = { fr, en, es };
+i18n.locale = "fr"; //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
 
-export default class PostScrollList extends React.Component{
-  constructor(props){
+export default class PostScrollList extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
-      posts:[],
-      dataRetrieved:false,
-      data:faker
+    this.state = {
+      posts: [],
+      dataRetrieved: false,
+      data: faker,
     };
   }
 
-
-//This function aims to retrieve this user's information that need to be displayed
-  fetchPostsPublishers(array){
-    fetch(EndpointConfig.fetchPostsPublishers,{
-      method:'POST',
-      body:JSON.stringify(array),
-      headers:{
-             Accept: 'application/json',
-             'content-type':'application/json'
-           }
+  //This function aims to retrieve this user's information that need to be displayed
+  fetchPostsPublishers(array) {
+    fetch(EndpointConfig.fetchPostsPublishers, {
+      method: "POST",
+      body: JSON.stringify(array),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
     })
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log("resultats dans la fontion");
-      console.log(responseJson);
-    });
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("resultats dans la fontion");
+        console.log(responseJson);
+      });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     fetch(EndpointConfig.fetchAllPosts)
-    .then(response => response.json())
-    .then(responseJson => {
-      console.log(responseJson);
-      for (var i = 0; i < responseJson.length; i++) {
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        for (var i = 0; i < responseJson.length; i++) {
           this.state.posts.push(responseJson[i]);
-      }
-      this.fetchPostsPublishers(this.state.posts);
-    });
+        }
+        this.fetchPostsPublishers(this.state.posts);
+      });
   }
 
-  _displayPostForm(){
+  _displayPostForm() {
     this.props.navigation.navigate("CreatePost");
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <View style={styles.container}>
         <FlatList
-            style={styles.list}
-            data={this.state.data}
-            keyExtractor={(item) => {
-              return item.id;
-            }}
-            ItemSeparatorComponent={() => {
-              return <View style={styles.separator} />;
-            }}
-            renderItem={(post) => {
-              const item = post.item;
-              return (
-                <View style={styles.card}>
-                  <Image style={styles.cardImage} source={{ uri: item.image }} />
-                  <View style={styles.cardHeader}>
-                    <View>
-                      <View style={styles.timeContainer}>
-                        <Image
-                          style={styles.userImage}
-                          source={{ uri: item.userImage }}
-                        />
-                        <Text style={styles.userTitle}>{item.username}</Text>
-                      </View>
-                      <Text style={styles.title}>{item.title}</Text>
-                      <Text style={styles.description}>{item.description}</Text>
-                      <View style={styles.timeContainer}>
-                        <Icon
-                          name="clock"
-                          type="entypo"
-                          size={15}
-                          style={styles.iconClock}
-                          onPress={() =>
-                            this.props.navigation.navigate("CreatePost")
-                          }
-                        />
-                        <Text style={styles.time}>{item.time}</Text>
-                      </View>
+          style={styles.list}
+          data={this.state.data}
+          keyExtractor={(item) => {
+            return item.id;
+          }}
+          ItemSeparatorComponent={() => {
+            return <View style={styles.separator} />;
+          }}
+          renderItem={(post) => {
+            const item = post.item;
+            return (
+              <View style={styles.card}>
+                <Image style={styles.cardImage} source={{ uri: item.image }} />
+                <View style={styles.cardHeader}>
+                  <View>
+                    <View style={styles.timeContainer}>
+                      <Image
+                        style={styles.userImage}
+                        source={{ uri: item.userImage }}
+                      />
+                      <Text style={styles.userTitle}>{item.username}</Text>
                     </View>
-                  </View>
-                  <View style={styles.cardFooter}>
-                    <View style={styles.socialBarContainer}>
-                      <View style={styles.socialBarSection}>
-                        <TouchableOpacity style={styles.socialBarButton}>
-                          <Icon name="heart" type="entypo" style={styles.icon} />
-                          <Text style={styles.socialBarLabel}>{item.likes}</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.socialBarSection}>
-                        <TouchableOpacity style={styles.socialBarButton}>
-                          <Icon
-                            name="message"
-                            type="entypo"
-                            style={styles.icon}
-                          />
-                          <Text style={styles.socialBarLabel}>{i18n.t('comment')}</Text>
-                        </TouchableOpacity>
-                      </View>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.description}>{item.description}</Text>
+                    <View style={styles.timeContainer}>
+                      <Icon
+                        name="clock"
+                        type="entypo"
+                        size={15}
+                        style={styles.iconClock}
+                        onPress={() =>
+                          this.props.navigation.navigate("CreatePost")
+                        }
+                      />
+                      <Text style={styles.time}>{item.time}</Text>
                     </View>
                   </View>
                 </View>
-              );
-            }}
+                <View style={styles.cardFooter}>
+                  <View style={styles.socialBarContainer}>
+                    <View style={styles.socialBarSection}>
+                      <TouchableOpacity style={styles.socialBarButton}>
+                        <Icon name="heart" type="entypo" style={styles.icon} />
+                        <Text style={styles.socialBarLabel}>{item.likes}</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.socialBarSection}>
+                      <TouchableOpacity style={styles.socialBarButton}>
+                        <Icon
+                          name="message"
+                          type="entypo"
+                          style={styles.icon}
+                        />
+                        <Text style={styles.socialBarLabel}>
+                          {i18n.t("comment")}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            );
+          }}
+        />
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.touchableOpacityStyle}
+          onPress={() => this._displayPostForm()}
+          //onPress={() => console.log(this.state.posts[0])}
+        >
+          <Icon
+            name="circle-with-plus"
+            type="entypo"
+            color="#4A86E8"
+            size={50}
           />
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.touchableOpacityStyle}
-            onPress={() => this._displayPostForm()}
-          >
-            <Icon
-              name="circle-with-plus"
-              type="entypo"
-              color="#4A86E8"
-              size={50}
-            />
-          </TouchableOpacity>
+        </TouchableOpacity>
       </View>
     );
   }

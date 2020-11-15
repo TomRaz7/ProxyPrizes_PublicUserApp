@@ -1,20 +1,27 @@
 import React from "react";
 import { Icon } from "react-native-elements";
-import {StyleSheet,Text,View,TouchableOpacity,Button,SafeAreaView} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Button,
+  SafeAreaView,
+} from "react-native";
 
+import EndpointConfig from "../server/EndpointConfig";
 import * as ImagePicker from "expo-image-picker";
 import { TextInput } from "react-native-gesture-handler";
 
-import i18n from 'i18n-js';
-import Translation from '../language/Translation';
-
+import i18n from "i18n-js";
+import Translation from "../language/Translation";
 
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
 
-i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language within a config file
+i18n.translations = { fr, en, es };
+i18n.locale = "fr"; //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language within a config file
 
 let openImagePickerAsync = async () => {
   let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -28,35 +35,78 @@ let openImagePickerAsync = async () => {
   console.log(pickerResult);
 };
 
+let todayDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+
 export default class CreatePost extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: "",
+      description: "",
+      picture: "https://picsum.photos/800/500",
+      price: 114,
+      publishedAt: todayDate,
+      shop: 1,
+      owner: null,
+      customer: 1,
+    };
+  }
+
+  // function to post in database
+  _addPost(array) {
+    fetch(EndpointConfig.addPost, {
+      method: "POST",
+      body: JSON.stringify(array),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("Results: ");
+        console.log(responseJson);
+        this.props.navigation.navigate("PostScrollList");
+      });
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.viewtext}>
           <View style={styles.title}>
-            <Text>{i18n.t('postForm.create_post')}</Text>
+            <Text>{i18n.t("postForm.create_post")}</Text>
           </View>
-          <Text>{i18n.t('postForm.product_title')}</Text>
-          <TextInput placeholder={i18n.t('postForm.product_title_input')} style={styles.description} />
+          <Text>{i18n.t("postForm.product_title")}</Text>
+          <TextInput
+            placeholder={i18n.t("postForm.product_title_input")}
+            style={styles.description}
+            onChangeText={(text) => this.setState({ title: text })}
+          />
           <TouchableOpacity style={styles.uploadButton}>
             <Button
-              title={i18n.t('postForm.upload_button')}
+              title={i18n.t("postForm.upload_button")}
               color="#4A86E8"
               onPress={openImagePickerAsync}
             />
           </TouchableOpacity>
-          <Text>{i18n.t('postForm.product_description')}</Text>
+          <Text>{i18n.t("postForm.product_description")}</Text>
           <TextInput
-            placeholder={i18n.t('postForm.product_description_input')}
+            placeholder={i18n.t("postForm.product_description_input")}
             multiline={true}
             textAlignVertical={"top"}
             maxLength={800}
             numberOfLines={15}
             minHeight={Platform.OS === "ios" ? 20 * 15 : null}
             style={styles.description}
+            onChangeText={(text) => this.setState({ description: text })}
           />
           <View style={styles.button}>
-            <Button title={i18n.t('postForm.confirm')} color="#4A86E8" />
+            <Button
+              title={i18n.t("postForm.confirm")}
+              color="#4A86E8"
+              onPress={() => this._addPost(this.state)}
+            />
           </View>
         </View>
       </SafeAreaView>
