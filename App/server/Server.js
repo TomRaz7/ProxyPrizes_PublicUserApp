@@ -56,6 +56,20 @@ server.get('/allPosts',function(req,res){
   })
 });
 
+server.post('/retrieveSingleShopPost',function(req,res){
+  var shop = req.body.id;
+  console.log(shop);
+  connection.query(`SELECT * FROM post WHERE shop = ${shop};`, function(error,rows,fields){
+    if(error){
+      console.log(error);
+    }
+    else{
+      console.log(`Posts pour le shop`);
+      console.log(rows);
+    }
+  });
+});
+
 server.post('/retrivePostsPublishers',function(req,res){
   var publishersArray = [];
   let publisherId = null;

@@ -29,7 +29,7 @@ export default class PostScrollList extends React.Component{
   }
 
 
-_fusionArray(array1,array2){ // fonction to fusion the posts array and the users information arrays to have a single array for the flatlist display
+_fusionArray(array1,array2){ // function to fusion the posts array and the users information array to have a single array to display the flatlist
   if(array1.length !== array2.length){
     console.log("Error: different array length");
     return 0;
@@ -45,7 +45,7 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
   })
 }
 
-//This function aims to retrieve this user's information that need to be displayed
+//This function aims to retrieve this user's information that need to be displayed in the scrool list
   fetchPostsPublishers(array){
     fetch(EndpointConfig.fetchPostsPublishers,{
       method:'POST',
@@ -59,7 +59,7 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
     .then(responseJson => {
       this._fusionArray(array, responseJson);
       // console.log("Datas pour la PostScrollList");
-      // console.log(this.state.fetchedDatas);
+       console.log(this.state.fetchedDatas);
     });
   }
 
@@ -80,7 +80,7 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
   }
 
   render(){
-    if(this.state.dataLoaded === false){
+    if(this.state.dataLoaded === false || this.state.fetchedDatas.length === 0){
       return(
         <View style={styles.activityIndicatorContainer}>
           <ActivityIndicator color="#0000ff" size="large"/>
@@ -92,7 +92,7 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
         <View style={styles.container}>
           <FlatList
               style={styles.list}
-              data={this.state.data}
+              data={this.state.fetchedDatas}
               keyExtractor={(item) => {
                 return item.id;
               }}
@@ -103,15 +103,15 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
                 const item = post.item;
                 return (
                   <View style={styles.card}>
-                    <Image style={styles.cardImage} source={{ uri: item.image }} />
+                    <Image style={styles.cardImage} source={{ uri: item.picture }} />
                     <View style={styles.cardHeader}>
                       <View>
                         <View style={styles.timeContainer}>
                           <Image
                             style={styles.userImage}
-                            source={{ uri: item.userImage }}
+                            source={{ uri: item.publisherPicture }}
                           />
-                          <Text style={styles.userTitle}>{item.username}</Text>
+                          <Text style={styles.userTitle}>{item.publisherForname}</Text>
                         </View>
                         <Text style={styles.title}>{item.title}</Text>
                         <Text style={styles.description}>{item.description}</Text>
@@ -125,7 +125,7 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
                               this.props.navigation.navigate("CreatePost")
                             }
                           />
-                          <Text style={styles.time}>{item.time}</Text>
+                          <Text style={styles.time}>{item.publishedAt}</Text>
                         </View>
                       </View>
                     </View>
@@ -134,7 +134,7 @@ _fusionArray(array1,array2){ // fonction to fusion the posts array and the users
                         <View style={styles.socialBarSection}>
                           <TouchableOpacity style={styles.socialBarButton}>
                             <Icon name="heart" type="entypo" style={styles.icon} />
-                            <Text style={styles.socialBarLabel}>{item.likes}</Text>
+                            <Text style={styles.socialBarLabel}>{item.likecounter}</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={styles.socialBarSection}>
