@@ -37,7 +37,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
   var fusionedObj = {};
   for(let i = 0; i <array1.length; i++){
     fusionedObj = Object.assign({}, array1[i], array2[i]);
-    console.log(fusionedObj);
     this.state.fetchedDatas.push(fusionedObj);
   }
   this.setState({
@@ -58,8 +57,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     .then(response => response.json())
     .then(responseJson => {
       this._fusionArray(array, responseJson);
-      // console.log("Datas pour la PostScrollList");
-       console.log(this.state.fetchedDatas);
     });
   }
 
@@ -67,7 +64,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     fetch(EndpointConfig.fetchAllPosts)
     .then(response => response.json())
     .then(responseJson => {
-      //console.log(responseJson);
       for (var i = 0; i < responseJson.length; i++) {
           this.state.posts.push(responseJson[i]);
       }

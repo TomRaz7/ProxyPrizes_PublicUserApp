@@ -6,6 +6,10 @@ import faker from '../faker/PostData';
 import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
 import * as Localization from 'expo-localization';
+
+//Endpoint Config
+import EndpointConfig from '../server/EndpointConfig';
+
 import i18n from 'i18n-js';
 import Translation from '../language/Translation';
 
@@ -25,11 +29,70 @@ class SingleShop extends React.Component{
       shop:this.props.navigation.getParam("shop"),
       relatedPosts:[],
       subscribedShops:ConfigStore.getState().toggleSubscription.subscribedShops,
-      isSubscribed:null
+      isSubscribed:null,
+      dataLoaded:false,
+      posts:[],
+      fetchedDatas:[],
     }
     this._initPostList(faker);
     this._checkSubscription(this.state.shop.id,this.state.subscribedShops);
     console.log(this.state.isSubscribed);
+  }
+
+
+  _fusionArray(array1,array2){ // function to fusion the posts array and the users information array to have a single array to display the flatlist
+    if(array1.length !== array2.length){
+      console.log("Error: different array length");
+      return 0;
+    }
+    var fusionedObj = {};
+    for(let i = 0; i <array1.length; i++){
+      fusionedObj = Object.assign({}, array1[i], array2[i]);
+      this.state.fetchedDatas.push(fusionedObj);
+    }
+    console.log("Post du shop a afficher");
+    console.log(this.state.fetchedDatas);
+    this.setState({
+      dataLoaded:true
+    })
+  }
+
+
+  //This function aims to retrieve this user's information that need to be displayed in the scrool list
+    fetchPostsPublishers(array){
+      fetch(EndpointConfig.fetchPostsPublishers,{
+        method:'POST',
+        body:JSON.stringify(array),
+        headers:{
+               Accept: 'application/json',
+               'content-type':'application/json'
+             }
+      })
+      .then(response => response.json())
+      .then(responseJson => {
+        this._fusionArray(array, responseJson);
+      });
+    }
+
+
+  componentDidMount(){
+    fetch(EndpointConfig.fetchSingleShopPosts,{
+      method:'POST',
+      body:JSON.stringify({
+        shop:this.state.shop.id
+      }),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson =>{
+      for(let i  = 0; i < responseJson.length; i++){
+        this.state.posts.push(responseJson[i]);
+      }
+      this.fetchPostsPublishers(this.state.posts)
+    });
   }
 
   _initPostList(fakerList){

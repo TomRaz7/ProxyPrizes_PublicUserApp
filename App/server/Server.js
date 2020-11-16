@@ -56,16 +56,17 @@ server.get('/allPosts',function(req,res){
   })
 });
 
-server.post('/retrieveSingleShopPost',function(req,res){
-  var shop = req.body.id;
+server.post('/retrieveSingleShopPosts',function(req,res){
+  var shop = req.body.shop;
   console.log(shop);
-  connection.query(`SELECT * FROM post WHERE shop = ${shop};`, function(error,rows,fields){
+  connection.query(`SELECT * FROM post WHERE shop = ${shop};`, function(error, rows, fields){
     if(error){
       console.log(error);
     }
     else{
       console.log(`Posts pour le shop`);
       console.log(rows);
+      res.send(rows);
     }
   });
 });
