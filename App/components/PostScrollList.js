@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList } from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList, ActivityIndicator} from 'react-native';
 import { Icon } from "react-native-elements";
 import faker from '../faker/PostScrollListData';
 
@@ -22,11 +22,28 @@ export default class PostScrollList extends React.Component{
     super(props);
     this.state={
       posts:[],
-      dataRetrieved:false,
+      fetchedDatas:[],
+      dataLoaded:false,
       data:faker
     };
   }
 
+
+_fusionArray(array1,array2){ // fonction to fusion the posts array and the users information arrays to have a single array for the flatlist display
+  if(array1.length !== array2.length){
+    console.log("Error: different array length");
+    return 0;
+  }
+  var fusionedObj = {};
+  for(let i = 0; i <array1.length; i++){
+    fusionedObj = Object.assign({}, array1[i], array2[i]);
+    console.log(fusionedObj);
+    this.state.fetchedDatas.push(fusionedObj);
+  }
+  this.setState({
+    dataLoaded:true
+  })
+}
 
 //This function aims to retrieve this user's information that need to be displayed
   fetchPostsPublishers(array){
@@ -40,8 +57,9 @@ export default class PostScrollList extends React.Component{
     })
     .then(response => response.json())
     .then(responseJson => {
-      console.log("resultats dans la fontion");
-      console.log(responseJson);
+      this._fusionArray(array, responseJson);
+      // console.log("Datas pour la PostScrollList");
+      // console.log(this.state.fetchedDatas);
     });
   }
 
@@ -49,7 +67,7 @@ export default class PostScrollList extends React.Component{
     fetch(EndpointConfig.fetchAllPosts)
     .then(response => response.json())
     .then(responseJson => {
-      console.log(responseJson);
+      //console.log(responseJson);
       for (var i = 0; i < responseJson.length; i++) {
           this.state.posts.push(responseJson[i]);
       }
@@ -62,91 +80,104 @@ export default class PostScrollList extends React.Component{
   }
 
   render(){
-    return(
-      <View style={styles.container}>
-        <FlatList
-            style={styles.list}
-            data={this.state.data}
-            keyExtractor={(item) => {
-              return item.id;
-            }}
-            ItemSeparatorComponent={() => {
-              return <View style={styles.separator} />;
-            }}
-            renderItem={(post) => {
-              const item = post.item;
-              return (
-                <View style={styles.card}>
-                  <Image style={styles.cardImage} source={{ uri: item.image }} />
-                  <View style={styles.cardHeader}>
-                    <View>
-                      <View style={styles.timeContainer}>
-                        <Image
-                          style={styles.userImage}
-                          source={{ uri: item.userImage }}
-                        />
-                        <Text style={styles.userTitle}>{item.username}</Text>
-                      </View>
-                      <Text style={styles.title}>{item.title}</Text>
-                      <Text style={styles.description}>{item.description}</Text>
-                      <View style={styles.timeContainer}>
-                        <Icon
-                          name="clock"
-                          type="entypo"
-                          size={15}
-                          style={styles.iconClock}
-                          onPress={() =>
-                            this.props.navigation.navigate("CreatePost")
-                          }
-                        />
-                        <Text style={styles.time}>{item.time}</Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.cardFooter}>
-                    <View style={styles.socialBarContainer}>
-                      <View style={styles.socialBarSection}>
-                        <TouchableOpacity style={styles.socialBarButton}>
-                          <Icon name="heart" type="entypo" style={styles.icon} />
-                          <Text style={styles.socialBarLabel}>{item.likes}</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.socialBarSection}>
-                        <TouchableOpacity style={styles.socialBarButton}>
-                          <Icon
-                            name="message"
-                            type="entypo"
-                            style={styles.icon}
+    if(this.state.dataLoaded === false){
+      return(
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator color="#0000ff" size="large"/>
+        </View>
+      );
+    }
+    else{
+      return(
+        <View style={styles.container}>
+          <FlatList
+              style={styles.list}
+              data={this.state.data}
+              keyExtractor={(item) => {
+                return item.id;
+              }}
+              ItemSeparatorComponent={() => {
+                return <View style={styles.separator} />;
+              }}
+              renderItem={(post) => {
+                const item = post.item;
+                return (
+                  <View style={styles.card}>
+                    <Image style={styles.cardImage} source={{ uri: item.image }} />
+                    <View style={styles.cardHeader}>
+                      <View>
+                        <View style={styles.timeContainer}>
+                          <Image
+                            style={styles.userImage}
+                            source={{ uri: item.userImage }}
                           />
-                          <Text style={styles.socialBarLabel}>{i18n.t('comment')}</Text>
-                        </TouchableOpacity>
+                          <Text style={styles.userTitle}>{item.username}</Text>
+                        </View>
+                        <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.description}>{item.description}</Text>
+                        <View style={styles.timeContainer}>
+                          <Icon
+                            name="clock"
+                            type="entypo"
+                            size={15}
+                            style={styles.iconClock}
+                            onPress={() =>
+                              this.props.navigation.navigate("CreatePost")
+                            }
+                          />
+                          <Text style={styles.time}>{item.time}</Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.cardFooter}>
+                      <View style={styles.socialBarContainer}>
+                        <View style={styles.socialBarSection}>
+                          <TouchableOpacity style={styles.socialBarButton}>
+                            <Icon name="heart" type="entypo" style={styles.icon} />
+                            <Text style={styles.socialBarLabel}>{item.likes}</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.socialBarSection}>
+                          <TouchableOpacity style={styles.socialBarButton}>
+                            <Icon
+                              name="message"
+                              type="entypo"
+                              style={styles.icon}
+                            />
+                            <Text style={styles.socialBarLabel}>{i18n.t('comment')}</Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
-              );
-            }}
-          />
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.touchableOpacityStyle}
-            onPress={() => this._displayPostForm()}
-          >
-            <Icon
-              name="circle-with-plus"
-              type="entypo"
-              color="#4A86E8"
-              size={50}
+                );
+              }}
             />
-          </TouchableOpacity>
-      </View>
-    );
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.touchableOpacityStyle}
+              onPress={() => this._displayPostForm()}
+            >
+              <Icon
+                name="circle-with-plus"
+                type="entypo"
+                color="#4A86E8"
+                size={50}
+              />
+            </TouchableOpacity>
+        </View>
+      );
+    }
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  activityIndicatorContainer:{
+    flex:1,
+    justifyContent:'center'
   },
   list: {
     paddingHorizontal: 17,

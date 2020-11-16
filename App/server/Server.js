@@ -82,6 +82,7 @@ server.post('/retrivePostsPublishers',function(req,res){
         publishersArray.push({publisherForname,publisherPicture});
         index += 1;
         if(index === posts.length){
+//each post as been published by a user so we need to retrievethe same number of user within the publishersArray (=index) than the number of posts (=posts.length)
           res.send(publishersArray);
         }
       }
