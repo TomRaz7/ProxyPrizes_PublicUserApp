@@ -126,17 +126,23 @@ server.post('/createAccount',function(req,res){
   var userCity = req.body.city;
   var userBirthDate = req.body.birthdate;
   var userPhone = req.body.phone;
-
-  var responseCode = null
+  var result = null
+  var responseObject = {
+    code:null,
+    mail:req.body.email
+  }
 
   if(tableToQUery === 'customer'){
     connection.query(`INSERT INTO customer(email, password, name, forname, picture, phone, adress, city, birthdate) VALUES ('${userMail}','${userPassword}','${userName}','${userForname}','${userProfilPicture}','${userPhone}','${userAdress}','${userCity}','${userBirthDate}');`,function(error, rows, fields){
       if(error){
-        console.log(error);
+        console.log();
       }
       else{
-        console.log(rows);
-        
+        result = rows;
+        if(result !== null){
+          responseObject.code = 200
+          res.send(responseObject);
+        }
         //jwt.sign();
       }
     });

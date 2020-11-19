@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet,TouchableOpacity, TextInput, Image} from 'react-native';
+import {Text, View, StyleSheet,TouchableOpacity, TextInput, Image, Modal, TouchableHighlight} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 //Endpoint Config
@@ -30,8 +30,13 @@ export default class CreateAccount extends React.Component{
       adress:'18 rue du Bastion',
       city:'Pontoise',
       birthDate:'1997-09-23',
-      phone:'0657893425'
+      phone:'0657893425',
+      isModalVisible:false
     }
+  }
+
+  setModalVisible = (visible) => { //The modal will be used to confirm the account creation
+    this.setState({ isModalVisible: visible });
   }
 
   updateParentState(data){
@@ -64,9 +69,13 @@ export default class CreateAccount extends React.Component{
              'content-type':'application/json'
            }
     })
-    .then(response => response.json())
-    .then(responseJson => {
+    .then((response) => response.json())
+    .then((responseJson) => {
       console.log(responseJson);
+      if(responseJson.code === 200){
+        this.setModalVisible(true);
+      }
+
     })
   }
 
@@ -95,6 +104,31 @@ export default class CreateAccount extends React.Component{
             <Text style={{color:'red'}}>{i18n.t('cancel_btn')}</Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.centeredView}>
+          <Modal
+              animationType="slide"
+              transparent={true}
+              visible={this.state.isModalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalText}>{i18n.t('account_created_confirmation')} {this.state.userMail}</Text>
+                  <TouchableHighlight
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3", margin:20 }}
+                    onPress={() => {
+                      this.setModalVisible(false);
+                      this._cancel();
+                    }}
+                  >
+                    <Text style={styles.textStyle}>{i18n.t('postForm.confirm')}</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </Modal>
+          </View>
       </View>
     )
   }
@@ -149,5 +183,36 @@ const styles = StyleSheet.create({
   },
   cancelBtnContainer:{
     margin:10
-  }
+  },
+  centeredView: {
+
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
 });
