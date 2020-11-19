@@ -1,9 +1,13 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image, Alert} from 'react-native';
 import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Localization from 'expo-localization';
+
+//Endpoint Config
+import EndpointConfig from '../server/EndpointConfig';
+
 import i18n from 'i18n-js';
 import Translation from '../language/Translation';
 
@@ -56,10 +60,42 @@ class Login extends React.Component{
 
   _connect(mail, password){
     if(1===1 || (this.isMailFormat(mail) === true && this.isEmpty(password) === false)){
-      this.updateParentState('HKJYH754@doi8');
-      let userCredentials = {mail:this.state.userMail, password:this.state.userPassword, token:'HKJYH754@doi8'};
-      const action = {type:'TOGGLE_CONNECT', value:userCredentials};
-      this.props.dispatch(action);
+      fetch(EndpointConfig.fetchLogin, {
+        method:'POST',
+        body:JSON.stringify({
+          table:'customer',
+          email:this.state.userMail,
+          password:this.state.userPassword
+        }),
+        headers:{
+               Accept: 'application/json',
+               'content-type':'application/json'
+             }
+      })
+      .then(response => response.json())
+      .then(responseJson => {
+        if(responseJson.code === 200 && responseJson.token !== undefined){
+          this.updateParentState(responseJson.token);
+          let userCredentials = {mail:this.state.userMail, password:this.state.userPassword, token:responseJson.token};
+          const action = {type:'TOGGLE_CONNECT', value:userCredentials};
+          this.props.dispatch(action);
+        }
+        else if(responseJson.code === 404){
+          Alert.alert(
+            `${i18n.t('login_error_title')}`,
+            `${i18n.t('login_error_description')}`,
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+          );
+        }
+      })
     }
   }
 

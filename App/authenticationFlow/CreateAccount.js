@@ -207,7 +207,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
   },
   openButton: {
     backgroundColor: "#F194FF",

@@ -106,15 +106,49 @@ server.post('/retrivePostsPublishers',function(req,res){
   }
 });
 
+//Login function
 server.post('/login', function(req,res){
+  console.log('login endpoint hitted');
   var tableToQUery = req.body.table;
-  console.log('login');
+  var userMail = req.body.email;
+  var userPassword = req.body.password;
+
+  if(tableToQUery === 'customer'){
+    connection.query(`SELECT * FROM customer WHERE email = '${userMail}' AND password = '${userPassword}';`,function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        if(rows[0] !== undefined){
+          var user = rows[0];
+          console.log(user);
+          jwt.sign({user:user}, 'secretKey', (err, token) => {
+             res.json({
+               code:200,
+               user:user,
+               token:token
+             });
+          });
+        }
+        else{
+          res.json({
+            code:404
+          })
+        }
+      }
+    });
+  }
+  else if (tableToQUery === 'owner'){
+    console.log("Query owner table");
+  }
+  else{
+    console.log("Query employee table");
+  }
 });
 
 
 //New account creation
 server.post('/createAccount',function(req,res){
-  console.log('createAccount hitted');
   //affect the request parameters values to local variables
   var tableToQUery = req.body.table;
   var userPassword = req.body.password;
@@ -143,7 +177,6 @@ server.post('/createAccount',function(req,res){
           responseObject.code = 200
           res.send(responseObject);
         }
-        //jwt.sign();
       }
     });
   }
@@ -154,7 +187,6 @@ server.post('/createAccount',function(req,res){
       }
       else{
         console.log("New records inserted in DB");
-        //jwt.sign();
       }
     //});
   }
@@ -165,7 +197,6 @@ server.post('/createAccount',function(req,res){
       }
       else{
         console.log("New records inserted in DB");
-        //jwt.sign();
       }
     //});
   }
