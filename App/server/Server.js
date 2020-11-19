@@ -3,7 +3,7 @@ var mysql = require('mysql');
 require('dotenv').config(); //to read env variables defined in the .env
 var http = require('http');
 var bodyParser = require('body-parser');
-
+var jwt = require('jsonwebtoken');
 
 
 //Config
@@ -18,6 +18,7 @@ server.listen(port, ()=>{
   console.log(`Server listening on port : ${port}`);
 })
 
+//Configure the Database connection
 var connection = mysql.createConnection({
   host:process.env.DB_HOST,
   user:process.env.DB_USER,
@@ -103,4 +104,63 @@ server.post('/retrivePostsPublishers',function(req,res){
       }
     })
   }
-})
+});
+
+server.post('/login', function(req,res){
+  var tableToQUery = req.body.table;
+  console.log('login');
+});
+
+
+//New account creation
+server.post('/createAccount',function(req,res){
+  console.log('createAccount hitted');
+  //affect the request parameters values to local variables
+  var tableToQUery = req.body.table;
+  var userPassword = req.body.password;
+  var userMail = req.body.email;
+  var userName =  req.body.name;
+  var userForname =  req.body.forname;
+  var userProfilPicture = req.body.picture;
+  var userAdress = req.body.adress;
+  var userCity = req.body.city;
+  var userBirthDate = req.body.birthdate;
+  var userPhone = req.body.phone;
+
+  var responseCode = null
+
+  if(tableToQUery === 'customer'){
+    connection.query(`INSERT INTO customer(email, password, name, forname, picture, phone, adress, city, birthdate) VALUES ('${userMail}','${userPassword}','${userName}','${userForname}','${userProfilPicture}','${userPhone}','${userAdress}','${userCity}','${userBirthDate}');`,function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        console.log(rows);
+        
+        //jwt.sign();
+      }
+    });
+  }
+  else if(tableToQUery === 'owner'){
+    //connection.query(`INSERT INTO owner(name, forname, picture, password, email, phone, siret) VALUES ('${}','');`, function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        console.log("New records inserted in DB");
+        //jwt.sign();
+      }
+    //});
+  }
+  else{
+    //connection.query(`INSERT INTO employee(email, paswword, name, forname, phone, worksforshop) VALUES ('${}','');`, function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        console.log("New records inserted in DB");
+        //jwt.sign();
+      }
+    //});
+  }
+});

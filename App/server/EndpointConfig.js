@@ -5,5 +5,6 @@ export default {
   fetchShops:url+'/renderShops',
   fetchAllPosts:url+'/allPosts',
   fetchPostsPublishers:url+'/retrivePostsPublishers',
-  fetchSingleShopPosts:url+'/retrieveSingleShopPosts'
+  fetchSingleShopPosts:url+'/retrieveSingleShopPosts',
+  fetchCreateAccount:url+'/createAccount'
 }

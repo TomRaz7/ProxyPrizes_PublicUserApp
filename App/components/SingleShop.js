@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
 import {Icon, Card, Button} from 'react-native-elements';
 import {LinearGradient} from 'expo-linear-gradient';
 import faker from '../faker/PostData';
@@ -130,85 +130,94 @@ class SingleShop extends React.Component{
   }
 
   render(){
-    if(this.state.isSubscribed === null || this.state.isSubscribed === false){
+    if(this.state.dataLoaded === false || this.state.fetchedDatas.length === 0){
       return(
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
-              <Icon
-              name='shop'
-              type='entypo'
-              size={25} color="#4A86E8"/>
-            </LinearGradient>
-            <Text style={styles.title}>{this.state.shop.name}</Text>
-            <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
-              <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
-                <Text style={styles.subscribeText}>{i18n.t('subscribe')}</Text>
-              </TouchableOpacity>
-            </LinearGradient>
-          </View>
-          <View style={styles.flatListContainer}>
-            <FlatList
-              data={this.state.relatedPosts}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
-                return(
-                  <View style={styles.post}>
-                    <Card>
-                      <Card.Title>{item.title}</Card.Title>
-                      <Card.Divider/>
-                      <Card.Image source={{ uri: "https://picsum.photos/800/400" }}/>
-                      <Text style={{marginBottom: 10}}>
-                          {item.description}
-                      </Text>
-                    </Card>
-                  </View>
-                );
-              }}}
-            />
-          </View>
+        <View style={styles.activityIndicatorContainer}>
+          <ActivityIndicator color="#0000ff" size="large"/>
         </View>
       );
     }
-    else {
-      return(
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
-              <Icon
-              name='shop'
-              type='entypo'
-              size={25} color="#4A86E8"/>
-            </LinearGradient>
-            <Text style={styles.title}>{this.state.shop.name}</Text>
-            <LinearGradient style={styles.linearGradient} colors={['#F5F7FA','#B8C6DB']} start={[0, 1]} end={[1, 0]}>
-              <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
-                <Text style={styles.unsubscribeText}>{i18n.t('unsubscribe')}</Text>
-              </TouchableOpacity>
-            </LinearGradient>
+    else{
+      if(this.state.isSubscribed === null || this.state.isSubscribed === false){
+        return(
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
+                <Icon
+                name='shop'
+                type='entypo'
+                size={25} color="#4A86E8"/>
+              </LinearGradient>
+              <Text style={styles.title}>{this.state.shop.name}</Text>
+              <LinearGradient style={styles.linearGradient} colors={['#eb3349','#f45c43']} start={[0, 1]} end={[1, 0]}>
+                <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
+                  <Text style={styles.subscribeText}>{i18n.t('subscribe')}</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+            <View style={styles.flatListContainer}>
+              <FlatList
+                data={this.state.relatedPosts}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
+                  return(
+                    <View style={styles.post}>
+                      <Card>
+                        <Card.Title>{item.title}</Card.Title>
+                        <Card.Divider/>
+                        <Card.Image source={{ uri: "https://picsum.photos/800/400" }}/>
+                        <Text style={{marginBottom: 10}}>
+                            {item.description}
+                        </Text>
+                      </Card>
+                    </View>
+                  );
+                }}}
+              />
+            </View>
           </View>
-          <View style={styles.flatListContainer}>
-            <FlatList
-              data={this.state.relatedPosts}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
-                return(
-                  <View style={styles.post}>
-                    <Card>
-                      <Card.Title>{item.title}</Card.Title>
-                      <Card.Divider/>
-                      <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
-                      <Text style={{marginBottom: 10}}>
-                          {item.description}
-                      </Text>
-                    </Card>
-                  </View>
-                );
-              }}}
-            />
+        );
+      }
+      else {
+        return(
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <LinearGradient style={styles.circularLinearGradient} colors={['#fff','#fff']} start={[0, 1]} end={[1, 0]}>
+                <Icon
+                name='shop'
+                type='entypo'
+                size={25} color="#4A86E8"/>
+              </LinearGradient>
+              <Text style={styles.title}>{this.state.shop.name}</Text>
+              <LinearGradient style={styles.linearGradient} colors={['#F5F7FA','#B8C6DB']} start={[0, 1]} end={[1, 0]}>
+                <TouchableOpacity style={styles.touchableOpacity} onPress={() => this._subscribe(this.state.shop)}>
+                  <Text style={styles.unsubscribeText}>{i18n.t('unsubscribe')}</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            </View>
+            <View style={styles.flatListContainer}>
+              <FlatList
+                data={this.state.relatedPosts}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
+                  return(
+                    <View style={styles.post}>
+                      <Card>
+                        <Card.Title>{item.title}</Card.Title>
+                        <Card.Divider/>
+                        <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
+                        <Text style={{marginBottom: 10}}>
+                            {item.description}
+                        </Text>
+                      </Card>
+                    </View>
+                  );
+                }}}
+              />
+            </View>
           </View>
-        </View>
-      );
+        );
+      }
     }
   }
 }
@@ -217,6 +226,10 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     backgroundColor: '#4A86E8',
+  },
+  activityIndicatorContainer:{
+    flex:1,
+    justifyContent:'center'
   },
   headerContainer:{
     flex:0.75,
