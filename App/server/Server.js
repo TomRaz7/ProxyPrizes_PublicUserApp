@@ -72,6 +72,11 @@ server.post('/retrieveSingleShopPosts',function(req,res){
   });
 });
 
+server.post('/filterPosts', function(req, res){
+  var category = req.body.category;
+  console.log(category);
+})
+
 server.post('/retrivePostsPublishers',function(req,res){
   var publishersArray = [];
   let publisherId = null;

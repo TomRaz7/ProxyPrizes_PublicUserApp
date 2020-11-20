@@ -51,6 +51,23 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
   })
 }
 
+  filterPosts(){
+    fetch(EndpointConfig.fetchFilterPosts, {
+      method:'POST',
+      body:JSON.stringify({
+        category:this.state.postCategory
+      }),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log(responseJson);
+    });
+  }
+
 //This function aims to retrieve this user's information that need to be displayed in the scrool list
   fetchPostsPublishers(array){
     fetch(EndpointConfig.fetchPostsPublishers,{
@@ -180,7 +197,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                 size={50}
               />
             </TouchableOpacity>
-
             <View style={styles.centeredView}>
               <Modal
                   animationType="slide"
@@ -190,41 +206,41 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                     Alert.alert("Modal has been closed.");
                   }}
                 >
-                  <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                      <Text style={styles.modalText}>Select a category of posts</Text>
-                      <DropDownPicker
-                        items={[
-                            {label: 'Clothing', value: 'clothing'},
-                            {label: 'Jewelry', value: 'jewelry'},
-                            {label: 'Toy', value: 'toy'},
-                            {label: 'Kitchen', value: 'kitchen'},
-                            {label: 'Sport', value: 'sport'},
-                        ]}
-                        defaultValue={this.state.city}
-                        containerStyle={{height: 40, width:150}}
-                        style={{backgroundColor: '#2196F3'}}
-                        itemStyle={{
-                            justifyContent: 'flex-start',
-                        }}
-                        dropDownStyle={{backgroundColor: '#fafafa'}}
-                        onChangeItem={item => this.setState({
-                            postCategory: item.value
-                        })}
-                     />
-                      <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: "#2196F3", margin:20, marginTop:200 }}
-                        onPress={() => {
-                          this.setModalVisible(false);
-                          console.log(this.state.postCategory);
-                        }}
-                      >
-                        <Text style={styles.textStyle}>{i18n.t('postForm.confirm')}</Text>
-                      </TouchableHighlight>
-                    </View>
-                  </View>
-                </Modal>
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>Select a category of posts</Text>
+                    <DropDownPicker
+                      items={[
+                          {label: 'Clothing', value: 'clothing'},
+                          {label: 'Jewelry', value: 'jewelry'},
+                          {label: 'Toy', value: 'toy'},
+                          {label: 'Kitchen', value: 'kitchen'},
+                          {label: 'Sport', value: 'sport'},
+                      ]}
+                      defaultValue={this.state.city}
+                      containerStyle={{height: 40, width:150}}
+                      style={{backgroundColor: '#2196F3'}}
+                      itemStyle={{
+                          justifyContent: 'flex-start',
+                      }}
+                      dropDownStyle={{backgroundColor: '#fafafa'}}
+                      onChangeItem={item => this.setState({
+                          postCategory: item.value
+                      })}
+                   />
+                  <TouchableHighlight
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3", margin:20, marginTop:200 }}
+                    onPress={() => {
+                      this.setModalVisible(false);
+                      this.filterPosts();
+                    }}
+                  >
+                    <Text style={styles.textStyle}>{i18n.t('postForm.confirm')}</Text>
+                  </TouchableHighlight>
+                </View>
               </View>
+            </Modal>
+          </View>
         </View>
       );
     }
