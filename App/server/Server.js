@@ -73,8 +73,35 @@ server.post('/retrieveSingleShopPosts',function(req,res){
 });
 
 server.post('/filterPosts', function(req, res){
-  var category = req.body.category;
+  var category = req.body.category.toString();
   console.log(category);
+  if(category === 'all'){
+    connection.query('SELECT * FROM post',function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        res.json({
+          datas:rows,
+          filter:category
+        });
+      }
+    })
+  }
+  else{
+    connection.query(`SELECT * FROM post WHERE categorytag = '${category}';`, function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        console.log(rows);
+        res.json({
+          datas:rows,
+          filter:category
+        });
+      }
+    });
+  }
 })
 
 server.post('/retrivePostsPublishers',function(req,res){

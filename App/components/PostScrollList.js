@@ -24,10 +24,12 @@ export default class PostScrollList extends React.Component{
     this.state={
       posts:[],
       fetchedDatas:[],
+      fetchedDatasCopy:[],
       dataLoaded:false,
       data:faker,
       isModalVisible:false,
-      postCategory:'clothing'
+      postCategory:'',
+      filterTriggered:false
     };
   }
 
@@ -45,6 +47,7 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
   for(let i = 0; i <array1.length; i++){
     fusionedObj = Object.assign({}, array1[i], array2[i]);
     this.state.fetchedDatas.push(fusionedObj);
+    this.state.fetchedDatasCopy.push(fusionedObj); //This array will be usefull for filters part
   }
   this.setState({
     dataLoaded:true
@@ -52,10 +55,13 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
 }
 
   filterPosts(){
+    this.setState({
+      dataLoaded:false
+    })
     fetch(EndpointConfig.fetchFilterPosts, {
       method:'POST',
       body:JSON.stringify({
-        category:this.state.postCategory
+        category:this.state.postCategory.toString()
       }),
       headers:{
              Accept: 'application/json',
@@ -65,6 +71,36 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     .then(response => response.json())
     .then(responseJson => {
       console.log(responseJson);
+      if(responseJson.filter === 'all'){
+       var length = this.state.fetchedDatas.length;
+       for(let i = 0; i <length; i++){
+         this.state.fetchedDatas.pop();
+       }
+       if(this.state.fetchedDatas.length === 0){
+         for(let i = 0; i<responseJson.datas.length; i++){
+           this.state.fetchedDatas.push(responseJson.datas[i]);
+         }
+       }
+       this.setState({
+         filterTriggered:true,
+         dataLoaded:true
+       });
+      }
+      else{
+        var length = this.state.fetchedDatas.length;
+        for(let i = 0; i < length; i++){
+          this.state.fetchedDatas.pop();
+        }
+        if(this.state.fetchedDatas.length === 0){
+          for(let i = 0; i<responseJson.datas.length; i++){
+            this.state.fetchedDatas.push(responseJson.datas[i]);
+          }
+        }
+        this.setState({
+          filterTriggered:true,
+          dataLoaded:true
+        });
+      }
     });
   }
 
@@ -211,6 +247,7 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                     <Text style={styles.modalText}>Select a category of posts</Text>
                     <DropDownPicker
                       items={[
+                          {label: 'All the posts', value: 'all'},
                           {label: 'Clothing', value: 'clothing'},
                           {label: 'Jewelry', value: 'jewelry'},
                           {label: 'Toy', value: 'toy'},
@@ -225,7 +262,7 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                       }}
                       dropDownStyle={{backgroundColor: '#fafafa'}}
                       onChangeItem={item => this.setState({
-                          postCategory: item.value
+                          postCategory: item.value.toString()
                       })}
                    />
                   <TouchableHighlight
