@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList, ActivityIndicator, Modal, TouchableHighlight} from 'react-native';
 import { Icon } from "react-native-elements";
 import faker from '../faker/PostScrollListData';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 //Endpoint Config
 import EndpointConfig from '../server/EndpointConfig';
@@ -24,10 +25,16 @@ export default class PostScrollList extends React.Component{
       posts:[],
       fetchedDatas:[],
       dataLoaded:false,
-      data:faker
+      data:faker,
+      isModalVisible:false,
+      postCategory:'clothing'
     };
   }
 
+
+  setModalVisible = (visible) => { //The modal will be used to confirm the account creation
+    this.setState({ isModalVisible: visible });
+  }
 
 _fusionArray(array1,array2){ // function to fusion the posts array and the users information array to have a single array to display the flatlist
   if(array1.length !== array2.length){
@@ -161,6 +168,63 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                 size={50}
               />
             </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.touchableOpacityFilter}
+              onPress={() => this.setModalVisible(true)}
+            >
+              <Icon
+                name="magnifying-glass"
+                type="entypo"
+                color="#4A86E8"
+                size={50}
+              />
+            </TouchableOpacity>
+
+            <View style={styles.centeredView}>
+              <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={this.state.isModalVisible}
+                  onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                  }}
+                >
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      <Text style={styles.modalText}>Select a category of posts</Text>
+                      <DropDownPicker
+                        items={[
+                            {label: 'Clothing', value: 'clothing'},
+                            {label: 'Jewelry', value: 'jewelry'},
+                            {label: 'Toy', value: 'toy'},
+                            {label: 'Kitchen', value: 'kitchen'},
+                            {label: 'Sport', value: 'sport'},
+                        ]}
+                        defaultValue={this.state.city}
+                        containerStyle={{height: 40, width:150}}
+                        style={{backgroundColor: '#2196F3'}}
+                        itemStyle={{
+                            justifyContent: 'flex-start',
+                        }}
+                        dropDownStyle={{backgroundColor: '#fafafa'}}
+                        onChangeItem={item => this.setState({
+                            postCategory: item.value
+                        })}
+                     />
+                      <TouchableHighlight
+                        style={{ ...styles.openButton, backgroundColor: "#2196F3", margin:20, marginTop:200 }}
+                        onPress={() => {
+                          this.setModalVisible(false);
+                          console.log(this.state.postCategory);
+                        }}
+                      >
+                        <Text style={styles.textStyle}>{i18n.t('postForm.confirm')}</Text>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                </Modal>
+              </View>
         </View>
       );
     }
@@ -298,5 +362,53 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     right: 30,
     bottom: 30,
+  },
+  touchableOpacityFilter:{
+    position: "absolute",
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 30,
+    bottom: 80,
+  },
+  /********Modal********/
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+    height:400,
+  },
+  modalView: {
+    height:400,
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   },
 });

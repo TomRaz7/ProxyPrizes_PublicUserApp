@@ -302,4 +302,9 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
 });
