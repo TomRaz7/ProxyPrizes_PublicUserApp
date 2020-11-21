@@ -42,9 +42,9 @@ export default class DiscountProfileTemplate extends React.Component{
         </View>
         <View style={{margin:10, flexDirection:'row',justifyContent:'space-around'}}>
           <Text
-          style={{fontWeight:'bold',fontSize:10}}>{subscriptionProps.percent} % de réduction</Text>
+          style={{fontWeight:'bold',fontSize:10}}>{subscriptionProps.percent} % {i18n.t('discount_amount')}</Text>
           <Text
-          style={{fontWeight:'bold',fontSize:10}}>Valable jusqu'au : {subscriptionProps.validity.toString().slice(0,10)}</Text>
+          style={{fontWeight:'bold',fontSize:10}}>{i18n.t('discount_validity')}: {subscriptionProps.validity.toString().slice(0,10)}</Text>
         </View>
       </TouchableOpacity>
     )

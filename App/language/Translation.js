@@ -34,6 +34,8 @@ const fr = {
     confirm:'Confirmer'
   },
   discount:'Vos réductions',
+  discount_amount:'de réduction ',
+  discount_validity:'Valable jusqu\'au ',
   cancel_btn:'Annuler',
   language:'Choisir une langue',
   fr:'Français',
@@ -77,6 +79,8 @@ const en = {
     confirm:'Confirm'
   },
   discount:'Your discounts',
+  discount_amount:'of discount ',
+  discount_validity:'Useable until ',
   cancel_btn:'Cancel',
   language:'Select a language',
   fr:'French',
@@ -120,6 +124,8 @@ const es = {
     confirm:'Confirmar'
   },
   discount:'Sus descuentos',
+  discount_amount:'de descuento ',
+  discount_validity:'Haste el ',
   cancel_btn:'Cancelar',
   language:'Elige un idioma',
   fr:'Frances',
