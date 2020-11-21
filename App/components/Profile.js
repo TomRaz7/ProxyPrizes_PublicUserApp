@@ -7,6 +7,11 @@ import {connect} from 'react-redux';
 import {LinearGradient} from 'expo-linear-gradient';
 import { NavigationEvents } from 'react-navigation';
 import * as Localization from 'expo-localization';
+import DiscountProfileTemplate from './DiscountProfileTemplate';
+
+//Endpoint Config
+import EndpointConfig from '../server/EndpointConfig';
+
 import i18n from 'i18n-js';
 import Translation from '../language/Translation';
 
@@ -23,13 +28,69 @@ class Profile extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      subscribedShopsList:ConfigStore.getState().toggleSubscription.subscribedShops
+      subscribedShopsList:ConfigStore.getState().toggleSubscription.subscribedShops,
+      bareDiscounts:[],
+      currentUserId:ConfigStore.getState().toggleAuthentication.userId,
+      discountsLoaded:false,
+      renderDiscounts:[]
     }
+  }
+
+  _fusionArray(array1,array2){
+    var array3 = [];
+    if(array1.length !== array2.length){
+      console.log("Error: different array length");
+      return 0;
+    }
+    var fusionedObj = {};
+    for(let i = 0; i <array1.length; i++){
+      fusionedObj = Object.assign({}, array1[i], array2[i]);
+      array3.push(fusionedObj);
+    }
+    return array3;
+  }
+
+  fetchDiscountsRelatedShop(array){
+    fetch(EndpointConfig.fetchDiscountsShops,{
+      method:'POST',
+      body:JSON.stringify(array),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      var fusionedArray = this._fusionArray(array, responseJson);
+      this.state.renderDiscounts = [...fusionedArray];
+      this.setState({
+        discountsLoaded:true
+      })
+      console.log(this.state.renderDiscounts);
+    });
+
   }
 
   componentDidMount(){
     //add focus listener
-  this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction);
+    this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction);
+    fetch(EndpointConfig.fetchUserDiscounts,{
+      method:'POST',
+      body:JSON.stringify({
+        userId:this.state.currentUserId
+      }),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson =>{
+      for(let i = 0; i< responseJson.length; i++){
+        this.state.bareDiscounts.push(responseJson[i]);
+      }
+      this.fetchDiscountsRelatedShop(this.state.bareDiscounts);
+    });
   }
 
   componentWillUnmount(){
@@ -41,7 +102,6 @@ class Profile extends React.Component{
     this.setState({
       subscribedShopsList:ConfigStore.getState().toggleSubscription.subscribedShops
     });
-    console.log(this.state.subscribedShopsList[0]);
   }
 
   _logOut(){
@@ -56,7 +116,6 @@ class Profile extends React.Component{
   }
 
   render(){
-    console.log(this.state.subscribedShopsList.length);
     if(this.state.subscribedShopsList.length !== 0){
       return(
         <ScrollView style={styles.container}>

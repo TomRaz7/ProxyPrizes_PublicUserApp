@@ -1,4 +1,5 @@
 const initialState = {
+  id:null,
   token:null,
   mail:null,
   password:null
@@ -11,7 +12,8 @@ function toggleAuthentication(state = initialState, action){
       nextState={
         token:action.value.token,
         mail:action.value.mail,
-        password:action.value.password
+        password:action.value.password,
+        userId:action.value.id
       };
       return nextState;
       break;

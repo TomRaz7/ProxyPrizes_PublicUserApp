@@ -104,6 +104,37 @@ server.post('/filterPosts', function(req, res){
   }
 })
 
+server.post('/retrieveDiscountsShops',function(req,res){
+  console.log('/retrieveDiscountsShops hitted');
+  var discounts = req.body;
+  var shopId = null;
+  var index = 0; //increment to retrieve as many shops as the number of discounts cause each discounts is related to a single shop
+  var resultArray = [];
+  if(discounts.length > 0){
+    for(let i = 0; i<discounts.length; i++){
+      shopId = discounts[i].shop;
+      connection.query(`SELECT name, adress, picture FROM shop WHERE id = ${shopId};`,function(error, rows, fields){
+        if(error){
+          console.error();
+        }
+        else{
+          let shopName = rows[0].name;
+          let shopAdress = rows[0].adress;
+          let shopPicture = rows[0].picture;
+          resultArray.push({shopName,shopAdress,shopPicture});
+          index += 1;
+          if(index === discounts.length){
+            res.send(resultArray);
+          }
+        }
+      });
+    }
+  }
+  else{
+    console.log("empty array given");
+  }
+})
+
 server.post('/retrivePostsPublishers',function(req,res){
   var publishersArray = [];
   let publisherId = null;
@@ -178,6 +209,21 @@ server.post('/login', function(req,res){
   }
 });
 
+
+server.post('/retrieveUserDiscounts', function(req,res){
+  console.log("/retrieveUserDiscounts hitted");
+  var user = req.body.userId
+  connection.query(`SELECT * FROM discount WHERE beneficiary = ${user};`, function(error, rows, fields){
+    if(error){
+      console.log(error);
+    }
+    else{
+      console.log("dicounts retrouvées");
+      console.log(rows);
+      res.send(rows);
+    }
+  });
+})
 
 //New account creation
 server.post('/createAccount',function(req,res){

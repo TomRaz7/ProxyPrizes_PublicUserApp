@@ -9,4 +9,6 @@ export default {
   fetchSingleShopPosts:url+'/retrieveSingleShopPosts',
   fetchCreateAccount:url+'/createAccount',
   fetchLogin:url+'/login',
+  fetchUserDiscounts:url+'/retrieveUserDiscounts',
+  fetchDiscountsShops:url+'/retrieveDiscountsShops',
 }

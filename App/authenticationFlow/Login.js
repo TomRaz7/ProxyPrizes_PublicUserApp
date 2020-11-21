@@ -76,7 +76,7 @@ class Login extends React.Component{
       .then(responseJson => {
         if(responseJson.code === 200 && responseJson.token !== undefined){
           this.updateParentState(responseJson.token);
-          let userCredentials = {mail:this.state.userMail, password:this.state.userPassword, token:responseJson.token};
+          let userCredentials = {id:responseJson.user.id, mail:this.state.userMail, password:this.state.userPassword, token:responseJson.token};
           const action = {type:'TOGGLE_CONNECT', value:userCredentials};
           this.props.dispatch(action);
         }

@@ -68,7 +68,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     })
     .then(response => response.json())
     .then(responseJson => {
-      console.log(responseJson);
       if(responseJson.filter === 'all'){
        var length = this.state.fetchedDatas.length;
        for(let i = 0; i <length; i++){
@@ -109,8 +108,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     .then(response => response.json())
     .then(responseJson => {
       var fusionedArray = this._fusionArray(array, responseJson);
-      console.log("contenu du fusion array");
-      console.log(fusionedArray);
       this.state.fetchedDatas = [...fusionedArray];
       if(fromComponentDidMount === true){
         this.state.fetchedDatasCopy = [...fusionedArray]; // we make a local copy to store the complete list in the first componentDidMount request
