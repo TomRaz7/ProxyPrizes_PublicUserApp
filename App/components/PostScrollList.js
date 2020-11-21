@@ -39,6 +39,7 @@ export default class PostScrollList extends React.Component{
   }
 
 _fusionArray(array1,array2){ // function to fusion the posts array and the users information array to have a single array to display the flatlist
+  var array3 = [];
   if(array1.length !== array2.length){
     console.log("Error: different array length");
     return 0;
@@ -46,12 +47,9 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
   var fusionedObj = {};
   for(let i = 0; i <array1.length; i++){
     fusionedObj = Object.assign({}, array1[i], array2[i]);
-    this.state.fetchedDatas.push(fusionedObj);
-    this.state.fetchedDatasCopy.push(fusionedObj); //This array will be usefull for filters part
+    array3.push(fusionedObj);
   }
-  this.setState({
-    dataLoaded:true
-  })
+  return array3;
 }
 
   filterPosts(){
@@ -77,14 +75,11 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
          this.state.fetchedDatas.pop();
        }
        if(this.state.fetchedDatas.length === 0){
-         for(let i = 0; i<responseJson.datas.length; i++){
-           this.state.fetchedDatas.push(responseJson.datas[i]);
-         }
+         this.state.fetchedDatas = [...this.state.fetchedDatasCopy]; //Avoid sending a new request to retrivePostsPublishers as a local copy as been made
+         this.setState({
+           dataLoaded:true
+         });
        }
-       this.setState({
-         filterTriggered:true,
-         dataLoaded:true
-       });
       }
       else{
         var length = this.state.fetchedDatas.length;
@@ -95,17 +90,14 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
           for(let i = 0; i<responseJson.datas.length; i++){
             this.state.fetchedDatas.push(responseJson.datas[i]);
           }
-        }
-        this.setState({
-          filterTriggered:true,
-          dataLoaded:true
-        });
+        this.fetchPostsPublishers(this.state.fetchedDatas, false);
+       }
       }
     });
   }
 
 //This function aims to retrieve this user's information that need to be displayed in the scrool list
-  fetchPostsPublishers(array){
+  fetchPostsPublishers(array, fromComponentDidMount){
     fetch(EndpointConfig.fetchPostsPublishers,{
       method:'POST',
       body:JSON.stringify(array),
@@ -116,8 +108,18 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     })
     .then(response => response.json())
     .then(responseJson => {
-      this._fusionArray(array, responseJson);
+      var fusionedArray = this._fusionArray(array, responseJson);
+      console.log("contenu du fusion array");
+      console.log(fusionedArray);
+      this.state.fetchedDatas = [...fusionedArray];
+      if(fromComponentDidMount === true){
+        this.state.fetchedDatasCopy = [...fusionedArray]; // we make a local copy to store the complete list in the first componentDidMount request
+      }
+      this.setState({
+        dataLoaded:true
+      })
     });
+
   }
 
   componentDidMount(){
@@ -127,7 +129,7 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
       for (var i = 0; i < responseJson.length; i++) {
           this.state.posts.push(responseJson[i]);
       }
-      this.fetchPostsPublishers(this.state.posts);
+      this.fetchPostsPublishers(this.state.posts, true);
     });
   }
 
