@@ -174,9 +174,9 @@ class Profile extends React.Component{
                 showsHorizontalScrollIndicator={false}
                 pagingEnabled={true}
                 style={{marginTop:15, height:105}}
-                data={MesData}
+                data={this.state.renderDiscounts}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({item}) => <View style={styles.flatlist}><SubscribeProfileTemplate prop={item}/></View>}
+                renderItem={({item}) => <View style={styles.flatlist}><DiscountProfileTemplate prop={item}/></View>}
                 />
         </ScrollView>
       );
@@ -230,9 +230,9 @@ class Profile extends React.Component{
               showsHorizontalScrollIndicator={false}
               pagingEnabled={true}
               style={{marginTop:15, height:105}}
-              data={MesData}
+              data={this.state.renderDiscounts}
               keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) => <SubscribeProfileTemplate prop={item}/>}
+              renderItem={({item}) => <DiscountProfileTemplate prop={item}/>}
               />
         </ScrollView>
       );
