@@ -3,6 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity,Image,FlatList, ActivityIndicat
 import { Icon } from "react-native-elements";
 import faker from '../faker/PostScrollListData';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ConfigStore from '../storeRedux/ConfigStore';
 
 //Endpoint Config
 import EndpointConfig from '../server/EndpointConfig';
@@ -16,7 +17,7 @@ const en = Translation.en;
 const es = Translation.es;
 
 i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`
 
 export default class PostScrollList extends React.Component{
   constructor(props){
@@ -32,7 +33,6 @@ export default class PostScrollList extends React.Component{
       filterTriggered:false
     };
   }
-
 
   setModalVisible = (visible) => { //The modal will be used to confirm the account creation
     this.setState({ isModalVisible: visible });

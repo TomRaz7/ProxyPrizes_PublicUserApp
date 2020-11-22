@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Localization from 'expo-localization';
 
+
 //Endpoint Config
 import EndpointConfig from '../server/EndpointConfig';
 
@@ -17,7 +18,7 @@ const en = Translation.en;
 const es = Translation.es;
 
 i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`
 
 class Login extends React.Component{
 

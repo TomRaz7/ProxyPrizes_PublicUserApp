@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text,View,Image,TextInput,ScrollView,TouchableOpacity} from 'react-native';
+import ConfigStore from '../storeRedux/ConfigStore';
 //import CardView from 'react-native-cardview';
 
 import i18n from 'i18n-js';
@@ -11,7 +12,7 @@ const en = Translation.en;
 const es = Translation.es;
 
 i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`
 
 
 export default class DiscountProfileTemplate extends React.Component{

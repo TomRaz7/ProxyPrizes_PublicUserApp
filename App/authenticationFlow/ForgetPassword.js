@@ -3,6 +3,7 @@ import {Text, View, StyleSheet, TextInput,TouchableOpacity,Image} from 'react-na
 import { LinearGradient } from 'expo-linear-gradient';
 import i18n from 'i18n-js';
 import Translation from '../language/Translation';
+import ConfigStore from '../storeRedux/ConfigStore';
 
 
 const fr = Translation.fr;
@@ -10,7 +11,7 @@ const en = Translation.en;
 const es = Translation.es;
 
 i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`
 
 export default class ForgetPassword extends React.Component{
 

@@ -21,7 +21,8 @@ const en = Translation.en;
 const es = Translation.es;
 
 i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`
+
 
 class Profile extends React.Component{
 
@@ -32,7 +33,8 @@ class Profile extends React.Component{
       bareDiscounts:[],
       currentUserId:ConfigStore.getState().toggleAuthentication.userId,
       discountsLoaded:false,
-      renderDiscounts:[]
+      renderDiscounts:[],
+      appLanguage: ConfigStore.getState().toggleLanguageSelection.language
     }
   }
 

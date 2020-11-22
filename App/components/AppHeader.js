@@ -1,25 +1,33 @@
 import React from 'react';
 import {StyleSheet,View,Text,Image,TouchableOpacity,Alert, Modal, TouchableHighlight} from 'react-native';
 import {Icon} from 'react-native-elements';
-
+import ConfigStore from '../storeRedux/ConfigStore';
 import i18n from 'i18n-js';
 import Translation from '../language/Translation';
-
+import {connect} from 'react-redux';
 
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
 
 i18n.translations = {fr, en, es};
-i18n.locale = "fr" //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}` //We would latter store the user preferencces through redux  : ConfigStore.getState().toggleLanguage.language
 
-export default class AppHeader extends React.Component{
+class AppHeader extends React.Component{
 
   constructor(props){
     super(props);
     this.state={
-      isModalVisible:false
+      isModalVisible:false,
+      appLanguage:''
     }
+  }
+
+  setAppLanguage(language){
+    console.log(language);
+    const action = {type:'TOGGLE_LANGUAGE_SELECTION', value:language};
+    this.props.dispatch(action);
+    console.log(ConfigStore.getState().toggleLanguageSelection.language);
   }
 
   setModalVisible = (visible) => {
@@ -56,29 +64,36 @@ export default class AppHeader extends React.Component{
                   <Text style={styles.modalText}>{i18n.t('language')}</Text>
                   <View style={styles.languageSelectorContainer}>
                     <Text>{i18n.t('fr')}</Text>
-                    <Image resizeMode="contain"
-                      style={styles.flag}
-                      source={require('../assets/france.png')}
-                    />
+                    <TouchableOpacity onPress={() => this.state.appLanguage = 'fr'}>
+                      <Image resizeMode="contain"
+                        style={styles.flag}
+                        source={require('../assets/france.png')}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <View style={styles.languageSelectorContainer}>
                     <Text>{i18n.t('es')}</Text>
-                    <Image resizeMode="contain"
-                      style={styles.flag}
-                      source={require('../assets/spain.png')}
-                    />
+                    <TouchableOpacity onPress={() => this.state.appLanguage = 'es'}>
+                      <Image resizeMode="contain"
+                        style={styles.flag}
+                        source={require('../assets/spain.png')}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <View style={styles.languageSelectorContainer}>
                     <Text>{i18n.t('en')}</Text>
-                    <Image resizeMode="contain"
-                      style={styles.flag}
-                      source={require('../assets/en.png')}
-                    />
+                    <TouchableOpacity onPress={() => this.state.appLanguage = 'en'}>
+                      <Image resizeMode="contain"
+                        style={styles.flag}
+                        source={require('../assets/en.png')}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <TouchableHighlight
                     style={{ ...styles.openButton, backgroundColor: "#2196F3", margin:20 }}
                     onPress={() => {
                       this.setModalVisible(false);
+                      this.setAppLanguage(this.state.appLanguage)
                     }}
                   >
                     <Text style={styles.textStyle}>{i18n.t('postForm.confirm')}</Text>
@@ -155,3 +170,9 @@ const styles = StyleSheet.create({
     width:100,
   }
 })
+
+const mapStateToProps = (state) => {
+  return state
+}
+
+export default connect(mapStateToProps)(AppHeader);
