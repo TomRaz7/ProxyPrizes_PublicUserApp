@@ -132,7 +132,7 @@ export default class ShopMap extends React.Component{
               </LinearGradient>
             </View>
             <MapView.Callout>
-              <ShopCallout name={shopList[i].name} phone={shopList[i].phone} address={shopList[i].address} opening_hours={shopList[i].opening_hours} image={shopList[i].image}/>
+              <ShopCallout name={shopList[i].name} phone={shopList[i].phone} address={shopList[i].adress} opening_hours={shopList[i].openinghours} picture={shopList[i].picture}/>
             </MapView.Callout>
           </MapView.Marker>
         );

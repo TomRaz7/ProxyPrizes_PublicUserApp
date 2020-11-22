@@ -157,15 +157,15 @@ class SingleShop extends React.Component{
             </View>
             <View style={styles.flatListContainer}>
               <FlatList
-                data={this.state.relatedPosts}
+                data={this.state.fetchedDatas}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
+                renderItem={({item}) => {for(let i = 0; i < this.state.fetchedDatas.length; i++){
                   return(
                     <View style={styles.post}>
                       <Card>
                         <Card.Title>{item.title}</Card.Title>
                         <Card.Divider/>
-                        <Card.Image source={{ uri: "https://picsum.photos/800/400" }}/>
+                        <Card.Image source={{ uri: item.picture }}/>
                         <Text style={{marginBottom: 10}}>
                             {item.description}
                         </Text>
@@ -197,15 +197,15 @@ class SingleShop extends React.Component{
             </View>
             <View style={styles.flatListContainer}>
               <FlatList
-                data={this.state.relatedPosts}
+                data={this.state.fetchedDatas}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({item}) => {for(let i = 0; i < this.state.relatedPosts.length; i++){
+                renderItem={({item}) => {for(let i = 0; i < this.state.fetchedDatas.length; i++){
                   return(
                     <View style={styles.post}>
                       <Card>
                         <Card.Title>{item.title}</Card.Title>
                         <Card.Divider/>
-                        <Card.Image source={{ uri: "http://via.placeholder.com/160x160" }}/>
+                        <Card.Image source={{ uri: item.picture }}/>
                         <Text style={{marginBottom: 10}}>
                             {item.description}
                         </Text>

@@ -1,11 +1,14 @@
 import React from 'react';
 import {View,Text, StyleSheet} from 'react-native';
-import {Icon, Image} from 'react-native-elements';
+import {Icon, Image, Card} from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 export default class ShopCallout extends React.Component{
 
+componentDidMount(){
+  console.log(this.props.picture);
+}
 
   render(){
     return(
@@ -47,12 +50,12 @@ export default class ShopCallout extends React.Component{
             </View>
           </View>
           <View style={styles.imageContainer}>
-            <View style={styles.image}>
-              <Image
-                source={{uri: this.props.image }}
-                style={{height:120, width:120}}
-              />
-            </View>
+          <View style={styles.image}>
+            <Image
+              source={{uri: `${this.props.picture}` }}
+              style={{height:120, width:120}}
+            />
+          </View>
           </View>
         </View>
       </View>
