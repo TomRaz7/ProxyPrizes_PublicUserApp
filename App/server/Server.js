@@ -279,3 +279,37 @@ server.post('/createAccount',function(req,res){
     //});
   }
 });
+
+
+// addpost to the database
+server.post("/addPost", function (req, res) {
+  console.log(req.body);
+  var data = {
+    title: req.body.title,
+    description: req.body.description,
+    picture: req.body.picture,
+    price: req.body.price,
+    likeCounter: 0,
+    publishedAt: req.body.publishedAt,
+    shop: req.body.shop,
+    owner: req.body.owner,
+    customer: req.body.customer,
+  };
+  var sql = "INSERT INTO post SET ?";
+  connection.query(sql, data, (err, result) => {
+    if (err) throw err;
+    console.log(result);
+    res.send({
+      status: "Data inserted!",
+    });
+  });
+});
+
+//get s3 credentials
+server.get("/getS3", (req, res) => {
+  const answer = {
+    accessKey: process.env.AKID,
+    secretKey: process.env.SAK,
+  };
+  res.send(answer);
+});

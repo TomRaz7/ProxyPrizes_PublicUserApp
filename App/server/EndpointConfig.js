@@ -11,4 +11,6 @@ export default {
   fetchLogin:url+'/login',
   fetchUserDiscounts:url+'/retrieveUserDiscounts',
   fetchDiscountsShops:url+'/retrieveDiscountsShops',
+  addPost: url + "/addPost",
+  getS3: url + "/getS3",
 }
