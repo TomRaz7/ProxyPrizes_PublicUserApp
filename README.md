@@ -20,7 +20,7 @@ Github with the organization of the "ProxyPrize" project
 
 [Sprint 1 delivery document](https://docs.google.com/document/d/102jllO_UXDWyHpwsNhTn4fyqwcMvPCtMYaSrJxBcz7Q/edit)
 
-[Sprint 2 Upgrade file](https://docs.google.com/document/d/1m9Kzkq1-Rx0bekUdKr_ZYXPwn_9wVFpd2F-ueqXX1Jo/edit#)
+[Sprint 2 Upgrade file](https://docs.google.com/document/d/1m9Kzkq1-Rx0bekUdKr_ZYXPwn_9wVFpd2F-ueqXX1Jo/edit?usp=sharing)
 
 ## Sprint Status
 
