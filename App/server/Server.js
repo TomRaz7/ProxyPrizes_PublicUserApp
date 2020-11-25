@@ -294,6 +294,7 @@ server.post("/addPost", function (req, res) {
     shop: req.body.shop,
     owner: req.body.owner,
     customer: req.body.customer,
+    categorytag:req.body.categorytag
   };
   var sql = "INSERT INTO post SET ?";
   connection.query(sql, data, (err, result) => {
