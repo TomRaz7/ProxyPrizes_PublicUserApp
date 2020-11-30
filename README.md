@@ -27,8 +27,15 @@ Github with the organization of the "ProxyPrize" project
 |Sprint | Deadline :clock1: | Status |
 |:---------|:------------|:-----|
 |Sprint 1  | 10/11/2020 | Done |
-|Sprint 2  | 25/11/2020 | Ongoing |
-|Sprint 3  | 09/12/2020 | To be started |
+|Sprint 2  | 25/11/2020 | Done |
+|Sprint 3  | 16/12/2020 | Ongoing |
+
+## Current sprint roles
+| Assistant  | Role  |  
+|---|---|
+| Tom  | Front-end specialist |   
+| Marcel | Scrum Master |
+| Danillo | Back-end specialist |
 
 
 ## Global Product Backlog items (PBI)
