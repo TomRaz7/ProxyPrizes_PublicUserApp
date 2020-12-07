@@ -21,6 +21,7 @@
     "http": "^0.0.1-security",
     "i18n-js": "^3.8.0",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",

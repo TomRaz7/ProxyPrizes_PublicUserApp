@@ -38,6 +38,28 @@ export default class PostScrollList extends React.Component{
     this.setState({ isModalVisible: visible });
   }
 
+_testLoadBalancer(){
+  fetch(EndpointConfig.testLoadBalancer,{
+    method:'POST',
+    body:JSON.stringify({
+      client:'publicApp',
+      content:{
+        value1:1,
+        value2:'test'
+      }
+    }),
+    headers:{
+           Accept: 'application/json',
+           'content-type':'application/json'
+         }
+  })
+  .then(response => response.json())
+  .then(responseJson =>{
+    console.log(responseJson);
+  });
+}
+
+
 _fusionArray(array1,array2){ // function to fusion the posts array and the users information array to have a single array to display the flatlist
   var array3 = [];
   if(array1.length !== array2.length){
@@ -208,6 +230,18 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                 );
               }}
             />
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.touchableOpacityTest}
+              onPress={() => this._testLoadBalancer()}
+            >
+              <Icon
+                name="cloud"
+                type="entypo"
+                color="#4A86E8"
+                size={50}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.7}
               style={styles.touchableOpacityStyle}
@@ -414,6 +448,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     right: 30,
     bottom: 30,
+  },
+  touchableOpacityTest: {
+    position: "absolute",
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 30,
+    bottom: 130,
   },
   touchableOpacityFilter:{
     position: "absolute",

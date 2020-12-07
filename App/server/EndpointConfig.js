@@ -1,4 +1,8 @@
-const url ='http://192.168.1.45:4000';
+const url ='http://192.168.0.36:4000';
+
+const loadBalancerUrl='http://192.168.0.36:5000';
+
+//'http://192.168.1.45:4000';
 
 
 export default {
@@ -13,4 +17,6 @@ export default {
   fetchDiscountsShops:url+'/retrieveDiscountsShops',
   addPost: url + "/addPost",
   getS3: url + "/getS3",
+  testLoadBalancer:loadBalancerUrl+'/root',
+  publicAppServerTestLoadBalancer:url+'/testLoadBalancer'
 }
