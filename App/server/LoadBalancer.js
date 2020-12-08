@@ -21,13 +21,15 @@ loadBalancer.listen(port, () =>{
 
 loadBalancer.post('/root', function(req, res){
   let client = req.body.client;
+  let method = req.body.forwardedRequestMethod;
+  console.log(method);
   let content = Object.assign({}, req.body.content);
-  let result = null
+  //let result = null
+  let path = req.body.path;
   console.log('root folder hitted');
-  console.log(req.body);
-  switch (client) {
-    case 'publicApp':
-      fetch('http://192.168.0.36:4000/testLoadBalancer',{
+  switch (method) {
+    case 'POST':
+      fetch(path,{
         method:'POST',
         body:JSON.stringify({
           content
@@ -37,14 +39,19 @@ loadBalancer.post('/root', function(req, res){
                'content-type':'application/json'
              }
       })
+      .then(response => {
+        console.log(response);
+        res.send(response)
+      })
+      break;
+    case 'GET':
+      fetch(path)
       .then(response => response.json())
       .then(responseJson => {
         console.log(responseJson);
         result = Object.assign({}, responseJson);
         res.send(result);
-      });
-      break;
+      })
     default:
-
   }
 })

@@ -17,6 +17,6 @@ export default {
   fetchDiscountsShops:url+'/retrieveDiscountsShops',
   addPost: url + "/addPost",
   getS3: url + "/getS3",
-  testLoadBalancer:loadBalancerUrl+'/root',
+  fetchLoadBalancer:loadBalancerUrl+'/root',
   publicAppServerTestLoadBalancer:url+'/testLoadBalancer'
 }

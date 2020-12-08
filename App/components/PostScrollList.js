@@ -42,10 +42,9 @@ _testLoadBalancer(){
   fetch(EndpointConfig.testLoadBalancer,{
     method:'POST',
     body:JSON.stringify({
-      client:'publicApp',
+      path:EndpointConfig.publicAppServerTestLoadBalancer,
       content:{
-        value1:1,
-        value2:'test'
+        shop:1,
       }
     }),
     headers:{

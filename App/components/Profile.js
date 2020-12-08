@@ -68,7 +68,7 @@ class Profile extends React.Component{
       this.setState({
         discountsLoaded:true
       })
-      console.log(this.state.renderDiscounts);
+      //console.log(this.state.renderDiscounts);
     });
 
   }

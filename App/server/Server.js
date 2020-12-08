@@ -36,9 +36,18 @@ connection.connect(function(error){
 });
 
 server.post('/testLoadBalancer',function(req,res){
-  console.log("request redirect to publicApp server");
-  console.log(req.body);
-  res.send({mssg:'response from publicApp server'});
+  var shop = req.body.content.shop;
+  connection.query(`SELECT * FROM post WHERE shop = ${shop};`,function(error,rows,fields){
+    if(error){
+      console.log(error);
+    }
+    else{
+      console.log(`Posts pour le shop`);
+      console.log(rows);
+      res.send(rows);
+    }
+  })
+  //res.send({mssg:'response from publicApp server'});
 })
 
 server.get('/renderShops',function(req,res){
