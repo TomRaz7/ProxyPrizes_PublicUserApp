@@ -40,21 +40,11 @@ export default class ShopMap extends React.Component{
     }
   }
 
-  componentDidMount(){
-    fetch(EndpointConfig.fetchLoadBalancer,{
-      method:'POST',
-      body:JSON.stringify({
-        path:EndpointConfig.fetchShops,
-        forwardedRequestMethod:'GET'
-      }),
-      headers:{
-             Accept: 'application/json',
-             'content-type':'application/json'
-           }
-    })
+componentDidMount(){
+    fetch(EndpointConfig.fetchShops)
     .then(response => response.json())
     .then(responseJson => {
-      for(let i = 0; i<Object.values(responseJson).length; i++){
+      for(let i = 0; i<responseJson.length; i++){
         this.state.shopList.push(responseJson[i]);
       }
       if(this.state.shopList.length !== 0){
@@ -63,6 +53,7 @@ export default class ShopMap extends React.Component{
         })
       }
     });
+
 
     getLocation().then(data =>{
       this.updateRegion({

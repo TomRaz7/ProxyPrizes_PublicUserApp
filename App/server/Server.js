@@ -36,17 +36,19 @@ connection.connect(function(error){
 });
 
 server.post('/testLoadBalancer',function(req,res){
-  var shop = req.body.content.shop;
-  connection.query(`SELECT * FROM post WHERE shop = ${shop};`,function(error,rows,fields){
-    if(error){
-      console.log(error);
-    }
-    else{
-      console.log(`Posts pour le shop`);
-      console.log(rows);
-      res.send(rows);
-    }
-  })
+  console.log('/testLoadBalancer hitted');
+  console.log(req);
+  // var shop = req.body.content.shop;
+  // connection.query(`SELECT * FROM post WHERE shop = ${shop};`,function(error,rows,fields){
+  //   if(error){
+  //     console.log(error);
+  //   }
+  //   else{
+  //     console.log(`Posts pour le shop`);
+  //     console.log(rows);
+  //     res.send(rows);
+  //   }
+  // })
   //res.send({mssg:'response from publicApp server'});
 })
 
@@ -73,6 +75,7 @@ server.get('/allPosts',function(req,res){
 });
 
 server.post('/retrieveSingleShopPosts',function(req,res){
+  console.log(req.body);
   var shop = req.body.shop;
   console.log(shop);
   connection.query(`SELECT * FROM post WHERE shop = ${shop};`, function(error, rows, fields){

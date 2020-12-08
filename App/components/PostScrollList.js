@@ -39,7 +39,7 @@ export default class PostScrollList extends React.Component{
   }
 
 _testLoadBalancer(){
-  fetch(EndpointConfig.testLoadBalancer,{
+  fetch(EndpointConfig.fetchLoadBalancer,{
     method:'POST',
     body:JSON.stringify({
       path:EndpointConfig.publicAppServerTestLoadBalancer,
@@ -150,6 +150,25 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
       this.fetchPostsPublishers(this.state.posts, true);
     });
   }
+
+  // componentDidMount(){
+  //   fetch(EndpointConfig.fetchLoadBalancer,{
+  //     method:'POST',
+  //     body:JSON.stringify({
+  //       forwardedRequestMethod:'GET',
+  //       path:EndpointConfig.fetchAllPosts
+  //     })
+  //   })
+  //   .then(response => response.json())
+  //   .then(responseJson => {
+  //     console.log("Réponse reçue");
+  //     console.log(Object.values(responseJson));
+  //     for (var i = 0; i < Object.values(responseJson).length; i++) {
+  //         this.state.posts.push(Object.values(responseJson)[i]);
+  //     }
+  //     this.fetchPostsPublishers(this.state.posts, true);
+  //   });
+  // }
 
   _displayPostForm(){
     this.props.navigation.navigate("CreatePost");

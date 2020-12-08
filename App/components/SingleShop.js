@@ -75,6 +75,7 @@ class SingleShop extends React.Component{
     }
 
 
+
   componentDidMount(){
     fetch(EndpointConfig.fetchSingleShopPosts,{
       method:'POST',
