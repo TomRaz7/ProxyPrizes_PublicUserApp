@@ -35,21 +35,17 @@ connection.connect(function(error){
   }
 });
 
-server.post('/testLoadBalancer',function(req,res){
-  console.log('/testLoadBalancer hitted');
-  console.log(req);
-  // var shop = req.body.content.shop;
-  // connection.query(`SELECT * FROM post WHERE shop = ${shop};`,function(error,rows,fields){
-  //   if(error){
-  //     console.log(error);
-  //   }
-  //   else{
-  //     console.log(`Posts pour le shop`);
-  //     console.log(rows);
-  //     res.send(rows);
-  //   }
-  // })
-  //res.send({mssg:'response from publicApp server'});
+
+server.post('/test1',function(req,res){
+  console.log('/test1 endpoint');
+  console.log('parameters received :');
+  console.log(req.body);
+})
+
+server.post('/test2',function(req,res){
+  console.log('/test2 endpoint');
+  console.log('parameters received :');
+  console.log(req.body);
 })
 
 server.get('/renderShops',function(req,res){

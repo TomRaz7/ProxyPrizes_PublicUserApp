@@ -6,6 +6,8 @@ const loadBalancerUrl='http://192.168.0.36:5000';
 
 
 export default {
+  test1:url+'/test1',
+  test2:url+'/test2',
   fetchShops:url+'/renderShops',
   fetchAllPosts:url+'/allPosts',
   fetchFilterPosts:url+'/filterPosts',

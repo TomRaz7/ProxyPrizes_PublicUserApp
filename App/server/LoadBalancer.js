@@ -26,6 +26,7 @@ loadBalancer.post('/root', function(req, res){
   console.log('root folder hitted');
   switch (method) {
     case 'POST':
+      console.log("La requête post va être forwardé");
       fetch(path,{
         method:'POST',
         body:JSON.stringify({
