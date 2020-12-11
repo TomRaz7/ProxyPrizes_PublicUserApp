@@ -38,26 +38,6 @@ export default class PostScrollList extends React.Component{
     this.setState({ isModalVisible: visible });
   }
 
-_testLoadBalancer(){
-  fetch(EndpointConfig.fetchLoadBalancer,{
-    method:'POST',
-    body:JSON.stringify({
-      path:EndpointConfig.publicAppServerTestLoadBalancer,
-      content:{
-        shop:1,
-      }
-    }),
-    headers:{
-           Accept: 'application/json',
-           'content-type':'application/json'
-         }
-  })
-  .then(response => response.json())
-  .then(responseJson =>{
-    console.log(responseJson);
-  });
-}
-
 
 _fusionArray(array1,array2){ // function to fusion the posts array and the users information array to have a single array to display the flatlist
   var array3 = [];
@@ -89,6 +69,7 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
     })
     .then(response => response.json())
     .then(responseJson => {
+      console.log(responseJson);
       if(responseJson.filter === 'all'){
        var length = this.state.fetchedDatas.length;
        for(let i = 0; i <length; i++){
@@ -150,25 +131,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
       this.fetchPostsPublishers(this.state.posts, true);
     });
   }
-
-  // componentDidMount(){
-  //   fetch(EndpointConfig.fetchLoadBalancer,{
-  //     method:'POST',
-  //     body:JSON.stringify({
-  //       forwardedRequestMethod:'GET',
-  //       path:EndpointConfig.fetchAllPosts
-  //     })
-  //   })
-  //   .then(response => response.json())
-  //   .then(responseJson => {
-  //     console.log("Réponse reçue");
-  //     console.log(Object.values(responseJson));
-  //     for (var i = 0; i < Object.values(responseJson).length; i++) {
-  //         this.state.posts.push(Object.values(responseJson)[i]);
-  //     }
-  //     this.fetchPostsPublishers(this.state.posts, true);
-  //   });
-  // }
 
   _displayPostForm(){
     this.props.navigation.navigate("CreatePost");
@@ -248,18 +210,6 @@ _fusionArray(array1,array2){ // function to fusion the posts array and the users
                 );
               }}
             />
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.touchableOpacityTest}
-              onPress={() => this._testLoadBalancer()}
-            >
-              <Icon
-                name="cloud"
-                type="entypo"
-                color="#4A86E8"
-                size={50}
-              />
-            </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.7}
               style={styles.touchableOpacityStyle}

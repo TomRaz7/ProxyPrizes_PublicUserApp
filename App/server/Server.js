@@ -4,7 +4,9 @@ require('dotenv').config(); //to read env variables defined in the .env
 var http = require('http');
 var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken');
+const NodeCache = require('node-cache');
 
+const cache = new NodeCache( { stdTTL: 3600, checkperiod: 2500 } );
 
 //Config
 const port = process.env.SERVER_PORT;
@@ -36,27 +38,26 @@ connection.connect(function(error){
 });
 
 
-server.post('/test1',function(req,res){
-  console.log('/test1 endpoint');
-  console.log('parameters received :');
-  console.log(req.body);
-})
-
-server.post('/test2',function(req,res){
-  console.log('/test2 endpoint');
-  console.log('parameters received :');
-  console.log(req.body);
-})
 
 server.get('/renderShops',function(req,res){
-  connection.query('SELECT * FROM shop',function(error, rows, fields){
-    if(error){
-      console.log(error);
-    }
-    else{
-      res.send(rows);
-    }
-  })
+  const key = `renderShops`;
+  if(cache.get(key) !== undefined){
+    res.send(cache.get(key));
+  }
+  else{
+    connection.query('SELECT * FROM shop',function(error, rows, fields){
+      if(error){
+        console.log(error);
+      }
+      else{
+        //store the data in the cache
+        console.log("Préparation pour le cache");
+        console.log(rows);
+        cache.set(key, rows);
+        res.send(rows);
+      }
+    })
+  }
 });
 
 server.get('/allPosts',function(req,res){
@@ -103,23 +104,35 @@ server.post('/filterPosts', function(req, res){
     })
   }
   else{
-    connection.query(`SELECT * FROM post WHERE categorytag = '${category}';`, function(error, rows, fields){
-      if(error){
-        console.log(error);
+    var key = `filterPosts_${category}`;
+    if(cache.get(key) !== undefined){
+      console.log("Retrive data from cache");
+      console.log(cache.get(key));
+      var response ={
+        datas:cache.get(key)
       }
-      else{
-        console.log(rows);
-        res.json({
-          datas:rows,
-          filter:category
-        });
-      }
-    });
+      res.send(response);
+    }
+    else{
+      connection.query(`SELECT * FROM post WHERE categorytag = '${category}';`, function(error, rows, fields){
+        if(error){
+          console.log(error);
+        }
+        else{
+          console.log("Storage of the following data within the cache");
+          console.log(rows);
+          cache.set(key, rows);
+          res.json({
+            datas:rows,
+            filter:category
+          });
+        }
+      });
+    }
   }
 })
 
 server.post('/retrieveDiscountsShops',function(req,res){
-  console.log('/retrieveDiscountsShops hitted');
   var discounts = req.body;
   var shopId = null;
   var index = 0; //increment to retrieve as many shops as the number of discounts cause each discounts is related to a single shop
@@ -314,6 +327,13 @@ server.post("/addPost", function (req, res) {
   connection.query(sql, data, (err, result) => {
     if (err) throw err;
     console.log(result);
+    var key = `filterPosts_${req.body.categorytag}`;
+    //add the new post to the post cache if it exists
+    if(cache.get(key)!== undefined){
+      var appendToCache = cache.get(key);
+      appendToCache.push(Object.assign({id:req.body.title}, data))
+      cache.set(key, appendToCache);
+    }
     res.send({
       status: "Data inserted!",
     });
