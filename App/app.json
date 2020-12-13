@@ -4,6 +4,8 @@
     "slug": "App",
     "version": "1.0.0",
     "orientation": "portrait",
+    "notification": { 
+      "icon": "./assets/images/icon_v1_proxi.png" },
     "icon": "./assets/icon_v1_proxi.png",
     "splash": {
       "image": "./assets/icon_v1_proxi.png",
@@ -21,6 +23,9 @@
     },
     "web": {
       "favicon": "./assets/icon_v1_proxi.png"
+    },
+    "android": {
+      "useNextNotificationsApi": true
     }
   }
 }
