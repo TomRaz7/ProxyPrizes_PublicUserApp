@@ -1,4 +1,4 @@
-# Daily Meeting: 14-12-2020 - Sprint 3
+# Daily Meeting: 15-12-2020 - Sprint 3
 
 | Assistant  | Role  |  
 |---|---|
