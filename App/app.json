@@ -4,11 +4,11 @@
     "slug": "App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "notification": { 
+    "notification": {
       "icon": "./assets/images/icon_v1_proxi.png" },
-    "icon": "./assets/icon_v1_proxi.png",
+    "icon": "./assets/images/icon_v1_proxi.png",
     "splash": {
-      "image": "./assets/icon_v1_proxi.png",
+      "image": "./assets/images/icon_v1_proxi.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

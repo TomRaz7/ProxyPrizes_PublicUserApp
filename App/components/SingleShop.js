@@ -7,6 +7,10 @@ import ConfigStore from '../storeRedux/ConfigStore';
 import {connect} from 'react-redux';
 import * as Localization from 'expo-localization';
 
+//Subscription notification
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
+
 //Endpoint Config
 import EndpointConfig from '../server/EndpointConfig';
 
@@ -33,6 +37,7 @@ class SingleShop extends React.Component{
       dataLoaded:false,
       posts:[],
       fetchedDatas:[],
+      expoToken:null
     }
     this._initPostList(faker);
     this._checkSubscription(this.state.shop.id,this.state.subscribedShops);
@@ -50,8 +55,8 @@ class SingleShop extends React.Component{
       fusionedObj = Object.assign({}, array1[i], array2[i]);
       this.state.fetchedDatas.push(fusionedObj);
     }
-    console.log("Post du shop a afficher");
-    console.log(this.state.fetchedDatas);
+    // console.log("Post du shop a afficher");
+    // console.log(this.state.fetchedDatas);
     this.setState({
       dataLoaded:true
     })
@@ -94,6 +99,7 @@ class SingleShop extends React.Component{
       }
       this.fetchPostsPublishers(this.state.posts)
     });
+    this.retrieveExpoPushTokenFromDB();
   }
 
   _initPostList(fakerList){
@@ -123,11 +129,52 @@ class SingleShop extends React.Component{
       console.log(array.length);
   }
 
+  retrieveExpoPushTokenFromDB(){
+    const userId = ConfigStore.getState().toggleAuthentication.userId;
+    fetch(EndpointConfig.retrieveExpoToken,{
+      method:'POST',
+      body:JSON.stringify({
+        userId:userId,
+        toWho:'single'
+      }),
+      headers:{
+             Accept: 'application/json',
+             'content-type':'application/json'
+           }
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log(responseJson[0].expoToken);
+      this.setState({
+        expoToken:responseJson[0].expoToken
+      });
+    })
+  }
+
   _subscribe(shop){
     const action = {type:'TOOGLE_SUBSCRIBE', value:shop};
     this.props.dispatch(action);
     this.forceUpdate();
     this._checkSubscription(this.state.shop.id,this.state.subscribedShops);
+    console.log("Dans la fonction subscribe");
+    console.log(this.state.expoToken);
+    fetch(EndpointConfig.sendNotification,{
+      method:'POST',
+      body:JSON.stringify({
+        expoToken:this.state.expoToken,
+        notificationTitle:'You\'ve just had a new subscriber',
+        notificationBody:'... is following your shop'
+      }),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+      console.log("La répinse json");
+      console.log(responseJson);
+    })
   }
 
   render(){

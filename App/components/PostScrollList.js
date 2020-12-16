@@ -59,7 +59,7 @@ export default class PostScrollList extends React.Component {
     }
 
     const token = await Notifications.getExpoPushTokenAsync();
-    console.log(token);
+    //console.log(token);
     tokenData.expoToken = token.data;
 
     // updates the customer table with the expotoken
@@ -164,7 +164,7 @@ export default class PostScrollList extends React.Component {
       });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     fetch(EndpointConfig.fetchAllPosts)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -173,6 +173,7 @@ export default class PostScrollList extends React.Component {
         }
         this.fetchPostsPublishers(this.state.posts, true);
       });
+      await this.getExpoToken();
   }
 
   _displayPostForm() {
