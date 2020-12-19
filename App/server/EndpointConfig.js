@@ -1,7 +1,8 @@
 //const url = "http://192.168.0.36:4000"; //dev Bussy
-const url = "http://192.168.1.45:4000"; //dev Compi
 
-//prod without loadd balancer const url = 'http://52.47.98.136:4000';
+const url = "http://192.168.1.45:4000"; //dev url
+
+//const url = 'http://52.47.98.136:4000'; //prod without load balancer
 
 //prod with load balancer
 //const url = 'http://ProxyPrizesLb-315392771.eu-west-3.elb.amazonaws.com:4000'

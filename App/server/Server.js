@@ -86,7 +86,6 @@ server.post("/retrieveSingleShopPosts", function (req, res) {
 
 server.post("/filterPosts", function (req, res) {
   var category = req.body.category.toString();
-  console.log(category);
   if (category === "all") {
     connection.query("SELECT * FROM post", function (error, rows, fields) {
       if (error) {

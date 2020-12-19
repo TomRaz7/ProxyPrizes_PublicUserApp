@@ -14,6 +14,7 @@ import ShopMap from '../components/ShopMap';
 import SingleShop from '../components/SingleShop';
 import CreatePost from '../components/CreatePost';
 import AppHeader from '../components/AppHeader';
+import PostDetail from '../components/PostDetail';
 
 
 //Settle Stack Navigator
@@ -26,6 +27,12 @@ const postStackNavigator = createStackNavigator({
   },
   CreatePost:{
     screen:CreatePost,
+    navigationOptions:{
+      headerTitle:<AppHeader/>
+    }
+  },
+  PostDetail:{
+    screen:PostDetail,
     navigationOptions:{
       headerTitle:<AppHeader/>
     }

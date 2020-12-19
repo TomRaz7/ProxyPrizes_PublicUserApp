@@ -297,81 +297,83 @@ export default class PostScrollList extends React.Component {
               const item = post.item;
               return (
                 <View style={styles.card}>
-                  <Image
-                    style={styles.cardImage}
-                    source={{ uri: item.picture }}
-                  />
-                  <View style={styles.cardHeader}>
-                    <View>
-                      <View style={styles.timeContainer}>
-                        <Image
-                          style={styles.userImage}
-                          source={{ uri: item.publisherPicture }}
-                        />
-                        <Text style={styles.userTitle}>
-                          {item.publisherForname}
-                        </Text>
-                      </View>
-                      <Text style={styles.title}>{item.title}</Text>
-                      <Text style={styles.description}>{item.description}</Text>
-                      <View style={styles.timeContainer}>
-                        <Icon
-                          name="clock"
-                          type="entypo"
-                          size={15}
-                          style={styles.iconClock}
-                          onPress={() =>
-                            this.props.navigation.navigate("CreatePost")
-                          }
-                        />
-                        <Text style={styles.time}>{item.publishedAt}</Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.cardFooter}>
-                    <View style={styles.socialBarContainer}>
-                      <View style={styles.socialBarSection}>
-                        <TouchableOpacity
-                          style={styles.socialBarButton}
-                          onPress={() =>
-                            this.likePost(
-                              (array = {
-                                postID: item.id,
-                                userID: item.customer,
-                              })
-                            )
-                          }
-                        >
+                  <TouchableOpacity onPress = {() => this.props.navigation.navigate("PostDetail", {post: item})}>
+                    <Image
+                      style={styles.cardImage}
+                      source={{ uri: item.picture }}
+                    />
+                    <View style={styles.cardHeader}>
+                      <View>
+                        <View style={styles.timeContainer}>
+                          <Image
+                            style={styles.userImage}
+                            source={{ uri: item.publisherPicture }}
+                          />
+                          <Text style={styles.userTitle}>
+                            {item.publisherForname}
+                          </Text>
+                        </View>
+                        <Text style={styles.title}>{item.title}</Text>
+                        <Text style={styles.description}>{item.description}</Text>
+                        <View style={styles.timeContainer}>
                           <Icon
-                            name={
-                              this.state.postLiked.includes(item.id)
-                                ? "heart"
-                                : "heart-outlined"
+                            name="clock"
+                            type="entypo"
+                            size={15}
+                            style={styles.iconClock}
+                            onPress={() =>
+                              this.props.navigation.navigate("CreatePost")
                             }
-                            type="entypo"
-                            style={styles.icon}
                           />
-                          <Text style={styles.socialBarLabel}>
-                            {this.state.postLiked.includes(item.id)
-                              ? item.likecounter + 1
-                              : item.likecounter}
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={styles.socialBarSection}>
-                        <TouchableOpacity style={styles.socialBarButton}>
-                          <Icon
-                            name="message"
-                            type="entypo"
-                            style={styles.icon}
-                          />
-                          <Text style={styles.socialBarLabel}>
-                            {i18n.t("comment")}
-                          </Text>
-                        </TouchableOpacity>
+                          <Text style={styles.time}>{item.publishedAt}</Text>
+                        </View>
                       </View>
                     </View>
-                  </View>
+                    <View style={styles.cardFooter}>
+                      <View style={styles.socialBarContainer}>
+                        <View style={styles.socialBarSection}>
+                          <TouchableOpacity
+                            style={styles.socialBarButton}
+                            onPress={() =>
+                              this.likePost(
+                                (array = {
+                                  postID: item.id,
+                                  userID: item.customer,
+                                })
+                              )
+                            }
+                          >
+                            <Icon
+                              name={
+                                this.state.postLiked.includes(item.id)
+                                  ? "heart"
+                                  : "heart-outlined"
+                              }
+                              type="entypo"
+                              style={styles.icon}
+                            />
+                            <Text style={styles.socialBarLabel}>
+                              {this.state.postLiked.includes(item.id)
+                                ? item.likecounter + 1
+                                : item.likecounter}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.socialBarSection}>
+                          <TouchableOpacity style={styles.socialBarButton}>
+                            <Icon
+                              name="message"
+                              type="entypo"
+                              style={styles.icon}
+                            />
+                            <Text style={styles.socialBarLabel}>
+                              {i18n.t("comment")}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               );
             }}
