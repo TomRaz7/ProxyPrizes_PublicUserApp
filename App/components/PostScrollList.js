@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import TimeAgo from "react-native-timeago";
 import faker from "../faker/PostScrollListData";
 import DropDownPicker from "react-native-dropdown-picker";
 import ConfigStore from "../storeRedux/ConfigStore";
@@ -335,7 +336,10 @@ export default class PostScrollList extends React.Component {
                               this.props.navigation.navigate("CreatePost")
                             }
                           />
-                          <Text style={styles.time}>{item.publishedAt}</Text>
+                          <TimeAgo
+                            time={item.publishedAt}
+                            style={styles.time}
+                          />
                         </View>
                       </View>
                     </View>
@@ -553,7 +557,7 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 13,
     color: "#808080",
-    marginTop: 5,
+    marginLeft: 5,
   },
   iconClock: {
     width: 15,
