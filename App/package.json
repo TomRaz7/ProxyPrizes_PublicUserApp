@@ -23,6 +23,7 @@
     "http-proxy-middleware": "^1.0.6",
     "i18n-js": "^3.8.0",
     "into-stream": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",

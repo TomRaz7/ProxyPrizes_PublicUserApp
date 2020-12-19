@@ -1,6 +1,6 @@
 //const url = "http://192.168.0.36:4000"; //dev Bussy
 
-const url = "http://192.168.1.45:4000"; //dev url
+const url = "http://192.168.1.135:4000"; //dev url
 
 //const url = 'http://52.47.98.136:4000'; //prod without load balancer
 
@@ -18,9 +18,13 @@ export default {
   fetchUserDiscounts: url + "/retrieveUserDiscounts",
   fetchDiscountsShops: url + "/retrieveDiscountsShops",
   addPost: url + "/addPost",
+  deletePost: url + "/deletePost",
   getS3: url + "/getS3",
   addExpoToken: url + "/addExpoToken",
   retrieveExpoToken: url + "/retrieveExpoToken",
   sendNotification: url + "/sendNotification",
   likePost: url + "/likePost",
+  addAvaliabilityRequest: url + "/addAvaliabilityRequest",
+  getAvaliabilityRequest: url + "/getAvaliabilityRequest",
+  getShopOwner: url + "/getShopOwner",
 };

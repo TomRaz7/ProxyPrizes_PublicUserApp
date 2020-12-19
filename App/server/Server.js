@@ -334,6 +334,23 @@ server.post("/addPost", function (req, res) {
   });
 });
 
+server.post("/deletePost", function (req, res) {
+  console.log("/deletePost hitted");
+  var postId = req.body.postId;
+
+  var dbQuery = `DELETE FROM post WHERE id =${postId};`;
+
+  connection.query(dbQuery, function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Post deleted.");
+      //console.log(rows);
+      res.send(rows);
+    }
+  });
+});
+
 //get s3 credentials
 server.get("/getS3", (req, res) => {
   const answer = {
@@ -434,4 +451,60 @@ server.post("/sendNotification", function (req, res) {
       // sends the response, with status and receipt id (for checking wheter or not the device received the notification)
       res.send(responseJson);
     });
+});
+
+// function to manage the avaliability requests from the user
+server.post("/addAvaliabilityRequest", function (req, res) {
+  console.log("/addAvaliabilityRequest hitted");
+  var data = {
+    creator: req.body.customer,
+    shop: req.body.shop,
+    description: req.body.description,
+    status: "pending",
+    answer: "no answer",
+  };
+  console.log(data);
+
+  var sql = "INSERT INTO request SET ?";
+
+  connection.query(sql, data, (err, result) => {
+    if (err) throw err;
+    else {
+      res.send({
+        status: "Data inserted!",
+      });
+    }
+  });
+});
+
+server.post("/getAvaliabilityRequest", function (req, res) {
+  console.log("/getAvaliabilityRequest hitted");
+  var user = req.body.userId;
+  connection.query(
+    `SELECT * FROM request WHERE creator = ${user};`,
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(rows);
+      }
+    }
+  );
+});
+
+// function to manage the avaliability requests from the user
+server.post("/getShopOwner", function (req, res) {
+  console.log("/getShopOwner hitted");
+  var shopId = req.body.shop;
+
+  var sql = `SELECT owner FROM shop WHERE id = ${shopId};`;
+
+  connection.query(sql, function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      //console.log(rows);
+      res.send(rows);
+    }
+  });
 });

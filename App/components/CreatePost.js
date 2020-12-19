@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 
-import ConfigStore from '../storeRedux/ConfigStore';
+import ConfigStore from "../storeRedux/ConfigStore";
 import EndpointConfig from "../server/EndpointConfig";
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -22,9 +22,10 @@ import Translation from "../language/Translation";
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
+const ca = Translation.ca;
 
-i18n.translations = { fr, en, es };
-i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`
+i18n.translations = { fr, en, es, ca };
+i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
 let openImagePickerAsync = async () => {
   let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -102,8 +103,8 @@ export default class CreatePost extends React.Component {
       imagename: "",
       imagetype: "",
       imagestate: false,
-      dropItemShops:[],
-      dataShopsRetrieved:false
+      dropItemShops: [],
+      dataShopsRetrieved: false,
     };
   }
 
@@ -190,20 +191,23 @@ export default class CreatePost extends React.Component {
     })();
   };
 
-  componentDidMount(){
+  componentDidMount() {
     fetch(EndpointConfig.fetchShops)
-    .then(response => response.json())
-    .then(responseJson =>{
-      console.log(responseJson);
-      for(let i = 0; i<responseJson.length; i++){
-        this.state.dropItemShops.push({'label':responseJson[i].name, 'value':responseJson[i].id});
-      }
-      if(this.state.dropItemShops.length !== 0){
-        this.setState({
-          dataShopsRetrieved:true
-        })
-      }
-    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        for (let i = 0; i < responseJson.length; i++) {
+          this.state.dropItemShops.push({
+            label: responseJson[i].name,
+            value: responseJson[i].id,
+          });
+        }
+        if (this.state.dropItemShops.length !== 0) {
+          this.setState({
+            dataShopsRetrieved: true,
+          });
+        }
+      });
   }
 
   render() {
@@ -228,7 +232,7 @@ export default class CreatePost extends React.Component {
           <DropDownPicker
             items={categoryData}
             containerStyle={{ height: 40 }}
-            placeholder={"Please select a category"}
+            placeholder={i18n.t("postForm.select_category")}
             style={{ backgroundColor: "#fafafa" }}
             itemStyle={{
               justifyContent: "flex-start",
@@ -243,7 +247,7 @@ export default class CreatePost extends React.Component {
           <DropDownPicker
             items={this.state.dropItemShops}
             containerStyle={{ height: 40 }}
-            placeholder={"Please select a shop"}
+            placeholder={i18n.t("postForm.select_shop")}
             style={{ backgroundColor: "#fafafa" }}
             itemStyle={{
               justifyContent: "flex-start",
