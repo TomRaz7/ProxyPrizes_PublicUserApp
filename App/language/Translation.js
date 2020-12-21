@@ -2,7 +2,7 @@ const fr = {
   yes: "Oui",
   no: "Non",
   delete_post: "Supprimer message",
-  ask_avaliability: "demander la disponibilité",
+  ask_avaliability: "Demander disponibilité",
   avaliability_request: "Vos demandes de disponibilité",
   login: "Se connecter",
   logout: "Déconnexion",

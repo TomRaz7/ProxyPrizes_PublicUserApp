@@ -35,6 +35,7 @@ export default class PostDetail extends React.Component {
 
   componentDidMount() {
     if (this.state.currentUser === this.state.post.customer) {
+      console.log("Same user");
       this.setState({
         isModalVisible: true,
       });
@@ -101,6 +102,8 @@ export default class PostDetail extends React.Component {
       toWho: "single",
       isShop: "yes",
       expoToken: "",
+      notificationTitle: "A user have a request for you!",
+      notificationBody: "Answer as soon as possible",
     };
 
     console.log(data.description);

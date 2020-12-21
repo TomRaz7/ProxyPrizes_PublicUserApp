@@ -382,11 +382,16 @@ server.post("/retrieveExpoToken", function (req, res) {
   console.log("/retrieveExpoToken hitted");
   var userId = req.body.userId;
   var action = req.body.toWho;
+  var isShop = req.body.isShop;
 
-  if (action === "single") {
+  if (action === "single" && isShop !== "yes") {
     var dbQuery = `SELECT expoToken FROM customer WHERE id = ${userId};`;
-  } else if (action === "all") {
+  } else if (action === "all" && isShop !== "yes") {
     var dbQuery = `SELECT expoToken FROM customer;`;
+  } else if (action === "single" && isShop === "yes") {
+    var dbQuery = `SELECT expoToken FROM owner WHERE id = ${userId};`;
+  } else if (action === "all" && isShop === "yes") {
+    var dbQuery = `SELECT expoToken FROM owner WHERE id = ${userId};`;
   }
 
   connection.query(dbQuery, function (error, rows, fields) {
