@@ -64,20 +64,24 @@ export default class PostScrollList extends React.Component {
     //console.log(token);
     tokenData.expoToken = token.data;
 
-    // updates the customer table with the expotoken
-    fetch(EndpointConfig.addExpoToken, {
-      method: "POST",
-      body: JSON.stringify(tokenData),
-      headers: {
-        Accept: "application/json",
-        "content-type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("Results of inserting expo token: ");
-        console.log(responseJson);
-      });
+    if (tokenData.userId !== "undefined") {
+      // updates the customer table with the expotoken
+      fetch(EndpointConfig.addExpoToken, {
+        method: "POST",
+        body: JSON.stringify(tokenData),
+        headers: {
+          Accept: "application/json",
+          "content-type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log("Results of inserting expo token: ");
+          console.log(responseJson);
+        });
+    }
+    console.log("Olha o token!!");
+    console.log(tokenData.expoToken);
   };
 
   setModalVisible = (visible) => {
