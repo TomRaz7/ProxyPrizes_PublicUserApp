@@ -1,4 +1,4 @@
-# Sprint 2 Retrospective  (22-12-2020)
+# Sprint 3 Retrospective  (22-12-2020)
 
 | Assistant  | Role  |  
 |---|---|
