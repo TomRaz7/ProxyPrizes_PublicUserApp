@@ -173,8 +173,13 @@ export default class CreatePost extends React.Component {
   }
 
   createPost() {
-    if (this.state.imagestate == true) this.uploadImage();
-    else this.addPost(this.state);
+    if(ConfigStore.getState().toggleAuthentication.token !== null && ConfigStore.getState().toggleAuthentication.token !== ''){
+      if (this.state.imagestate == true) this.uploadImage();
+      else this.addPost(this.state);
+    }
+    else {
+      console.log("Missing JWT token credentials");
+    }
   }
 
   handleImage = () => {
