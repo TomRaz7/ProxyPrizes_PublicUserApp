@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import TimeAgo from "react-native-timeago";
 import faker from "../faker/PostScrollListData";
 import DropDownPicker from "react-native-dropdown-picker";
 import ConfigStore from "../storeRedux/ConfigStore";
@@ -27,8 +28,9 @@ import Translation from "../language/Translation";
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
+const ca = Translation.ca;
 
-i18n.translations = { fr, en, es };
+i18n.translations = { fr, en, es, ca };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
 export default class PostScrollList extends React.Component {
@@ -62,20 +64,24 @@ export default class PostScrollList extends React.Component {
     //console.log(token);
     tokenData.expoToken = token.data;
 
-    // updates the customer table with the expotoken
-    fetch(EndpointConfig.addExpoToken, {
-      method: "POST",
-      body: JSON.stringify(tokenData),
-      headers: {
-        Accept: "application/json",
-        "content-type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("Results of inserting expo token: ");
-        console.log(responseJson);
-      });
+    if (tokenData.userId !== "undefined") {
+      // updates the customer table with the expotoken
+      fetch(EndpointConfig.addExpoToken, {
+        method: "POST",
+        body: JSON.stringify(tokenData),
+        headers: {
+          Accept: "application/json",
+          "content-type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((responseJson) => {
+          console.log("Results of inserting expo token: ");
+          console.log(responseJson);
+        });
+    }
+    console.log("Olha o token!!");
+    console.log(tokenData.expoToken);
   };
 
   setModalVisible = (visible) => {
@@ -173,7 +179,7 @@ export default class PostScrollList extends React.Component {
         }
         this.fetchPostsPublishers(this.state.posts, true);
       });
-      await this.getExpoToken();
+    await this.getExpoToken();
   }
 
   _displayPostForm() {
@@ -186,6 +192,7 @@ export default class PostScrollList extends React.Component {
       userId: array.userID,
       action: "like",
       toWho: "single",
+      isShop: "no",
       expoToken: "",
       notificationTitle: "Someone liked your post!",
       notificationBody: "It seems your post is getting noticed",
@@ -297,7 +304,13 @@ export default class PostScrollList extends React.Component {
               const item = post.item;
               return (
                 <View style={styles.card}>
-                  <TouchableOpacity onPress = {() => this.props.navigation.navigate("PostDetail", {post: item})}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("PostDetail", {
+                        post: item,
+                      })
+                    }
+                  >
                     <Image
                       style={styles.cardImage}
                       source={{ uri: item.picture }}
@@ -314,7 +327,9 @@ export default class PostScrollList extends React.Component {
                           </Text>
                         </View>
                         <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.description}>{item.description}</Text>
+                        <Text style={styles.description}>
+                          {item.description}
+                        </Text>
                         <View style={styles.timeContainer}>
                           <Icon
                             name="clock"
@@ -325,7 +340,10 @@ export default class PostScrollList extends React.Component {
                               this.props.navigation.navigate("CreatePost")
                             }
                           />
-                          <Text style={styles.time}>{item.publishedAt}</Text>
+                          <TimeAgo
+                            time={item.publishedAt}
+                            style={styles.time}
+                          />
                         </View>
                       </View>
                     </View>
@@ -543,7 +561,7 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 13,
     color: "#808080",
-    marginTop: 5,
+    marginLeft: 5,
   },
   iconClock: {
     width: 15,
