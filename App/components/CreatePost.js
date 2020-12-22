@@ -23,8 +23,9 @@ const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
 const ca = Translation.ca;
+const pt = Translation.pt;
 
-i18n.translations = { fr, en, es, ca };
+i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
 let openImagePickerAsync = async () => {
@@ -174,11 +175,13 @@ export default class CreatePost extends React.Component {
   }
 
   createPost() {
-    if(ConfigStore.getState().toggleAuthentication.token !== null && ConfigStore.getState().toggleAuthentication.token !== ''){
+    if (
+      ConfigStore.getState().toggleAuthentication.token !== null &&
+      ConfigStore.getState().toggleAuthentication.token !== ""
+    ) {
       if (this.state.imagestate == true) this.uploadImage();
       else this.addPost(this.state);
-    }
-    else {
+    } else {
       console.log("Missing JWT token credentials");
     }
   }
