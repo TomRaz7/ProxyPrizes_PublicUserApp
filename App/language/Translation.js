@@ -50,6 +50,7 @@ const fr = {
   es: "Espagnol",
   en: "Anglais",
   ca: "Catalan",
+  pt: "Portugais",
 };
 
 const en = {
@@ -105,6 +106,7 @@ const en = {
   es: "Spanish",
   en: "English",
   ca: "Catalan",
+  pt: "Portugués",
 };
 
 const es = {
@@ -159,6 +161,7 @@ const es = {
   es: "Espanol",
   en: "Ingles",
   ca: "Catalán",
+  pt: "Portugués",
 };
 
 const ca = {
@@ -214,6 +217,62 @@ const ca = {
   es: "Espanyol",
   en: "Anglès",
   ca: "Català",
+  pt: "Portuguès",
+};
+
+const pt = {
+  yes: "Sim",
+  no: "No",
+  delete_post: "Deletar post",
+  ask_avaliability: "Solicitar disponibilidade",
+  avaliability_request: "Solicitudes de disponibilidade",
+  login: "Conectar",
+  logout: "Desconectar",
+  log_mail: "Introduza o seu e-mail",
+  log_passwd: "Introduza a sua senha",
+  login_error_title: "Problema de conexão",
+  login_error_description:
+    "Usuário não encontrado, revise o seu usuário e senha",
+  create_account: "Crie a sua conta",
+  create_account_mail: "Introduza o seu email",
+  create_account_passwd: "Introduza a sua senha",
+  confirm_passwd: "Confirme a senha",
+  account_created_confirmation: "Foi criada uma nova conta para: ",
+  password_forgotten: "Esqueceu a senha?",
+  create_account_name: "Sobrenome",
+  create_account_forname: "Nome",
+  create_account_phone: "Telefone",
+  create_account_adress: "Endereço",
+  retrieve_passwd: "Recupere a sua senha",
+  register: "Registre-se",
+  subscribe: "Inscreva-se",
+  unsubscribe: "Desinscrever-se",
+  shop_subscription: "As suas lojas",
+  noShopSubscribed: "Atualmente não está inscrito em nenhuma loja",
+  favorite_post: "Os seus posts preferidos",
+  profile: "Bem-vindo ao seu perfil",
+  comment: "Comentário",
+  postForm: {
+    create_post: "Crie a sua publicação",
+    product_title: "Título do produto",
+    product_title_input: "Introduza o título do produto",
+    select_category: "Selecione uma categoria",
+    select_shop: "Selecione uma loja",
+    upload_button: "Adicione uma foto",
+    product_description: "Descrição do produto",
+    product_description_input: "Descreva o produto",
+    confirm: "Confirmar",
+  },
+  discount: "Os seus descontos",
+  discount_amount: "de desconto ",
+  discount_validity: "Até  ",
+  cancel_btn: "Cancelar",
+  language: "Selecione um idioma",
+  fr: "Francês",
+  es: "Espanhol",
+  en: "Inglês",
+  ca: "Catalão",
+  pt: "Português",
 };
 
 export default {
@@ -221,4 +280,5 @@ export default {
   en,
   es,
   ca,
+  pt,
 };

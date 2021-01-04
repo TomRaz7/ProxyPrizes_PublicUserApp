@@ -22,8 +22,10 @@ import Translation from "../language/Translation";
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
+const ca = Translation.ca;
+const pt = Translation.pt;
 
-i18n.translations = { fr, en, es };
+i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
 class Login extends React.Component {
