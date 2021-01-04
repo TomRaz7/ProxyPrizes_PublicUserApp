@@ -18,6 +18,9 @@ import * as Localization from "expo-localization";
 import DiscountProfileTemplate from "./DiscountProfileTemplate";
 import AvaliabilityRequestTemplate from "./AvaliabilityRequestTemplate";
 
+//Our own components
+import TutorialModalTemplate from './TutorialModalTemplate';
+
 //Endpoint Config
 import EndpointConfig from "../server/EndpointConfig";
 
@@ -44,6 +47,7 @@ class Profile extends React.Component {
       discountsLoaded: false,
       renderDiscounts: [],
       appLanguage: ConfigStore.getState().toggleLanguageSelection.language,
+      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayAppTutorial
     };
   }
 
@@ -292,6 +296,7 @@ class Profile extends React.Component {
               <AvaliabilityRequestTemplate prop={item} />
             )}
           />
+          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial}/>
         </ScrollView>
       );
     } else {
@@ -423,6 +428,7 @@ class Profile extends React.Component {
               <AvaliabilityRequestTemplate prop={item} />
             )}
           />
+          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial}/>
         </ScrollView>
       );
     }

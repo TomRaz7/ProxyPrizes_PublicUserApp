@@ -1,6 +1,6 @@
 //const url = "http://192.168.0.36:4000"; //dev Bussy
 
-const url = "http://192.168.1.135:4000"; //dev url
+const url = "http://192.168.1.45:4000"; //dev url
 
 //const url = 'http://52.47.98.136:4000'; //prod without load balancer
 

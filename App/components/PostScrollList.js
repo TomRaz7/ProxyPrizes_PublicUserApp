@@ -19,6 +19,9 @@ import ConfigStore from "../storeRedux/ConfigStore";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
+//Our own components
+import TutorialModalTemplate from './TutorialModalTemplate';
+
 //Endpoint Config
 import EndpointConfig from "../server/EndpointConfig";
 
