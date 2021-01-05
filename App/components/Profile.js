@@ -48,8 +48,18 @@ class Profile extends React.Component {
       discountsLoaded: false,
       renderDiscounts: [],
       appLanguage: ConfigStore.getState().toggleLanguageSelection.language,
-      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayAppTutorial
+      displayAppTutorial:false
     };
+  }
+
+  updateState(dataFromChild){
+    /*this function is used to close the tutorial modal for the profile screen
+    * It will also dispatch the action to the redux store so that the tutorial will never be displayed again.
+    * It enable centralazing the dispatch so that it will always be done from the parent component
+    */
+    this.setState({
+      displayAppTutorial:dataFromChild
+    });
   }
 
   _fusionArray(array1, array2) {
@@ -135,10 +145,20 @@ class Profile extends React.Component {
   }
 
   didFocusAction = () => {
+    console.log(this.state.displayAppTutorial);
     this.setState({
-      subscribedShopsList: ConfigStore.getState().toggleSubscription
-        .subscribedShops,
+      subscribedShopsList: ConfigStore.getState().toggleSubscription.subscribedShops,
     });
+    this.setState({
+      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayProfileModalTutorial
+    },() => {
+      console.log('Set state asynchrone');
+      console.log(this.state.displayAppTutorial);
+    })
+    this.forceUpdate();
+    console.log(ConfigStore.getState().toggleTutorial);
+    console.log(ConfigStore.getState().toggleTutorial.displayProfileModalTutorial);
+
   };
 
   _logOut() {
@@ -297,7 +317,7 @@ class Profile extends React.Component {
               <AvaliabilityRequestTemplate prop={item} />
             )}
           />
-          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial}/>
+          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </ScrollView>
       );
     } else {
@@ -429,7 +449,7 @@ class Profile extends React.Component {
               <AvaliabilityRequestTemplate prop={item} />
             )}
           />
-          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial}/>
+          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </ScrollView>
       );
     }

@@ -2,22 +2,9 @@ import React from 'react';
 import {View,Text,Modal,TouchableHighlight,StyleSheet} from 'react-native';
 
 export default class TutorialModalTemplate extends React.Component{
-  constructor(props){
-    super(props);
-    this.state={
-      screenName:this.props.screen,
-      description:this.props.description,
-      modalVisible:this.props.visible, //we get the visible value from the parent which get it from the redux store.
-    }
-  }
 
-  setModalVisible = (visible) => {
-   this.setState({ modalVisible: visible });
- }
-
- componentDidMount(){
-   console.log('Tutorial Template');
-   console.log(this.state.modalVisible);
+ updateParentState(data){
+   this.props.updateParentState(data);
  }
 
    // generateActionType(name){//a function to generate dynamically the type of the action to dispatch to the display app tutorial reducer based on the screenName
@@ -33,38 +20,29 @@ export default class TutorialModalTemplate extends React.Component{
   render(){
     return(
       <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{this.state.description}</Text>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.props.visible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>{this.props.description}</Text>
 
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-              }}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </TouchableHighlight>
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                onPress={() => {
+                  this.updateParentState(false);
+                }}
+              >
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
-      </Modal>
-
-      <TouchableHighlight
-        style={styles.openButton}
-        onPress={() => {
-          this.setModalVisible(false);
-        }}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </TouchableHighlight>
+        </Modal>
       </View>
     );
   }
