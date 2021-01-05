@@ -15,6 +15,8 @@ import EndpointConfig from "../server/EndpointConfig";
 
 //Our own components
 import TutorialModalTemplate from './TutorialModalTemplate';
+import PaymentModal from './PaymentModal';
+
 
 import i18n from "i18n-js";
 import Translation from "../language/Translation";
@@ -28,6 +30,14 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
+//Payment
+import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+
+Stripe.setOptionsAsync({
+  publishableKey:'sk_test_51I6I1WFgrdNJx60HP7lWhr0HWPh7nWWfiv9xxed6VyPqX23mvhiLs3c9cr2x82jk8YxcHOeNgsT87lX0WlzohnpW00xhNnY1Px', // Your key
+});
+
+
 class PostDetail extends React.Component {
   constructor(props) {
     super(props);
@@ -35,8 +45,24 @@ class PostDetail extends React.Component {
       post: this.props.navigation.getParam("post"),
       currentUser: ConfigStore.getState().toggleAuthentication.userId,
       isModalVisible: false,
-      displayAppTutorial:false
+      displayAppTutorial:false,
+      paymentModalVisible:false,
+      paymentInformtation:{
+        cardNumber:null,
+        expMonth:null,
+        expYear:null,
+        cvc:null
+      }
     };
+  }
+
+  updateStateFromPaymentModal(dataFromChild){
+    console.log("Data depuis le modal de payment");
+    console.log(dataFromChild);
+    this.setState({
+      paymentModalVisible:dataFromChild.modalVisible,
+      paymentInformation:Object.assign({},dataFromChild.paymentInformation)
+    });
   }
 
   updateState(dataFromChild){
@@ -60,7 +86,6 @@ class PostDetail extends React.Component {
   componentDidMount() {
     this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction)
     if (this.state.currentUser === this.state.post.customer) {
-      console.log("Same user");
       this.setState({
         isModalVisible: true,
       });
@@ -250,7 +275,25 @@ class PostDetail extends React.Component {
               </LinearGradient>
             </View>
           )}
+          <View style={styles.postBottom}>
+            <LinearGradient
+              style={styles.linearGradient}
+              colors={["#0575E6", "#205E9B"]}
+              start={[0, 1]}
+              end={[1, 0]}
+            >
+              <TouchableOpacity
+                style={styles.touchableOpacity}
+                onPress={() => this.setState({paymentModalVisible:true})}
+              >
+                <Text style={{ color: "#fff", fontWeight: "bold" }}>
+                  Buy this product
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
           <TutorialModalTemplate screen="postDetail" description="Post detail tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+          <PaymentModal visible={this.state.paymentModalVisible} productPrice={this.state.post.price} productName={this.state.post.title} updateParentState={this.updateStateFromPaymentModal.bind(this)}/>
         </View>
       </View>
     );

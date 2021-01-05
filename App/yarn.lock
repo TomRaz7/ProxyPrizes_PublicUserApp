@@ -2778,6 +2778,13 @@ expo-notifications@~0.7.2:
     expo-constants "9.2.0"
     uuid "^3.4.0"
 
+expo-payments-stripe@~8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/expo-payments-stripe/-/expo-payments-stripe-8.3.0.tgz#2e636e52951d8d7fdde3395404ff76948c437d1c"
+  integrity sha512-zEycDo0QQTzfY1oka2C9VJ7Hz7DbRzBk3kEaKdXCcSNHR2Gh1Js32SDtwPMUOYGfJighv37+Z+BwfDumnwgKwg==
+  dependencies:
+    prop-types "^15.6.0"
+
 expo-permissions@~9.3.0:
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-9.3.0.tgz#b90c7e9e411d306c1c7ba2bae18d5c53c201affd"
