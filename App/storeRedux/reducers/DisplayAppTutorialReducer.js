@@ -15,7 +15,9 @@ function toggleTutorial(state = initialState, action){
       return nextState;
       break;
     case 'POSTLIST_DISCOVERED':
-      nextState.displayPostlistModalTutorial = false;
+      console.log("Contenu du store redux :");
+      console.log(nextState);
+      //nextState.displayPostlistModalTutorial = false;
       return nextState;
       break;
     case 'PROFILE_DISCOVERED':
@@ -31,6 +33,8 @@ function toggleTutorial(state = initialState, action){
       return nextState;
       break;
     case 'POSTDETAIL_DISCOVERED':
+      console.log("Contenu du store redux :");
+      console.log(nextState);
       nextState.displayPostDetailModalTutorial = false;
       return nextState;
       break;

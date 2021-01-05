@@ -18,6 +18,9 @@ import * as Localization from "expo-localization";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
+//Our own components
+import TutorialModalTemplate from './TutorialModalTemplate';
+
 //Endpoint Config
 import EndpointConfig from "../server/EndpointConfig";
 
@@ -37,6 +40,7 @@ class SingleShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      displayAppTutorial:false,
       shop: this.props.navigation.getParam("shop"),
       relatedPosts: [],
       subscribedShops: ConfigStore.getState().toggleSubscription
@@ -86,7 +90,27 @@ class SingleShop extends React.Component {
       });
   }
 
+  updateState(dataFromChild){
+    this.setState({
+      displayAppTutorial:dataFromChild
+    });
+    const action = {type:'SINGLESHOP_DISCOVERED',value:true};
+    //this.props.dispatch(action);
+  }
+
+  componentWillUnmount(){
+    this.didFocusListener.remove();
+  }
+
+  didFocusAction = () => {
+    this.setState({
+      displayAppTutorial:ConfigStore.getState().toggleTutorial.displaySingleShopModalTutorial
+    });
+  }
+
+
   componentDidMount() {
+    this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction)
     fetch(EndpointConfig.fetchSingleShopPosts, {
       method: "POST",
       body: JSON.stringify({
@@ -244,6 +268,7 @@ class SingleShop extends React.Component {
                   }
                 }}
               />
+              <TutorialModalTemplate screen="singleShop" description="Single shop tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
             </View>
           </View>
         );
@@ -297,6 +322,7 @@ class SingleShop extends React.Component {
                   }
                 }}
               />
+              <TutorialModalTemplate screen="singleShop" description="Single shop tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
             </View>
           </View>
         );

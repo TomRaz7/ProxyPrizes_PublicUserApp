@@ -9,6 +9,10 @@ import {
   SafeAreaView,
 } from "react-native";
 
+
+//Our own components
+import TutorialModalTemplate from './TutorialModalTemplate';
+
 import ConfigStore from "../storeRedux/ConfigStore";
 import EndpointConfig from "../server/EndpointConfig";
 import * as ImagePicker from "expo-image-picker";
@@ -91,6 +95,7 @@ export default class CreatePost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      displayAppTutorial:false,
       title: "",
       description: "",
       picture: "",
@@ -199,7 +204,27 @@ export default class CreatePost extends React.Component {
     })();
   };
 
+  updateState(dataFromChild){
+    this.setState({
+      displayAppTutorial:dataFromChild
+    });
+    const action = {type:'POSTFORM_DISCOVERED',value:true};
+    //this.props.dispatch(action);
+  }
+
+  componentWillUnmount(){
+    this.didFocusListener.remove();
+  }
+
+  didFocusAction = () => {
+    this.setState({
+      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayPostFormModalTutorial
+    });
+  }
+
+
   componentDidMount() {
+    this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction)
     fetch(EndpointConfig.fetchShops)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -294,6 +319,7 @@ export default class CreatePost extends React.Component {
             />
           </View>
         </View>
+        <TutorialModalTemplate screen="createPost" description="Create post tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
       </SafeAreaView>
     );
   }

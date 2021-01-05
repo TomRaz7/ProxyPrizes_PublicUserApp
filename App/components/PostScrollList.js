@@ -10,6 +10,7 @@ import {
   Modal,
   TouchableHighlight,
 } from "react-native";
+import { connect } from "react-redux";
 import { Icon } from "react-native-elements";
 import TimeAgo from "react-native-timeago";
 import faker from "../faker/PostScrollListData";
@@ -37,7 +38,7 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
-export default class PostScrollList extends React.Component {
+class PostScrollList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -180,7 +181,7 @@ export default class PostScrollList extends React.Component {
       displayAppTutorial:dataFromChild
     });
     const action = {type:'POSTLIST_DISCOVERED', value:true};
-    //this.props.dispatch(action);
+    this.props.dispatch(action);
   }
 
   componentWillUnmount(){
@@ -700,3 +701,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps)(PostScrollList);

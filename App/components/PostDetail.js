@@ -7,10 +7,14 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import { connect } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 
 import ConfigStore from "../storeRedux/ConfigStore";
 import EndpointConfig from "../server/EndpointConfig";
+
+//Our own components
+import TutorialModalTemplate from './TutorialModalTemplate';
 
 import i18n from "i18n-js";
 import Translation from "../language/Translation";
@@ -24,17 +28,37 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
-export default class PostDetail extends React.Component {
+class PostDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       post: this.props.navigation.getParam("post"),
       currentUser: ConfigStore.getState().toggleAuthentication.userId,
       isModalVisible: false,
+      displayAppTutorial:false
     };
   }
 
+  updateState(dataFromChild){
+    this.setState({
+      displayAppTutorial:dataFromChild
+    });
+    const action = {type:'POSTDETAIL_DISCOVERED',value:true};
+    this.props.dispatch(action);
+  }
+
+  componentWillUnmount(){
+    this.didFocusListener.remove();
+  }
+
+  didFocusAction = () => {
+    this.setState({
+      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayPostDetailModalTutorial
+    });
+  }
+
   componentDidMount() {
+    this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction)
     if (this.state.currentUser === this.state.post.customer) {
       console.log("Same user");
       this.setState({
@@ -226,6 +250,7 @@ export default class PostDetail extends React.Component {
               </LinearGradient>
             </View>
           )}
+          <TutorialModalTemplate screen="postDetail" description="Post detail tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </View>
       </View>
     );
@@ -322,3 +347,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps)(PostDetail);

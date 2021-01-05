@@ -4,7 +4,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import rootReducer from './reducers/RootReducer';
 
 
-const persistingReducer = persistReducer({key:'root',storage: FSStorage()}, rootReducer);
+const persistingReducer = persistReducer({key:'root',storage: FSStorage(), blacklist:[]}, rootReducer);
 const configStore = createStore(persistingReducer);
 const persistor = persistStore(configStore);
 
