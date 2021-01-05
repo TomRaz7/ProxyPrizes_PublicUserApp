@@ -50,6 +50,7 @@ export default class PostScrollList extends React.Component {
       isModalVisible: false,
       postCategory: "",
       filterTriggered: false,
+      displayAppTutorial:false
     };
   }
 
@@ -174,7 +175,29 @@ export default class PostScrollList extends React.Component {
       });
   }
 
+  updateState(dataFromChild){
+    this.setState({
+      displayAppTutorial:dataFromChild
+    });
+    const action = {type:'POSTLIST_DISCOVERED', value:true};
+    //this.props.dispatch(action);
+  }
+
+  componentWillUnmount(){
+    this.didFocusListener.remove();
+  }
+
+  didFocusAction = () => {
+    this.setState({
+      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayPostlistModalTutorial
+    })
+  }
+
   async componentDidMount() {
+    this.didFocusListener = this.props.navigation.addListener(
+      'didFocus',
+      this.didFocusAction
+    )
     fetch(EndpointConfig.fetchAllPosts)
       .then((response) => response.json())
       .then((responseJson) => {
@@ -480,6 +503,7 @@ export default class PostScrollList extends React.Component {
               </View>
             </Modal>
           </View>
+          <TutorialModalTemplate screen="postScrollList" description="Post scroll list tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </View>
       );
     }

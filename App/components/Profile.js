@@ -60,6 +60,8 @@ class Profile extends React.Component {
     this.setState({
       displayAppTutorial:dataFromChild
     });
+    const action = {type:'PROFILE_DISCOVERED', value:true};
+    //this.props.dispatch(action);
   }
 
   _fusionArray(array1, array2) {

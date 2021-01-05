@@ -4,6 +4,7 @@ import MapView from 'react-native-maps';
 import {Icon} from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import ConfigStore from "../storeRedux/ConfigStore";
 
 //Faker to display fake stores
 import faker from '../faker/ShopData';
@@ -14,14 +15,16 @@ import {getLocation} from '../service/CurrentLocationService';
 //Endpoint Config
 import EndpointConfig from '../server/EndpointConfig';
 
-//Own components import
+//Own components components
 import ShopCallout from './ShopCallout';
+import TutorialModalTemplate from './TutorialModalTemplate';
 
 export default class ShopMap extends React.Component{
 
   constructor(props){
     super(props)
     this.state ={
+      displayAppTutorial:false,
       shopList:[],
       dataShopsRetrieved:false,
       fakeShopList:faker,
@@ -40,7 +43,26 @@ export default class ShopMap extends React.Component{
     }
   }
 
+updateState(dataFromChild){
+  this.setState({
+    displayAppTutorial:dataFromChild
+  });
+  const action = {type:'MAP_DISCOVERED',value:true};
+  //this.props.dispatch(action);
+}
+
+componentWillUnmount(){
+  this.didFocusListener.remove();
+}
+
+didFocusAction = () => {
+  this.setState({
+    displayAppTutorial:ConfigStore.getState().toggleTutorial.displayMapModalTutorial
+  });
+}
+
 componentDidMount(){
+    this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction);
     fetch(EndpointConfig.fetchShops)
     .then(response => response.json())
     .then(responseJson => {
@@ -189,6 +211,7 @@ componentDidMount(){
                   borderRadius:30,
                 }
           }}/>
+          <TutorialModalTemplate screen="map" description="Map tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </View>
       </View>
     );

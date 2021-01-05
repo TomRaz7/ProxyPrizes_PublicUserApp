@@ -7,16 +7,6 @@ export default class TutorialModalTemplate extends React.Component{
    this.props.updateParentState(data);
  }
 
-   // generateActionType(name){//a function to generate dynamically the type of the action to dispatch to the display app tutorial reducer based on the screenName
-   //   switch (name) {
-   //     case expression:
-   //
-   //       break;
-   //     default:
-   //
-   //   }
-   // }
-
   render(){
     return(
       <View style={styles.centeredView}>
