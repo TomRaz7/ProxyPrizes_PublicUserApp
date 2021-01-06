@@ -27,4 +27,5 @@ export default {
   addAvaliabilityRequest: url + "/addAvaliabilityRequest",
   getAvaliabilityRequest: url + "/getAvaliabilityRequest",
   getShopOwner: url + "/getShopOwner",
+  stripePayment:url+'/stripePayment'
 };

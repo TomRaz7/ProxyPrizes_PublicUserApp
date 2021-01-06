@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var jwt = require("jsonwebtoken");
 const NodeCache = require("node-cache");
 const fetch = require("node-fetch");
+const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
 const cache = new NodeCache({ stdTTL: 3600, checkperiod: 2500 });
 
@@ -513,3 +514,36 @@ server.post("/getShopOwner", function (req, res) {
     }
   });
 });
+
+server.post('/stripePayment', async function(req,res){
+  console.log('/stripePayment Hitted');
+  console.log(req.body);
+  const stripeToken = req.body.authToken;
+  const email = req.body.email;
+  const product = req.body.product;
+  try{
+    const customer = await stripe.customers.create({
+      email:email,
+      source: stripeToken.tokenId
+    });
+    console.log('New customer created');
+    console.log(customer);
+
+    const response = await stripe.charges.create({
+      amount:product.price*100,
+      currency:'EUR',
+      customer:customer.id,
+      receipt_email:email,
+      description:product.title,
+    });
+
+    console.log("Charges response");
+    console.log(response);
+    res.send(response);
+
+  }catch(err){
+    console.log("============================================Error======================================");
+    console.log(err);
+    res.send(err);
+  }
+})

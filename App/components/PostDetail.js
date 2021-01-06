@@ -34,7 +34,7 @@ i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 Stripe.setOptionsAsync({
-  publishableKey:'sk_test_51I6I1WFgrdNJx60HP7lWhr0HWPh7nWWfiv9xxed6VyPqX23mvhiLs3c9cr2x82jk8YxcHOeNgsT87lX0WlzohnpW00xhNnY1Px', // Your key
+  publishableKey:'pk_test_51I6I1WFgrdNJx60HgDra0rpGRChswvnxFfr76NTzOA2lDv3Dm55qOUYGywMBycQI1wgQbtX1mVIB8cUc6WcyvE2U00IfgyNztu', // Your key
 });
 
 
@@ -48,20 +48,63 @@ class PostDetail extends React.Component {
       displayAppTutorial:false,
       paymentModalVisible:false,
       paymentInformtation:{
-        cardNumber:null,
+        number:null,
         expMonth:null,
         expYear:null,
         cvc:null
-      }
+      },
+      stripeToken:null,
+      makePament:false,
+      paymentStatus:false
     };
   }
 
-  updateStateFromPaymentModal(dataFromChild){
+  // const onCheckStatus = async (paymentResponse) => {
+  //
+  // }
+
+ updateStateFromPaymentModal(dataFromChild){ //Get the payment information from the modal, generate the stripe token then fectch backend for payment
     console.log("Data depuis le modal de payment");
     console.log(dataFromChild);
     this.setState({
       paymentModalVisible:dataFromChild.modalVisible,
       paymentInformation:Object.assign({},dataFromChild.paymentInformation)
+    }, async () =>{
+      console.log("Infos de payment récupérées depuis le fils");
+      console.log(this.state.paymentInformation);
+      var token = await Stripe.createTokenWithCardAsync(this.state.paymentInformation);
+      console.log("Token récupéré depuis Stripe");
+      console.log(token);
+      this.setState({
+        stripeToken:token
+      }, async () => {
+        console.log('Token dans le state :');
+        console.log(this.state.stripeToken);
+        try{
+          fetch(EndpointConfig.stripePayment,{
+            method:'POST',
+            body:JSON.stringify({
+              email:'lecreux.tom@gmail.com',
+              authToken:this.state.stripeToken,
+              product:this.state.post
+            }),
+            headers: {
+              Accept: "application/json",
+              "content-type": "application/json",
+            },
+          })
+          .then((response) => response.json())
+          .then(responseJson =>{
+            console.log("Réponse issu du paiement");
+            console.log(responseJson);
+          })
+        }catch(error){
+          console.log(error);
+          this.setState({
+            paymentStatus:'failed'
+          })
+        }
+      })
     });
   }
 

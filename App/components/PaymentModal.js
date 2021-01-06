@@ -8,10 +8,11 @@ constructor(props){
   super(props);
   this.state={
     paymentInformation:{
-      cardNumber:null,
+      number:null,
       expMonth:null,
       expYear:null,
-      cvc:null
+      cvc:null,
+      currency:'EUR'
     }
   }
 }
@@ -50,7 +51,7 @@ constructor(props){
                   </View>
                   <TextInput
                     placeholder="Exp. Month"
-                    onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, cardNumber: text}})}
+                    onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, number: '4242424242424242'}})}
                     secureTextEntry={false}
                     underlineColorAndroid="#4A86E8"
                     maxLength={16}
@@ -65,19 +66,19 @@ constructor(props){
                   <View style={{flexDirection:'row',margin:15, justifyContent:'space-around'}}>
                     <TextInput
                       placeholder="Exp. Month"
-                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, expMonth: text} })}
+                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, expMonth: 11} })}
                       secureTextEntry={false}
                       underlineColorAndroid="#4A86E8"
                     />
                     <TextInput
                       placeholder="Exp. Year"
-                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, expYear: text} })}
+                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, expYear: 23} })}
                       secureTextEntry={false}
                       underlineColorAndroid="#4A86E8"
                     />
                     <TextInput
                       placeholder="CVC"
-                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, cvc: text} })}
+                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, cvc: '223'} })}
                       secureTextEntry={true}
                       underlineColorAndroid="#4A86E8"
                       maxLength={3}
