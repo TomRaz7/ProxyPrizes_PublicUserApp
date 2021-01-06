@@ -16,6 +16,7 @@ import EndpointConfig from "../server/EndpointConfig";
 //Our own components
 import TutorialModalTemplate from './TutorialModalTemplate';
 import PaymentModal from './PaymentModal';
+import PaymentSucceededModal from './PaymentSucceededModal';
 
 
 import i18n from "i18n-js";
@@ -55,13 +56,12 @@ class PostDetail extends React.Component {
       },
       stripeToken:null,
       makePament:false,
-      paymentStatus:false
+      paymentStatus:false,
+      paymentSucceededModalVisible:false,
+      paymentFailedModalVisible:false,
+      receiptUrl:null
     };
   }
-
-  // const onCheckStatus = async (paymentResponse) => {
-  //
-  // }
 
  updateStateFromPaymentModal(dataFromChild){ //Get the payment information from the modal, generate the stripe token then fectch backend for payment
     console.log("Data depuis le modal de payment");
@@ -95,8 +95,23 @@ class PostDetail extends React.Component {
           })
           .then((response) => response.json())
           .then(responseJson =>{
-            console.log("Réponse issu du paiement");
-            console.log(responseJson);
+            //console.log("Réponse issu du paiement");
+            //console.log(responseJson);
+            //console.log(responseJson["paid"]);
+            if(responseJson["paid"]===true){
+              // console.log("La réponse");
+              // console.log(responseJson["receipt_url"]);
+              this.setState({
+                paymentStatus:'succeeded',
+                receiptUrl:responseJson["receipt_url"],
+                paymentSucceededModalVisible:true,
+              });
+            }else{
+              this.setState({
+                paymentStatus:'failed',
+                paymentFailedModalVisible:true
+              });
+            }
           })
         }catch(error){
           console.log(error);
@@ -108,6 +123,11 @@ class PostDetail extends React.Component {
     });
   }
 
+  updateStateFromSucceededPaymentModal(dataFromChild){
+    this.setState({
+      paymentSucceededModalVisible:dataFromChild
+    });
+  }
   updateState(dataFromChild){
     this.setState({
       displayAppTutorial:dataFromChild
@@ -326,17 +346,18 @@ class PostDetail extends React.Component {
               end={[1, 0]}
             >
               <TouchableOpacity
-                style={styles.touchableOpacity}
+                style={styles.touchableOpacityBis}
                 onPress={() => this.setState({paymentModalVisible:true})}
               >
                 <Text style={{ color: "#fff", fontWeight: "bold" }}>
-                  Buy this product
+                  Commander le produit
                 </Text>
               </TouchableOpacity>
             </LinearGradient>
+              <TutorialModalTemplate screen="postDetail" description="Post detail tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+              <PaymentModal visible={this.state.paymentModalVisible} productPrice={this.state.post.price} productName={this.state.post.title} updateParentState={this.updateStateFromPaymentModal.bind(this)}/>
+              <PaymentSucceededModal visible={this.state.paymentSucceededModalVisible} receiptUrl={this.state.receiptUrl} updateParentState={this.updateStateFromSucceededPaymentModal.bind(this)} />
           </View>
-          <TutorialModalTemplate screen="postDetail" description="Post detail tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
-          <PaymentModal visible={this.state.paymentModalVisible} productPrice={this.state.post.price} productName={this.state.post.title} updateParentState={this.updateStateFromPaymentModal.bind(this)}/>
         </View>
       </View>
     );
@@ -420,6 +441,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden",
     width: 150,
+    height: 40,
+    justifyContent: "center",
+  },
+  touchableOpacityBis: {
+    alignItems: "center",
+    borderRadius: 20,
+    overflow: "hidden",
+    width: 250,
     height: 40,
     justifyContent: "center",
   },

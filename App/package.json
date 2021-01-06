@@ -46,6 +46,7 @@
     "react-native-screens": "~2.10.1",
     "react-native-timeago": "^0.5.0",
     "react-native-web": "~0.13.12",
+    "react-native-webview": "10.7.0",
     "react-navigation": "^4.4.2",
     "react-navigation-stack": "^2.8.4",
     "react-navigation-tabs": "^2.9.2",

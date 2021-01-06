@@ -92,6 +92,7 @@ constructor(props){
                   >
                     <Text style={styles.textStyle}>Confirm Payment</Text>
                   </TouchableHighlight>
+                  
                 </View>
               </View>
 
