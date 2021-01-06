@@ -1,5 +1,6 @@
 import React from 'react';
-import {View,Text,Modal,TouchableHighlight,StyleSheet, TextInput} from 'react-native';
+import {View,Text,Modal,TouchableHighlight,StyleSheet, TextInput,Image} from 'react-native';
+import {Icon} from 'react-native-elements';
 
 export default class PaymentModal extends React.Component{
 
@@ -32,17 +33,68 @@ constructor(props){
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>{this.props.productName}</Text>
-              <Text style={styles.modalText}>{this.props.productPrice}</Text>
-              
-              <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {
-                  this.updateParentState({modalVisible:false, paymentInformation:this.state.paymentInformation});
-                }}
-              >
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </TouchableHighlight>
+              <View style={{width:280, height:50, flexDirection:'row', alignItems:'center'}}>
+                <Text style={styles.title}>{this.props.productName}</Text>
+                <Text style={styles.title}>{this.props.productPrice}€</Text>
+                <Image
+                  resizeMode="contain"
+                  style={styles.logo}
+                  source={require("../assets/images/Stripe-Logo.png")}
+                />
+              </View>
+              <View style={{height:220, width:280, }}>
+                <View style={{margin:22}}>
+                  <View style={{ flexDirection:'row'}}>
+                    <Text>Card Number</Text>
+                    <Icon name='credit-card' type='entypo' color="#000" size={20} style={{marginLeft:5}}/>
+                  </View>
+                  <TextInput
+                    placeholder="Exp. Month"
+                    onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, cardNumber: text}})}
+                    secureTextEntry={false}
+                    underlineColorAndroid="#4A86E8"
+                    maxLength={16}
+                  />
+                </View>
+                <View>
+                  <View style={{flexDirection:'row', margin:5, justifyContent:'space-around'}}>
+                    <Text>Exp. Month</Text>
+                    <Text>Exp. Year</Text>
+                    <Text>CVC</Text>
+                  </View>
+                  <View style={{flexDirection:'row',margin:15, justifyContent:'space-around'}}>
+                    <TextInput
+                      placeholder="Exp. Month"
+                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, expMonth: text} })}
+                      secureTextEntry={false}
+                      underlineColorAndroid="#4A86E8"
+                    />
+                    <TextInput
+                      placeholder="Exp. Year"
+                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, expYear: text} })}
+                      secureTextEntry={false}
+                      underlineColorAndroid="#4A86E8"
+                    />
+                    <TextInput
+                      placeholder="CVC"
+                      onChangeText={(text) => this.setState({ paymentInformation: {...this.state.paymentInformation, cvc: text} })}
+                      secureTextEntry={true}
+                      underlineColorAndroid="#4A86E8"
+                      maxLength={3}
+                    />
+                  </View>
+                  <TouchableHighlight
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3"}}
+                    onPress={() => {
+                      this.updateParentState({modalVisible:false, paymentInformation:this.state.paymentInformation});
+                    }}
+                  >
+                    <Text style={styles.textStyle}>Confirm Payment</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+
+
             </View>
           </View>
         </Modal>
@@ -87,5 +139,15 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
+  },
+  title:{
+    textAlign: "center",
+    fontSize:20,
+    margin:5,
+    fontWeight:'bold'
+  },
+  logo: {
+    width: 80,
+    height: 80,
+  },
 });
