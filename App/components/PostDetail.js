@@ -31,6 +31,8 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
+const postDetailDescription = "This is the post detail screen. Click on the first button to ask for its availability. Click on the latest button to purchase the product";
+
 //Payment
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
@@ -219,8 +221,6 @@ class PostDetail extends React.Component {
       notificationBody: "Answer as soon as possible",
     };
 
-    console.log(data.description);
-
     fetch(EndpointConfig.addAvaliabilityRequest, {
       method: "POST",
       body: JSON.stringify(data),
@@ -354,7 +354,7 @@ class PostDetail extends React.Component {
                 </Text>
               </TouchableOpacity>
             </LinearGradient>
-              <TutorialModalTemplate screen="postDetail" description="Post detail tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+              <TutorialModalTemplate screen="postDetail" description={postDetailDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
               <PaymentModal visible={this.state.paymentModalVisible} productPrice={this.state.post.price} productName={this.state.post.title} updateParentState={this.updateStateFromPaymentModal.bind(this)}/>
               <PaymentSucceededModal visible={this.state.paymentSucceededModalVisible} receiptUrl={this.state.receiptUrl} updateParentState={this.updateStateFromSucceededPaymentModal.bind(this)} />
           </View>

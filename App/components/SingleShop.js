@@ -36,6 +36,8 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
+const singleShopDescription = "This is the single shop screen. Here you will find all the posts related to this shop. You can subscribe to the shop to access it easily directly from your profile !";
+
 class SingleShop extends React.Component {
   constructor(props) {
     super(props);
@@ -95,7 +97,7 @@ class SingleShop extends React.Component {
       displayAppTutorial:dataFromChild
     });
     const action = {type:'SINGLESHOP_DISCOVERED',value:true};
-    //this.props.dispatch(action);
+    this.props.dispatch(action);
   }
 
   componentWillUnmount(){
@@ -268,7 +270,7 @@ class SingleShop extends React.Component {
                   }
                 }}
               />
-              <TutorialModalTemplate screen="singleShop" description="Single shop tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+              <TutorialModalTemplate screen="singleShop" description={singleShopDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
             </View>
           </View>
         );
@@ -322,7 +324,7 @@ class SingleShop extends React.Component {
                   }
                 }}
               />
-              <TutorialModalTemplate screen="singleShop" description="Single shop tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+              <TutorialModalTemplate screen="singleShop" description={singleShopDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
             </View>
           </View>
         );

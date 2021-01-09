@@ -38,6 +38,8 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
+const postListDescription = "This is the post scroll list. You will find all the post published by the platform's users. Click on a post to see the details of this post and be able to purchase it !";
+
 class PostScrollList extends React.Component {
   constructor(props) {
     super(props);
@@ -504,7 +506,7 @@ class PostScrollList extends React.Component {
               </View>
             </Modal>
           </View>
-          <TutorialModalTemplate screen="postScrollList" description="Post scroll list tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+          <TutorialModalTemplate screen="postScrollList" description={postListDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </View>
       );
     }

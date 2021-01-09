@@ -5,6 +5,7 @@ import {Icon} from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import ConfigStore from "../storeRedux/ConfigStore";
+import { connect } from "react-redux";
 
 //Faker to display fake stores
 import faker from '../faker/ShopData';
@@ -19,7 +20,9 @@ import EndpointConfig from '../server/EndpointConfig';
 import ShopCallout from './ShopCallout';
 import TutorialModalTemplate from './TutorialModalTemplate';
 
-export default class ShopMap extends React.Component{
+const shopMapDescription = "This is the shop map screen. Use it to find the partner shops around your position. Click on a shop to access the shop detail screen and see the posts related to this shop";
+
+class ShopMap extends React.Component{
 
   constructor(props){
     super(props)
@@ -48,7 +51,7 @@ updateState(dataFromChild){
     displayAppTutorial:dataFromChild
   });
   const action = {type:'MAP_DISCOVERED',value:true};
-  //this.props.dispatch(action);
+  this.props.dispatch(action);
 }
 
 componentWillUnmount(){
@@ -211,7 +214,7 @@ componentDidMount(){
                   borderRadius:30,
                 }
           }}/>
-          <TutorialModalTemplate screen="map" description="Map tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+          <TutorialModalTemplate screen="map" description={shopMapDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </View>
       </View>
     );
@@ -232,3 +235,9 @@ const styles =  StyleSheet.create({
     justifyContent:'center', alignItems:'center'
   }
 })
+
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps)(ShopMap);

@@ -552,7 +552,6 @@ server.post('/stripePayment', async function(req,res){
 server.post('/retrievePasswd', function(req,res){
   console.log('/retrievePasswd hitted');
   const mail = req.body.mail.toString();
-  console.log(mail);
   const newPasswd = newPasswdGenerator.generate({
     length:10,
     numbers:true,

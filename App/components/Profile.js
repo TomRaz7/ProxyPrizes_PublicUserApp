@@ -36,6 +36,8 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
+const profileDescription = "This is your profile screen. Here you will be able to find the shops you're subscribed to, The posts you've liked, your discounts and your avaliability requests.";
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -61,7 +63,7 @@ class Profile extends React.Component {
       displayAppTutorial:dataFromChild
     });
     const action = {type:'PROFILE_DISCOVERED', value:true};
-    //this.props.dispatch(action);
+    this.props.dispatch(action);
   }
 
   _fusionArray(array1, array2) {
@@ -319,7 +321,7 @@ class Profile extends React.Component {
               <AvaliabilityRequestTemplate prop={item} />
             )}
           />
-          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+          <TutorialModalTemplate screen="profile" description={profileDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </ScrollView>
       );
     } else {
@@ -451,7 +453,7 @@ class Profile extends React.Component {
               <AvaliabilityRequestTemplate prop={item} />
             )}
           />
-          <TutorialModalTemplate screen="profile" description="Profile tuto description" visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
+          <TutorialModalTemplate screen="profile" description={profileDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
         </ScrollView>
       );
     }
