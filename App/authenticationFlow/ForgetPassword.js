@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Alert ,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import i18n from "i18n-js";
@@ -62,7 +63,19 @@ _retrievePasswd(data){
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
+      Alert.alert(
+      "Password updated",
+      "A new password has been link to your account. Please check your email",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
       this.state.passwordForgotten = false;
       this.updateParentState(this.state.passwordForgotten);
     })

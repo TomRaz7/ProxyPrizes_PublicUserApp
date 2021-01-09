@@ -513,7 +513,6 @@ server.post("/getShopOwner", function (req, res) {
     if (error) {
       console.log(error);
     } else {
-      //console.log(rows);
       res.send(rows);
     }
   });
@@ -530,8 +529,6 @@ server.post('/stripePayment', async function(req,res){
       email:email,
       source: stripeToken.tokenId
     });
-    console.log('New customer created');
-    console.log(customer);
 
     const response = await stripe.charges.create({
       amount:product.price*100,
@@ -554,7 +551,8 @@ server.post('/stripePayment', async function(req,res){
 
 server.post('/retrievePasswd', function(req,res){
   console.log('/retrievePasswd hitted');
-  const mail = req.body.mail;
+  const mail = req.body.mail.toString();
+  console.log(mail);
   const newPasswd = newPasswdGenerator.generate({
     length:10,
     numbers:true,
@@ -587,9 +585,14 @@ server.post('/retrievePasswd', function(req,res){
       console.log(error);
     }else{
       console.log('Email sent: '+info.response);
-      res.json(info.response)
+      connection.query(`UPDATE customer SET password='${newPasswd}' WHERE email ='${mail}';`,function(error, rows, fields){
+        if(error){
+          console.log(error);
+        } else{
+          console.log("Table updated!");
+          res.send(rows);
+        }
+      });
     }
-  })
-
-
+  });
 })
