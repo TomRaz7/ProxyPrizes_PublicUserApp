@@ -7,6 +7,8 @@ var jwt = require("jsonwebtoken");
 const NodeCache = require("node-cache");
 const fetch = require("node-fetch");
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const nodemailer = require('nodemailer');
+const newPasswdGenerator = require('generate-password');
 
 const cache = new NodeCache({ stdTTL: 3600, checkperiod: 2500 });
 
@@ -363,20 +365,22 @@ server.get("/getS3", (req, res) => {
 
 server.post("/addExpoToken", function (req, res) {
   console.log("/addExpoToken hitted");
-  var user = req.body.userId;
-  var expoToken = req.body.expoToken;
-  connection.query(
-    `UPDATE customer SET expoToken='${expoToken}' WHERE id =${user};`,
-    function (error, rows, fields) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Table updated!");
-        //console.log(rows);
-        res.send(rows);
+  if(req.body.userId !==undefined){
+    var user = req.body.userId;
+    var expoToken = req.body.expoToken;
+    connection.query(
+      `UPDATE customer SET expoToken='${expoToken}' WHERE id =${user};`,
+      function (error, rows, fields) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Table updated!");
+          //console.log(rows);
+          res.send(rows);
+        }
       }
-    }
-  );
+    );
+  }
 });
 
 server.post("/retrieveExpoToken", function (req, res) {
@@ -546,4 +550,46 @@ server.post('/stripePayment', async function(req,res){
     console.log(err);
     res.send(err);
   }
+})
+
+server.post('/retrievePasswd', function(req,res){
+  console.log('/retrievePasswd hitted');
+  const mail = req.body.mail;
+  const newPasswd = newPasswdGenerator.generate({
+    length:10,
+    numbers:true,
+    symbols:true
+  })
+
+  var transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email", // hostname of the fake smtp
+    secure: false, // use SSL
+    port: 587, // port for secure SMTP
+    auth: {
+        user: process.env.EMAIL_ACCOUNT,
+        pass: process.env.EMAIL_PASSWD
+    },
+    tls: {
+          rejectUnauthorized: false
+      }
+  });
+
+  var mailOptions = {
+    from:process.env.EMAIL_ACCOUNT,
+    to:process.env.EMAIL_ACCOUNT,
+    subject:'Password forgotten',
+    html:`<h1>New password generated ! </h1><p>You\'ve sent a retrieve password request. A new password has been created and link with your account : </p> <p>${newPasswd})</p>`
+  }
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+      console.log('Mail error : ');
+      console.log(error);
+    }else{
+      console.log('Email sent: '+info.response);
+      res.json(info.response)
+    }
+  })
+
+
 })

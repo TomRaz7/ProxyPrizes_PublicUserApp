@@ -12,6 +12,8 @@ import i18n from "i18n-js";
 import Translation from "../language/Translation";
 import ConfigStore from "../storeRedux/ConfigStore";
 
+import EndpointConfig from "../server/EndpointConfig";
+
 const fr = Translation.fr;
 const en = Translation.en;
 const es = Translation.es;
@@ -25,7 +27,7 @@ export default class ForgetPassword extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userMail: "",
+      userMail: null,
       passwordForgotten: true,
     };
   }
@@ -45,6 +47,30 @@ export default class ForgetPassword extends React.Component {
     this.state.passwordForgotten = false;
     this.updateParentState(this.state.passwordForgotten);
   }
+
+_retrievePasswd(data){
+  if(data !== null){
+    fetch(EndpointConfig.retrievePasswd,{
+      method:'POST',
+      body:JSON.stringify({
+        mail:this.state.userMail
+      }),
+      headers: {
+        Accept: "application/json",
+        "content-type": "application/json",
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      this.state.passwordForgotten = false;
+      this.updateParentState(this.state.passwordForgotten);
+    })
+  }
+  else {
+    return null;
+  }
+}
 
   render() {
     return (
@@ -74,7 +100,7 @@ export default class ForgetPassword extends React.Component {
         >
           <TouchableOpacity
             style={styles.touchableOpacity}
-            onPress={() => this._cancel()}
+            onPress={() => this._retrievePasswd(this.state.userMail)}
           >
             <Text style={styles.validate}>{i18n.t("retrieve_passwd")}</Text>
           </TouchableOpacity>
