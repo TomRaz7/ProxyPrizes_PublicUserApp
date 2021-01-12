@@ -30,6 +30,9 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
+const postDetailDescription =
+  "This is the post detail screen. Click on the first button to ask for its availability. Click on the latest button to purchase the product";
+
 //Payment
 import { PaymentsStripe as Stripe } from "expo-payments-stripe";
 
@@ -230,8 +233,6 @@ class PostDetail extends React.Component {
       notificationTitle: "A user have a request for you!",
       notificationBody: "Answer as soon as possible",
     };
-
-    console.log(data.description);
 
     fetch(EndpointConfig.addAvaliabilityRequest, {
       method: "POST",
