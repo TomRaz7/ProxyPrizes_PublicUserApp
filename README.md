@@ -16,11 +16,7 @@ Github with the organization of the "ProxyPrize" project
 
 ## Documents 
 
-[Sprint File (Global Product Backlog)](https://docs.google.com/document/d/1ITNbgL-sYImb7OesFLkRM0NnmfYxn0Vx3P2fX3dLdjw/edit#) 
-
-[Sprint 1 delivery document](https://docs.google.com/document/d/102jllO_UXDWyHpwsNhTn4fyqwcMvPCtMYaSrJxBcz7Q/edit)
-
-[Sprint 2 Upgrade file](https://docs.google.com/document/d/1m9Kzkq1-Rx0bekUdKr_ZYXPwn_9wVFpd2F-ueqXX1Jo/edit?usp=sharing)
+Located on documents folder.
 
 ## Sprint Status
 
@@ -28,7 +24,8 @@ Github with the organization of the "ProxyPrize" project
 |:---------|:------------|:-----|
 |Sprint 1  | 10/11/2020 | Done |
 |Sprint 2  | 25/11/2020 | Done |
-|Sprint 3  | 16/12/2020 | Ongoing |
+|Sprint 3  | 16/12/2020 | Done |
+|Final Presentation  | 13/01/2021 | In process |
 
 ## Current sprint roles
 | Assistant  | Role  |  
