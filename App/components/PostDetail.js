@@ -14,10 +14,9 @@ import ConfigStore from "../storeRedux/ConfigStore";
 import EndpointConfig from "../server/EndpointConfig";
 
 //Our own components
-import TutorialModalTemplate from './TutorialModalTemplate';
-import PaymentModal from './PaymentModal';
-import PaymentSucceededModal from './PaymentSucceededModal';
-
+import TutorialModalTemplate from "./TutorialModalTemplate";
+import PaymentModal from "./PaymentModal";
+import PaymentSucceededModal from "./PaymentSucceededModal";
 
 import i18n from "i18n-js";
 import Translation from "../language/Translation";
@@ -31,15 +30,16 @@ const pt = Translation.pt;
 i18n.translations = { fr, en, es, ca, pt };
 i18n.locale = `${ConfigStore.getState().toggleLanguageSelection.language}`;
 
-const postDetailDescription = "This is the post detail screen. Click on the first button to ask for its availability. Click on the latest button to purchase the product";
+const postDetailDescription =
+  "This is the post detail screen. Click on the first button to ask for its availability. Click on the latest button to purchase the product";
 
 //Payment
-import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import { PaymentsStripe as Stripe } from "expo-payments-stripe";
 
 Stripe.setOptionsAsync({
-  publishableKey:'pk_test_51I6I1WFgrdNJx60HgDra0rpGRChswvnxFfr76NTzOA2lDv3Dm55qOUYGywMBycQI1wgQbtX1mVIB8cUc6WcyvE2U00IfgyNztu', // Your key
+  publishableKey:
+    "pk_test_51I6I1WFgrdNJx60HgDra0rpGRChswvnxFfr76NTzOA2lDv3Dm55qOUYGywMBycQI1wgQbtX1mVIB8cUc6WcyvE2U00IfgyNztu", // Your key
 });
-
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -48,108 +48,121 @@ class PostDetail extends React.Component {
       post: this.props.navigation.getParam("post"),
       currentUser: ConfigStore.getState().toggleAuthentication.userId,
       isModalVisible: false,
-      displayAppTutorial:false,
-      paymentModalVisible:false,
-      paymentInformtation:{
-        number:null,
-        expMonth:null,
-        expYear:null,
-        cvc:null
+      displayAppTutorial: false,
+      paymentModalVisible: false,
+      paymentInformtation: {
+        number: null,
+        expMonth: null,
+        expYear: null,
+        cvc: null,
       },
-      stripeToken:null,
-      makePament:false,
-      paymentStatus:false,
-      paymentSucceededModalVisible:false,
-      paymentFailedModalVisible:false,
-      receiptUrl:null
+      stripeToken: null,
+      makePament: false,
+      paymentStatus: false,
+      paymentSucceededModalVisible: false,
+      paymentFailedModalVisible: false,
+      receiptUrl: null,
     };
   }
 
- updateStateFromPaymentModal(dataFromChild){ //Get the payment information from the modal, generate the stripe token then fectch backend for payment
+  updateStateFromPaymentModal(dataFromChild) {
+    //Get the payment information from the modal, generate the stripe token then fectch backend for payment
     console.log("Data depuis le modal de payment");
     console.log(dataFromChild);
-    this.setState({
-      paymentModalVisible:dataFromChild.modalVisible,
-      paymentInformation:Object.assign({},dataFromChild.paymentInformation)
-    }, async () =>{
-      console.log("Infos de payment récupérées depuis le fils");
-      console.log(this.state.paymentInformation);
-      var token = await Stripe.createTokenWithCardAsync(this.state.paymentInformation);
-      console.log("Token récupéré depuis Stripe");
-      console.log(token);
-      this.setState({
-        stripeToken:token
-      }, async () => {
-        console.log('Token dans le state :');
-        console.log(this.state.stripeToken);
-        try{
-          fetch(EndpointConfig.stripePayment,{
-            method:'POST',
-            body:JSON.stringify({
-              email:'lecreux.tom@gmail.com',
-              authToken:this.state.stripeToken,
-              product:this.state.post
-            }),
-            headers: {
-              Accept: "application/json",
-              "content-type": "application/json",
-            },
-          })
-          .then((response) => response.json())
-          .then(responseJson =>{
-            //console.log("Réponse issu du paiement");
-            //console.log(responseJson);
-            //console.log(responseJson["paid"]);
-            if(responseJson["paid"]===true){
-              // console.log("La réponse");
-              // console.log(responseJson["receipt_url"]);
+    this.setState(
+      {
+        paymentModalVisible: dataFromChild.modalVisible,
+        paymentInformation: Object.assign({}, dataFromChild.paymentInformation),
+      },
+      async () => {
+        console.log("Infos de payment récupérées depuis le fils");
+        console.log(this.state.paymentInformation);
+        var token = await Stripe.createTokenWithCardAsync(
+          this.state.paymentInformation
+        );
+        console.log("Token récupéré depuis Stripe");
+        console.log(token);
+        this.setState(
+          {
+            stripeToken: token,
+          },
+          async () => {
+            console.log("Token dans le state :");
+            console.log(this.state.stripeToken);
+            try {
+              fetch(EndpointConfig.stripePayment, {
+                method: "POST",
+                body: JSON.stringify({
+                  email: "lecreux.tom@gmail.com",
+                  authToken: this.state.stripeToken,
+                  product: this.state.post,
+                }),
+                headers: {
+                  Accept: "application/json",
+                  "content-type": "application/json",
+                },
+              })
+                .then((response) => response.json())
+                .then((responseJson) => {
+                  //console.log("Réponse issu du paiement");
+                  //console.log(responseJson);
+                  //console.log(responseJson["paid"]);
+                  if (responseJson["paid"] === true) {
+                    // console.log("La réponse");
+                    // console.log(responseJson["receipt_url"]);
+                    this.setState({
+                      paymentStatus: "succeeded",
+                      receiptUrl: responseJson["receipt_url"],
+                      paymentSucceededModalVisible: true,
+                    });
+                  } else {
+                    this.setState({
+                      paymentStatus: "failed",
+                      paymentFailedModalVisible: true,
+                    });
+                  }
+                });
+            } catch (error) {
+              console.log(error);
               this.setState({
-                paymentStatus:'succeeded',
-                receiptUrl:responseJson["receipt_url"],
-                paymentSucceededModalVisible:true,
-              });
-            }else{
-              this.setState({
-                paymentStatus:'failed',
-                paymentFailedModalVisible:true
+                paymentStatus: "failed",
               });
             }
-          })
-        }catch(error){
-          console.log(error);
-          this.setState({
-            paymentStatus:'failed'
-          })
-        }
-      })
-    });
+          }
+        );
+      }
+    );
   }
 
-  updateStateFromSucceededPaymentModal(dataFromChild){
+  updateStateFromSucceededPaymentModal(dataFromChild) {
     this.setState({
-      paymentSucceededModalVisible:dataFromChild
+      paymentSucceededModalVisible: dataFromChild,
     });
   }
-  updateState(dataFromChild){
+  updateState(dataFromChild) {
     this.setState({
-      displayAppTutorial:dataFromChild
+      displayAppTutorial: dataFromChild,
     });
-    const action = {type:'POSTDETAIL_DISCOVERED',value:true};
+    const action = { type: "POSTDETAIL_DISCOVERED", value: true };
     this.props.dispatch(action);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.didFocusListener.remove();
   }
 
   didFocusAction = () => {
     this.setState({
-      displayAppTutorial:ConfigStore.getState().toggleTutorial.displayPostDetailModalTutorial
+      displayAppTutorial: ConfigStore.getState().toggleTutorial
+        .displayPostDetailModalTutorial,
     });
-  }
+  };
 
   componentDidMount() {
-    this.didFocusListener = this.props.navigation.addListener('didFocus', this.didFocusAction)
+    this.didFocusListener = this.props.navigation.addListener(
+      "didFocus",
+      this.didFocusAction
+    );
     if (this.state.currentUser === this.state.post.customer) {
       this.setState({
         isModalVisible: true,
@@ -347,16 +360,38 @@ class PostDetail extends React.Component {
             >
               <TouchableOpacity
                 style={styles.touchableOpacityBis}
-                onPress={() => this.setState({paymentModalVisible:true})}
+                onPress={() => this.setState({ paymentModalVisible: true })}
               >
                 <Text style={{ color: "#fff", fontWeight: "bold" }}>
-                  Commander le produit
+                  {i18n.t("purchase_product")}
                 </Text>
               </TouchableOpacity>
             </LinearGradient>
-              <TutorialModalTemplate screen="postDetail" description={postDetailDescription} visible={this.state.displayAppTutorial} updateParentState={this.updateState.bind(this)}/>
-              <PaymentModal visible={this.state.paymentModalVisible} productPrice={this.state.post.price} productName={this.state.post.title} updateParentState={this.updateStateFromPaymentModal.bind(this)}/>
-              <PaymentSucceededModal visible={this.state.paymentSucceededModalVisible} receiptUrl={this.state.receiptUrl} updateParentState={this.updateStateFromSucceededPaymentModal.bind(this)} />
+            {this.state.displayAppTutorial && (
+              <TutorialModalTemplate
+                screen="postDetail"
+                description="Post detail tuto description"
+                visible={this.state.displayAppTutorial}
+                updateParentState={this.updateState.bind(this)}
+              />
+            )}
+            {this.state.paymentModalVisible && (
+              <PaymentModal
+                visible={this.state.paymentModalVisible}
+                productPrice={this.state.post.price}
+                productName={this.state.post.title}
+                updateParentState={this.updateStateFromPaymentModal.bind(this)}
+              />
+            )}
+            {this.state.paymentSucceededModalVisible && (
+              <PaymentSucceededModal
+                visible={this.state.paymentSucceededModalVisible}
+                receiptUrl={this.state.receiptUrl}
+                updateParentState={this.updateStateFromSucceededPaymentModal.bind(
+                  this
+                )}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -381,7 +416,7 @@ const styles = StyleSheet.create({
   postHeader: {
     alignItems: "center",
     margin: 10,
-    flex: 3,
+    flex: 4,
     backgroundColor: "white",
     borderRadius: 20,
     shadowColor: "#000",
